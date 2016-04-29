@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "edu.uw.tcss450.kidfight_android"
+        applicationId "edu.uw.tcss450.team1"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
