@@ -2,7 +2,6 @@ package edu.uw.tcss450.team1.cosmic_kids_game;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -58,7 +57,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
         user = (EditText)findViewById(R.id.username);
         pass = (EditText)findViewById(R.id.password);
 
-        mRegister = (Button)findViewById(R.id.register);
+        mRegister = (Button)findViewById(R.id.btnRegister);
         mRegister.setOnClickListener(this);
     }
 
