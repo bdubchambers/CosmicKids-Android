@@ -4,5 +4,10 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <!-- For our text view text boxes on login/reg activities -->
+    <color name="user_passColor">#CF5A45</color>
+    <color name="user_passBGColor">#2FDDC8</color>
+    <color name="hintColor">#6AA77A</color>
+
     <color name="black_overlay">#66000000</color>
 </resources>
