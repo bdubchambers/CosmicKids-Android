@@ -61,7 +61,7 @@ public class LoginActivity extends Activity implements OnClickListener {
         user = (EditText) findViewById(R.id.username);
         pass = (EditText) findViewById(R.id.password);
         mSubmit = (Button) findViewById(R.id.login);
-        mRegister = (Button) findViewById(R.id.register);
+        mRegister = (Button) findViewById(R.id.btnRegister);
 
         mSubmit.setOnClickListener(this);
         mRegister.setOnClickListener(this);
@@ -73,7 +73,7 @@ public class LoginActivity extends Activity implements OnClickListener {
             case R.id.login:
                 new AttemptLogin().execute();
                 break;
-            case R.id.register:
+            case R.id.btnRegister:
                 Intent intent = new Intent(this, RegisterActivity.class);
                 startActivity(intent);
                 break;
