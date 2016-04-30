@@ -60,7 +60,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 
         user = (EditText) findViewById(R.id.username);
         pass = (EditText) findViewById(R.id.password);
-        mSubmit = (Button) findViewById(R.id.login);
+        mSubmit = (Button) findViewById(R.id.btnLogin);
         mRegister = (Button) findViewById(R.id.btnRegister);
 
         mSubmit.setOnClickListener(this);
@@ -70,7 +70,7 @@ public class LoginActivity extends Activity implements OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.login:
+            case R.id.btnLogin:
                 new AttemptLogin().execute();
                 break;
             case R.id.btnRegister:

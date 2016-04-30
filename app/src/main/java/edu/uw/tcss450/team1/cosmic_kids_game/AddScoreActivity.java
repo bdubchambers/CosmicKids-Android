@@ -58,7 +58,7 @@ public class AddScoreActivity extends Activity implements View.OnClickListener {
         gamename = (EditText)findViewById(R.id.gamename);
         score = (EditText)findViewById(R.id.score);
 
-        mSubmit = (Button)findViewById(R.id.submit);
+        mSubmit = (Button)findViewById(R.id.btnSubmit);
         mSubmit.setOnClickListener(this);
     }
 
