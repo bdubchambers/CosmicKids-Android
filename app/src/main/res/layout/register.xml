@@ -3,31 +3,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Cosmic Kids User Registration"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textStyle="bold"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/imageViewBG"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView2"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
         android:scaleType="centerCrop"
         android:src="@drawable/cosmic3port" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/password"
-        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:text="Cosmic Kids User Registration"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold"
+        android:textColor="@color/user_passBGColor"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/textViewUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewTitle"
+        android:layout_marginTop="350sp"
+        android:layout_marginLeft="14sp"
         android:text="Username"
         android:textColor="@color/user_passColor"
         android:textStyle="bold" />
@@ -36,19 +38,21 @@
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_below="@+id/textView1"
+
+        android:layout_alignLeft="@+id/textViewUsername"
+        android:layout_below="@+id/textViewUsername"
         android:ems="10"
         android:hint="Enter username"
         android:textColorHint="@color/hintColor"
         android:textColor="@color/user_passBGColor"/>
 
     <TextView
-        android:id="@+id/TextView01"
+        android:id="@+id/textViewPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/username"
         android:layout_below="@+id/username"
+        android:layout_marginTop="8sp"
         android:text="Password"
         android:textColor="@color/user_passColor"
         android:textStyle="bold" />
@@ -57,7 +61,8 @@
         android:id="@+id/password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/TextView01"
+        android:layout_below="@+id/textViewPassword"
+        android:layout_alignLeft="@+id/textViewPassword"
         android:layout_centerHorizontal="true"
         android:ems="10"
         android:inputType="textPassword"
@@ -66,11 +71,15 @@
         android:textColor="@color/user_passBGColor" />
 
     <Button
-        android:id="@+id/register"
+        android:id="@+id/btnRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/password"
         android:layout_below="@+id/password"
+        android:layout_marginLeft="245sp"
+        android:backgroundTint="#EEFF22"
+        android:typeface="monospace"
+        android:textStyle="bold"
         android:text="Register" />
 
 </RelativeLayout>
