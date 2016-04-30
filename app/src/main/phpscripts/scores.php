@@ -2,7 +2,7 @@
   require 'config.inc.php';
 
   $query = "SELECT * FROM scores";
-  
+
   #execute query
   try {
     $stmt   = $db->prepare($query);
@@ -13,29 +13,29 @@
     die(json_encode($response));
   }
 
-  #Retrieve all existing comment rows from db
+  #Retrieve all existing score rows from db
   $rows = $stmt->fetchAll();
 
   if($rows) {
     $response["success"] = 1;
-    $response["message"] = "Post Available!";
-    $response["posts"]   = array();
+    $response["message"] = "Score Available!";
+    $response["scores"]   = array();
 
     foreach ($rows as $row) {
       $post = array();
-      $post["post_id"] = $row["post_id"];
+      $post["entry_id"] = $row["entry_id"];
       $post["username"] = $row["username"];
-      $post["title"] = $row["title"];
-      $post["message"] = $row["message"];
+      $post["gamename"] = $row["gamename"];
+      $post["score"] = $row["score"];
       #add to json data
-      array_push($response["posts"], $post);
+      array_push($response["scores"], $post);
     }
 
     echo json_encode($response);
   }
   else {
     $response["success"] = 0;
-    $response["message"] = "No posts available.";
+    $response["message"] = "No scores available.";
     die(json_encode($response));
   }
 
