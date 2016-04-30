@@ -3,41 +3,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView2"
+    <ImageView
+        android:id="@+id/imageViewBG"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:text="Cosmic Kids User Login"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textStyle="bold" />
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/textView2"
-        android:scaleType="centerCrop"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
         android:src="@drawable/cosmic2" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/textViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cosmic Kids User Login"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold"
+        android:textColor="@color/user_passBGColor"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/textViewUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/password"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/textViewTitle"
+        android:layout_marginTop="114sp"
         android:text="Username"
-        android:textColor="@color/user_passBGColor"
+        android:textColor="@color/user_passColor"
         android:textStyle="bold" />
 
     <EditText
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_below="@+id/textView1"
+        android:layout_alignLeft="@+id/textViewUsername"
+        android:layout_below="@+id/textViewUsername"
         android:ems="10"
         android:hint="Enter username"
         android:textColor="@color/user_passColor"
@@ -48,21 +50,22 @@
 
 
     <TextView
-        android:id="@+id/TextView01"
+        android:id="@+id/textViewPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/username"
         android:layout_below="@+id/username"
         android:text="Password"
-        android:textColor="@color/user_passBGColor"
+        android:textColor="@color/user_passColor"
         android:textStyle="bold" />
 
     <EditText
         android:id="@+id/password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/TextView01"
-        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/textViewPassword"
+        android:layout_marginLeft="16sp"
+        android:layout_marginRight="36sp"
         android:ems="10"
         android:hint="Enter a password"
         android:inputType="textPassword"
@@ -71,19 +74,29 @@
     </EditText>
 
     <Button
-        android:id="@+id/login"
+        android:id="@+id/btnLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/password"
         android:layout_below="@+id/password"
+        android:layout_marginLeft="150sp"
+        android:layout_marginTop="250sp"
+        android:backgroundTint="#EEFF22"
+        android:typeface="monospace"
+        android:textStyle="bold"
+
         android:text="Login" />
 
     <Button
-        android:id="@+id/register"
+        android:id="@+id/btnRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/password"
         android:layout_below="@+id/password"
-        android:text="Register" />
+        android:layout_marginLeft="240sp"
+        android:layout_marginTop="250sp"
+        android:backgroundTint="#EEFF22"
+        android:typeface="monospace"
+        android:textStyle="bold"
+
+        android:text="Register-->" />
 
 </RelativeLayout>
