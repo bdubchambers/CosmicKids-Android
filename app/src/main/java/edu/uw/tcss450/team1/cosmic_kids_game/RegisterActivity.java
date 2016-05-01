@@ -53,6 +53,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
+        setTheme(R.style.FullscreenTheme);
 
         user = (EditText)findViewById(R.id.username);
         pass = (EditText)findViewById(R.id.password);

@@ -57,6 +57,7 @@ public class LoginActivity extends Activity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+        setTheme(R.style.FullscreenTheme);
 
         user = (EditText) findViewById(R.id.username);
         pass = (EditText) findViewById(R.id.password);

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -24,10 +25,10 @@ import cz.msebera.android.httpclient.message.BasicNameValuePair;
 /**
  * Created by Brandon on 4/28/2016.
  */
-public class AddScoreActivity extends Activity implements View.OnClickListener {
+public class AddScoreActivity extends Activity implements OnClickListener {
 
     private EditText gamename, score;
-    private Button mSubmit;
+    private Button mSubmit; //just for testing--we'll not be manually submitting user scores
 
     private ProgressDialog progDiag;
 
@@ -54,6 +55,7 @@ public class AddScoreActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.addscore);
+        setTheme(R.style.FullscreenTheme);
 
         gamename = (EditText)findViewById(R.id.gamename);
         score = (EditText)findViewById(R.id.score);
@@ -85,6 +87,7 @@ public class AddScoreActivity extends Activity implements View.OnClickListener {
 
         @Override
         protected String doInBackground(String... args) {
+
             int success;
             /**
              * Retrieving the SharePref username data that was saved after
@@ -104,7 +107,9 @@ public class AddScoreActivity extends Activity implements View.OnClickListener {
 
                 JSONObject jsonObject =
                         jsonParser.makeHttpRequest(ADDSCORE_PHP_URL, "POST", params);
+
                 Log.d("Attempting to add score", jsonObject.toString());
+
                 success = jsonObject.getInt(TAG_SUCCESS);
 
                 if(success == 1) {
