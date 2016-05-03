@@ -25,7 +25,7 @@ import cz.msebera.android.httpclient.message.BasicNameValuePair;
  */
 public class RegisterActivity extends Activity implements OnClickListener {
 
-    private EditText user, pass;
+    private EditText user, pass, pass2;
     private Button mRegister;
 
     private ProgressDialog progDiag;
@@ -54,8 +54,10 @@ public class RegisterActivity extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
 
-        user = (EditText)findViewById(R.id.username);
-        pass = (EditText)findViewById(R.id.password);
+        user = (EditText)findViewById(R.id.user_input);
+        pass = (EditText)findViewById(R.id.pass_input);
+        pass2 = (EditText)findViewById(R.id.pass_verify_input);
+
 
         mRegister = (Button)findViewById(R.id.btnRegister);
         mRegister.setOnClickListener(this);
@@ -63,31 +65,60 @@ public class RegisterActivity extends Activity implements OnClickListener {
 
     @Override
     public void onClick(View view) {
-       new CreateUser().execute();
+        new CreateUser().execute();
     }
 
+    void toastMe(String msg) {
+        Toast.makeText(RegisterActivity.this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+
     class CreateUser extends AsyncTask<String, String, String> {
-        boolean failure = false;
 
         String username = user.getText().toString();
         String password = pass.getText().toString();
+        String verify = pass2.getText().toString();
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progDiag = new ProgressDialog(RegisterActivity.this);
-            progDiag.setMessage("...Creating User...");
-            progDiag.setIndeterminate(false);
-            progDiag.setCancelable(true);
-            progDiag.show();
+            if (!password.equals(verify)) {
+                toastMe("Passwords do not match!");
+                ((EditText)findViewById(R.id.pass_input)).setText("");
+                ((EditText)findViewById(R.id.pass_verify_input)).setText("");
+            } else if (password.length() < 6) {
+                toastMe("Password must be at least 6 characters long");
+            } else {
+                try {
+                    int n = Integer.parseInt(password);
+                } catch (Exception e) {}
+                boolean hasUpper = false;
+                boolean hasDigit = false;
+                for (char c : password.toCharArray()) {
+                    if (Character.isUpperCase(c)) {
+                        hasUpper = true;
+                    }
+                    if (Character.isDigit(c)) {
+                        hasDigit = true;
+                    }
+                }
+                if (!hasUpper) {
+                    toastMe("Password must contain at least one uppercase");
+                } else if (!hasDigit) {
+                    toastMe("Password must contain at least one number");
+                } else{
+                    progDiag = new ProgressDialog(RegisterActivity.this);
+                    progDiag.setMessage("...Creating User...");
+                    progDiag.setIndeterminate(false);
+                    progDiag.setCancelable(true);
+                    progDiag.show();
+                }
+            }
         }
 
         @Override
         protected String doInBackground(String... args) {
             int success;
-            //TODO: Problems with using 'getText()' below
-            //String username = user.getText().toString();
-//            String password = pass.getText().toString();
 
             try {
                 List<NameValuePair> params = new ArrayList<>();
@@ -119,7 +150,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
         protected void onPostExecute(String file_url) {
             progDiag.dismiss();
             if(file_url != null)
-                Toast.makeText(RegisterActivity.this, file_url, Toast.LENGTH_LONG).show();
+                toastMe(file_url);
         }
     }//end of inner Class
 

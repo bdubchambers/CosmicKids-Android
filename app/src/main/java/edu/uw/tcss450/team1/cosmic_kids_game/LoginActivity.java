@@ -58,10 +58,10 @@ public class LoginActivity extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        user = (EditText) findViewById(R.id.username);
-        pass = (EditText) findViewById(R.id.password);
-        mSubmit = (Button) findViewById(R.id.btnLogin);
-        mRegister = (Button) findViewById(R.id.btnRegister);
+        user = (EditText) findViewById(R.id.login_user);
+        pass = (EditText) findViewById(R.id.login_pass);
+        mSubmit = (Button) findViewById(R.id.btnLoginSubmit);
+        mRegister = (Button) findViewById(R.id.btnRegisterLogin);
 
         mSubmit.setOnClickListener(this);
         mRegister.setOnClickListener(this);
@@ -70,10 +70,10 @@ public class LoginActivity extends Activity implements OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btnLogin:
+            case R.id.btnLoginSubmit:
                 new AttemptLogin().execute();
                 break;
-            case R.id.btnRegister:
+            case R.id.btnRegisterLogin:
                 Intent intent = new Intent(this, RegisterActivity.class);
                 startActivity(intent);
                 break;
@@ -84,7 +84,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 
     class AttemptLogin extends AsyncTask<String, String, String> {
 
-        //TODO: had to put this here:
         String username = user.getText().toString();
         String password = pass.getText().toString();
 

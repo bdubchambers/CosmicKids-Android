@@ -1,102 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <ImageView
-        android:id="@+id/imageViewBG"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true"
-        android:scaleType="fitXY"
-        android:src="@drawable/cosmic2" />
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/space_small"
+    tools:context=".LoginActivity">
 
     <TextView
         android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="Cosmic Kids User Login"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold"
         android:textColor="@color/user_passBGColor"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentEnd="false"
+        android:layout_gravity="top|center_horizontal" />
 
-    <TextView
-        android:id="@+id/textViewUsername"
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/password"
-        android:layout_below="@+id/textViewTitle"
-        android:layout_marginTop="114sp"
-        android:text="Username"
-        android:textColor="@color/user_passColor"
-        android:textStyle="bold" />
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:layout_gravity="center">
 
-    <EditText
-        android:id="@+id/username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textViewUsername"
-        android:layout_below="@+id/textViewUsername"
-        android:ems="10"
-        android:hint="Enter username"
-        android:textColor="@color/user_passColor"
-        android:textColorHint="@color/hintColor">
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/login_user"
+            android:layout_gravity="center"
+            android:hint="@string/enter_username"
+            android:textColorHint="@color/hintColor"
+            android:textColor="@color/user_passBGColor"
+            android:backgroundTint="@android:color/white" />
 
-        <requestFocus />
-    </EditText>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_gravity="center_horizontal" />
 
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/login_pass"
+            android:layout_gravity="center"
+            android:hint="@string/enter_password"
+            android:textColorHint="@color/hintColor"
+            android:textColor="@color/user_passBGColor"
+            android:backgroundTint="@android:color/white" />
 
-    <TextView
-        android:id="@+id/textViewPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/username"
-        android:layout_below="@+id/username"
-        android:text="Password"
-        android:textColor="@color/user_passColor"
-        android:textStyle="bold" />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_gravity="center_horizontal" />
 
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewPassword"
-        android:layout_marginLeft="16sp"
-        android:layout_marginRight="36sp"
-        android:ems="10"
-        android:hint="Enter a password"
-        android:inputType="textPassword"
-        android:textColor="@color/user_passColor"
-        android:textColorHint="@color/hintColor">
-    </EditText>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/submit"
+            android:id="@+id/btnLoginSubmit"
+            android:layout_gravity="center"
+            android:backgroundTint="#EEFF22"
+            android:typeface="monospace"
+            android:textStyle="bold"/>
 
-    <Button
-        android:id="@+id/btnLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/password"
-        android:layout_marginLeft="150sp"
-        android:layout_marginTop="250sp"
-        android:backgroundTint="#EEFF22"
-        android:typeface="monospace"
-        android:textStyle="bold"
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_gravity="center_horizontal" />
 
-        android:text="Login" />
-
-    <Button
-        android:id="@+id/btnRegister"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/password"
-        android:layout_marginLeft="240sp"
-        android:layout_marginTop="250sp"
-        android:backgroundTint="#EEFF22"
-        android:typeface="monospace"
-        android:textStyle="bold"
-
-        android:text="Register-->" />
-
-</RelativeLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/register"
+            android:id="@+id/btnRegisterLogin"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="#EEFF22"
+            android:typeface="monospace"
+            android:textStyle="bold"/>
+    </LinearLayout>
+</FrameLayout>

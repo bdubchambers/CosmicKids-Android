@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import edu.uw.tcss450.team1.cosmic_kids_game.MainActivity;
 import edu.uw.tcss450.team1.cosmic_kids_game.R;
 
 /**
