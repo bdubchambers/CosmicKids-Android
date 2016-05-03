@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/space_small"
-    tools:context=".OptionsActivity">
+    tools:context=".OptionsActivity"
+    android:id="@+id/options_activity">
 
     <TextView
         android:id="@+id/textViewTitle"
@@ -39,7 +40,7 @@
             android:layout_column="1"
             android:layout_gravity="center_vertical"
             android:spinnerMode="dropdown"
-            android:touchscreenBlocksFocus="true" />
+            android:touchscreenBlocksFocus="false" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -165,7 +166,6 @@
                 android:text="Register"
                 android:id="@+id/btnRegisterOptions"
                 android:layout_gravity="center_vertical"
-                android:onClick="onRegisterButtonPressed"
                 android:backgroundTint="#EEFF22"
                 android:typeface="monospace"
                 android:textStyle="bold"/>

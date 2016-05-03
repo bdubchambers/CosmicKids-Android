@@ -42,9 +42,8 @@ public class RegisterActivity extends Activity implements OnClickListener {
     For remote, enter the web address.
     For the UWT INSTTECH shared server retrieve my password first (TODO)
      */
-    private static final String REGISTER_PHP_URL = "http://192.168.1.9/webservice/register.php";
-
-    //private static final String REGISTER_PHP_URL = "http://www.MYDOMAIN.com/webservice/register.php";
+    private static final String REGISTER_PHP_URL =
+            "http://cssgate.insttech.washington.edu/~_450btm1/webservices/register.php";
 
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";

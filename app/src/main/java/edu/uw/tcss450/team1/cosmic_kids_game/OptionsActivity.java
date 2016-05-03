@@ -1,36 +1,23 @@
 package edu.uw.tcss450.team1.cosmic_kids_game;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import cz.msebera.android.httpclient.NameValuePair;
-import cz.msebera.android.httpclient.message.BasicNameValuePair;
-import edu.uw.tcss450.team1.cosmic_kids_game.main.*;
+import android.widget.Button;
 
 public class OptionsActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_options);
+        Button register = (Button)this.findViewById(R.id.btnRegisterOptions);
+        Button pass = (Button)this.findViewById(R.id.btnChangePass);
+        Button user = (Button)this.findViewById(R.id.btnChangeUser);
+        register.setOnClickListener(this);
+        pass.setOnClickListener(this);
+        user.setOnClickListener(this);
     }
 
     @Override
@@ -43,6 +30,7 @@ public class OptionsActivity extends Activity implements View.OnClickListener {
             case R.id.btnChangePass:
                 break;
             case R.id.btnChangeUser:
+                intent = new Intent(this, LoginActivity.class);
                 break;
             default:
                 break;

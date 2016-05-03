@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:background="@drawable/space_small"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:id="@+id/mainActivity">
 
     <Space
         android:layout_width="match_parent"
@@ -61,8 +62,7 @@
             android:textStyle="bold"
             android:textColor="@android:color/holo_blue_light"
             android:backgroundTint="@android:color/holo_blue_dark"
-            android:backgroundTintMode="multiply"
-            android:onClick="onMultiplayerButtonPressed" />
+            android:backgroundTintMode="multiply" />
 
         <Space
             android:layout_width="match_parent"
@@ -79,8 +79,7 @@
             android:textStyle="bold"
             android:textColor="@android:color/holo_blue_light"
             android:backgroundTint="@android:color/holo_blue_dark"
-            android:backgroundTintMode="multiply"
-            android:onClick="onOptionsButtonPressed" />
+            android:backgroundTintMode="multiply"/>
 
         <Space
             android:layout_width="match_parent"

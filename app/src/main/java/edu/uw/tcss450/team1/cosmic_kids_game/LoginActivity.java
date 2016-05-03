@@ -46,9 +46,8 @@ public class LoginActivity extends Activity implements OnClickListener {
     For remote, enter the web address.
     For the UWT INSTTECH shared server retrieve my password first (TODO)
      */
-    private static final String LOGIN_PHP_URL = "http://192.168.1.9/webservice/login.php";
-
-    //private static final String LOGIN_PHP_URL = "http://www.MYDOMAIN.com/webservice/login.php";
+    private static final String LOGIN_PHP_URL =
+            "http://cssgate.insttech.washington.edu/~_450btm1/webservices/login.php";
 
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
@@ -69,12 +68,13 @@ public class LoginActivity extends Activity implements OnClickListener {
 
     @Override
     public void onClick(View view) {
+        Intent intent;
         switch (view.getId()) {
             case R.id.btnLoginSubmit:
                 new AttemptLogin().execute();
                 break;
             case R.id.btnRegisterLogin:
-                Intent intent = new Intent(this, RegisterActivity.class);
+                intent = new Intent(this, RegisterActivity.class);
                 startActivity(intent);
                 break;
             default:
@@ -136,7 +136,7 @@ public class LoginActivity extends Activity implements OnClickListener {
                      * Now the username is stored in the SharedPrefs folder after login.
                      * Any class that needs this data can retrieve it programmatically.
                      */
-                    Intent intent = new Intent(LoginActivity.this, ReadScoresActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     finish();
                     startActivity(intent);
                     return jsonObject.getString(TAG_MESSAGE);
@@ -154,8 +154,9 @@ public class LoginActivity extends Activity implements OnClickListener {
         // @Override
         protected void onPostExecute(String file_url) {
             progDiag.dismiss();
-            if (file_url != null)
+            if (file_url != null) {
                 Toast.makeText(LoginActivity.this, file_url, Toast.LENGTH_LONG).show();
+            }
         }
     }//end of inner Class
 

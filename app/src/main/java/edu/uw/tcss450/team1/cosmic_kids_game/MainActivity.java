@@ -1,29 +1,10 @@
 package edu.uw.tcss450.team1.cosmic_kids_game;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import cz.msebera.android.httpclient.NameValuePair;
-import cz.msebera.android.httpclient.message.BasicNameValuePair;
-import edu.uw.tcss450.team1.cosmic_kids_game.main.*;
+import android.widget.Button;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
@@ -31,11 +12,19 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Button btnSingle = (Button)this.findViewById(R.id.btnSingle);
+        Button btnMulti = (Button)this.findViewById(R.id.btnMulti);
+        Button btnOptions = (Button)this.findViewById(R.id.btnOptions);
+        Button btnExit = (Button)this.findViewById(R.id.btnExit);
+        btnSingle.setOnClickListener(this);
+        btnMulti.setOnClickListener(this);
+        btnOptions.setOnClickListener(this);
+        btnExit.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        Intent intent = null;
+        Intent intent;
         switch (view.getId()) {
             case R.id.btnSingle:
                 //intent = new Intent(this, SingleActivity.class);
@@ -45,6 +34,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.btnOptions:
                 intent = new Intent(this, OptionsActivity.class);
+                startActivity(intent);
                 break;
             case R.id.btnExit:
                 // TODO exit
