@@ -26,6 +26,10 @@
     <string name="exit">Exit</string>
     <string name="difficulty">Difficulty</string>
     <string name="volume">Volume</string>
+    <string name="register">Register</string>
+    <string name="submit">Submit</string>
+    <string name="enter_username">Enter Username</string>
+    <string name="enter_password">Enter Password</string>
 
     <string-array name="difficulty_options">
         <item>Easy (Ages 5-7)</item>

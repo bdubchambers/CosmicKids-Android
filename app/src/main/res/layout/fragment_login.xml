@@ -20,7 +20,7 @@
             android:ems="10"
             android:id="@+id/user_input"
             android:layout_gravity="center"
-            android:hint="Enter Username" />
+            android:hint="@string/enter_username" />
 
         <Space
             android:layout_width="match_parent"
@@ -34,7 +34,7 @@
             android:ems="10"
             android:id="@+id/pass_input"
             android:layout_gravity="center"
-            android:hint="Enter Password" />
+            android:hint="@string/enter_password" />
 
         <Space
             android:layout_width="match_parent"
@@ -44,8 +44,22 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Submit"
+            android:text="@string/submit"
             android:id="@+id/submit_registration_button"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:onClick="attemptLogin" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/register"
+            android:id="@+id/register_login"
+            android:layout_gravity="center_horizontal"
+            android:onClick="onRegisterButtonPressed" />
     </LinearLayout>
 </FrameLayout>
