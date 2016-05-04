@@ -30,6 +30,7 @@
     <string name="submit">Submit</string>
     <string name="enter_username">Enter Username</string>
     <string name="enter_password">Enter Password</string>
+    <string name="LOGIN_PREFS">edu.uw.tcss450.team1.cosmic_kids_game.PREFS</string>
 
     <string-array name="difficulty_options">
         <item>Easy (Ages 5-7)</item>

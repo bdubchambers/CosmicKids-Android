@@ -1,10 +1,18 @@
+/**
+ * @Class PostAsync
+ * @Version 1.0.0
+ * @Author Justin Burch
+ * @Author Brandon Chambers
+ *
+ * This class is intended to provide a base Helper Class to handle all asynchronous POST calls
+ * to our CSSGate-hosted PHP/MySQL services.
+ */
 package edu.uw.tcss450.team1.cosmic_kids_game.HelperCode;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,9 +23,9 @@ import cz.msebera.android.httpclient.NameValuePair;
 import edu.uw.tcss450.team1.cosmic_kids_game.JSONParser;
 
 /**
- * Created by Justin on 5/3/2016.
+ * Asynchronous class to handle all POST calls to php server.
  */
-public class PostAsync extends AsyncTask<String, String, String> {
+public class PostAsync extends AsyncTask<Void, Void, String> {
     /* Static Variables */
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
@@ -29,6 +37,13 @@ public class PostAsync extends AsyncTask<String, String, String> {
     private String connectionString;
     private ArrayList<NameValuePair> data;
 
+    /**
+     * Overridden constructor to take arguments we will use.
+     * @param context Used to identify where to show dialog and toast calls
+     * @param url URL of the PHP file to POST to
+     * @param dialogMsg Message we want to show while handling POST call
+     * @param args Arguments to be passed to the JSONParser
+     */
     public PostAsync(Context context, String url, String dialogMsg, ArrayList<NameValuePair> args) {
         activity = context;
         dialogMessage = dialogMsg;
@@ -36,6 +51,9 @@ public class PostAsync extends AsyncTask<String, String, String> {
         data = args;
     }
 
+    /**
+     * Start a dialog any time we initiate this task.
+     */
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
@@ -46,8 +64,13 @@ public class PostAsync extends AsyncTask<String, String, String> {
         progDiag.show();
     }
 
+    /**
+     * Background POST process that will return the JSON Object's message supplied by PHP service.
+     * @param v Passing all data through the constructor.
+     * @return Message associated with the JSON Object.
+     */
     @Override
-    protected String doInBackground(String... args) {
+    protected String doInBackground(Void... v) {
         int result;
         String returnValue = null;
         try {
@@ -68,14 +91,8 @@ public class PostAsync extends AsyncTask<String, String, String> {
             e.printStackTrace();
         }
         finally {
+            progDiag.dismiss();
             return returnValue;
-        }
-    }
-
-    protected void onPostExecute(String file_url) {
-        progDiag.dismiss();
-        if(file_url != null) {
-            Toast.makeText(activity, file_url, Toast.LENGTH_LONG).show();
         }
     }
 }

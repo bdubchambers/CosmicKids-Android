@@ -1,3 +1,16 @@
+/**
+ * @Class OptionsActivity
+ * @Version 1.0.0
+ * @Author Justin Burch
+ * @Author Brandon Chambers
+ *
+ * This class provides an Activity that will showcase and handle all of the logic related to
+ * the current configuration of the game. It also allows for a user to change users or to
+ * register a new user.
+ *
+ * This Activity may be changed into a Fragment in the next Phase.
+ */
+
 package edu.uw.tcss450.team1.cosmic_kids_game;
 
 import android.app.Activity;

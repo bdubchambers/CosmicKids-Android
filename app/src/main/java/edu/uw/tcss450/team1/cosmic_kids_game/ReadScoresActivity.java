@@ -1,3 +1,14 @@
+/**
+ * @Class ReadScoresActivity
+ * @Version 1.0.0
+ * @Author Justin Burch
+ * @Author Brandon Chambers
+ *
+ * This class provides will provide an Activity that will showcase the scores of a completed
+ * game. It is not yet implemented.
+ *
+ * This Activity may be changed into a Fragment in the next Phase.
+ */
 package edu.uw.tcss450.team1.cosmic_kids_game;
 
 import android.app.ListActivity;

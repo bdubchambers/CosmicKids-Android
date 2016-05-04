@@ -1,3 +1,15 @@
+/**
+ * @Class AddScoreActivity
+ * @Version 1.0.0
+ * @Author Justin Burch
+ * @Author Brandon Chambers
+ *
+ * This class will be a Helper class that will send the scores of a completed game to the MySQL
+ * database to be stored for later use. It is not yet implemented, and therefore temporarily
+ * an Activity while we test features in a visual environment.
+ *
+ * This Activity will be a standard class in the next Phase.
+ */
 package edu.uw.tcss450.team1.cosmic_kids_game;
 
 import android.app.Activity;

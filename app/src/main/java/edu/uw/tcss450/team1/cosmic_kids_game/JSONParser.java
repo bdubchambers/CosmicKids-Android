@@ -1,3 +1,13 @@
+/**
+ * @Class JSONParser
+ * @Version 1.0.0
+ * @Author Justin Burch
+ * @Author Brandon Chambers
+ *
+ * This class provides a means to transform a JSON String returned from a PHP service call into
+ * a JSONObject containing a success/fail flag and a returned message, usually indicating
+ * success or what type of failure occured.
+ */
 package edu.uw.tcss450.team1.cosmic_kids_game;
 
 import java.io.BufferedReader;

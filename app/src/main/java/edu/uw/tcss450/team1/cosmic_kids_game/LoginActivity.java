@@ -1,3 +1,15 @@
+/**
+ * @Class LoginActivity
+ * @Version 1.0.0
+ * @Author Justin Burch
+ * @Author Brandon Chambers
+ *
+ * This class provides an Activity that will showcase and handle all of the logic related to
+ * logging a user in or to provide them additional options, such as to Register as a new user or
+ * to continue as a Guest.
+ *
+ * This Activity may be changed into a Fragment in the next Phase.
+ */
 package edu.uw.tcss450.team1.cosmic_kids_game;
 
 import android.app.Activity;
@@ -73,9 +85,11 @@ public class LoginActivity extends Activity implements OnClickListener {
                         Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
                         if (result.startsWith("Login")) {
                             SharedPreferences sp =
-                                    PreferenceManager.getDefaultSharedPreferences(this);
+                                    getSharedPreferences(getString(R.string.LOGIN_PREFS),
+                                    MODE_PRIVATE);
                             Editor editor = sp.edit();
                             editor.putString("username", username);
+                            editor.putBoolean("loggedIn", true);
                             editor.commit();
                             intent = new Intent(this, MainActivity.class);
                             finish();

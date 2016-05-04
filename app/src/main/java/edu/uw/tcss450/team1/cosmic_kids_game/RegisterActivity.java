@@ -1,3 +1,14 @@
+/**
+ * @Class RegisterActivity
+ * @Version 1.0.0
+ * @Author Justin Burch
+ * @Author Brandon Chambers
+ *
+ * This class provides an Activity that will showcase and handle all of the logic related to
+ * registering a user with the MySQL database.
+ *
+ * This Activity may be changed into a Fragment in the next Phase.
+ */
 package edu.uw.tcss450.team1.cosmic_kids_game;
 
 import android.app.Activity;
@@ -14,8 +25,6 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.NameValuePair;
 import cz.msebera.android.httpclient.message.BasicNameValuePair;
 import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.PostAsync;
-
-import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
 /**
  * Activity to handle the registration aspect of the application.
@@ -66,10 +75,15 @@ public class RegisterActivity extends Activity implements OnClickListener {
                 if (result != null) {
                     toastMe(result);
                     if (result.startsWith("Username")) {
-                        SharedPreferences sp = getDefaultSharedPreferences(this);
+                        SharedPreferences sp = getSharedPreferences(getString(R.string.LOGIN_PREFS),
+                                MODE_PRIVATE);
                         SharedPreferences.Editor editor = sp.edit();
                         editor.putString("username", username);
                         editor.commit();
+                        if (!sp.getBoolean("loggedIn", false)) {
+                            toastMe("Logging in as " + user);
+                            editor.putBoolean("loggedIn", true);
+                        }
                         setResult(RESULT_OK);
                         finish();
                     }
