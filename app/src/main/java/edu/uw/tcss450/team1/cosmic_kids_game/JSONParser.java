@@ -5,15 +5,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.nio.Buffer;
 import java.util.List;
-
-
 import android.util.Log;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import cz.msebera.android.httpclient.HttpEntity;
 import cz.msebera.android.httpclient.HttpResponse;
 import cz.msebera.android.httpclient.NameValuePair;
@@ -26,12 +21,8 @@ import cz.msebera.android.httpclient.client.utils.URLEncodedUtils;
 import cz.msebera.android.httpclient.impl.client.CloseableHttpClient;
 import cz.msebera.android.httpclient.impl.client.HttpClients;
 
-//import okhttp3.OkHttpClient;
-//import okhttp3.Request;
-//import okhttp3.Response;
-
 /**
- * Created by Brandon on 4/28/2016.
+ * Class to handle turning php JSON output into an object with a success/failure & message.
  */
 public class JSONParser {
 
@@ -43,6 +34,11 @@ public class JSONParser {
     //empty constructor
     public JSONParser() {}
 
+    /**
+     * Unused method to get JSON from a URL - URLs can pass JSON info.
+     * @param url URL to parse for object
+     * @return Object created
+     */
     public JSONObject getJSONFromUrl(String url) {
 
         try {
@@ -85,7 +81,13 @@ public class JSONParser {
         return jsonObject;
     }
 
-
+    /**
+     * Make a request to php server and parse/retrieve a JSON Object, which is returned.
+     * @param url URL to attempt connection
+     * @param method PHP Method
+     * @param params Parameters passed to PHP Method
+     * @return JSON Object of the returned response from PHP call
+     */
     public JSONObject makeHttpRequest(String url, String method, List<NameValuePair> params) {
         try {
             if(method == "POST") {

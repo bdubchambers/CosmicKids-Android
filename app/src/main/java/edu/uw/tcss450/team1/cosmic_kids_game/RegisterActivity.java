@@ -1,156 +1,128 @@
 package edu.uw.tcss450.team1.cosmic_kids_game;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.List;
 
 import cz.msebera.android.httpclient.NameValuePair;
 import cz.msebera.android.httpclient.message.BasicNameValuePair;
+import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.PostAsync;
+
+import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
 /**
- * Created by Brandon on 4/28/2016.
+ * Activity to handle the registration aspect of the application.
  */
 public class RegisterActivity extends Activity implements OnClickListener {
-
-    private EditText user, pass, pass2;
-    private Button mRegister;
-
-    private ProgressDialog progDiag;
-
-    JSONParser jsonParser = new JSONParser();
-
-    /*TODO:
-    Send the location of our php script, register.php, which connects us to the mysql db.
-
-    Here is where we decide which 'host' we are using by entering the url into this
-    String.  Do we need separate urls for local and remote?  Still researching....
-
-    For local use your ip address, mine is: ipv4=192.168.1.9
-    For remote, enter the web address.
-    For the UWT INSTTECH shared server retrieve my password first (TODO)
-     */
+    /* Static Variables */
     private static final String REGISTER_PHP_URL =
             "http://cssgate.insttech.washington.edu/~_450btm1/webservices/register.php";
 
-    private static final String TAG_SUCCESS = "success";
-    private static final String TAG_MESSAGE = "message";
+    /* Class-Level Variables */
+    private EditText user, pass, pass2;
+    private Button mRegister;
 
+    /**
+     * Override to allow for text reading while setting listeners for buttons.
+     * @param savedInstanceState Carried over from super method
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
-
         user = (EditText)findViewById(R.id.user_input);
         pass = (EditText)findViewById(R.id.pass_input);
         pass2 = (EditText)findViewById(R.id.pass_verify_input);
-
-
         mRegister = (Button)findViewById(R.id.btnRegister);
         mRegister.setOnClickListener(this);
     }
 
+    /**
+     * Attempt to register user after passing info contained in fields.
+     * @param view Item within Activity that has triggered the event
+     */
     @Override
     public void onClick(View view) {
-        new CreateUser().execute();
-    }
-
-    void toastMe(String msg) {
-        Toast.makeText(RegisterActivity.this, msg, Toast.LENGTH_SHORT).show();
-    }
-
-
-    class CreateUser extends AsyncTask<String, String, String> {
-
         String username = user.getText().toString();
         String password = pass.getText().toString();
         String verify = pass2.getText().toString();
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            if (!password.equals(verify)) {
-                toastMe("Passwords do not match!");
-                ((EditText)findViewById(R.id.pass_input)).setText("");
-                ((EditText)findViewById(R.id.pass_verify_input)).setText("");
-            } else if (password.length() < 6) {
-                toastMe("Password must be at least 6 characters long");
-            } else {
-                try {
-                    int n = Integer.parseInt(password);
-                } catch (Exception e) {}
-                boolean hasUpper = false;
-                boolean hasDigit = false;
-                for (char c : password.toCharArray()) {
-                    if (Character.isUpperCase(c)) {
-                        hasUpper = true;
-                    }
-                    if (Character.isDigit(c)) {
-                        hasDigit = true;
-                    }
-                }
-                if (!hasUpper) {
-                    toastMe("Password must contain at least one uppercase");
-                } else if (!hasDigit) {
-                    toastMe("Password must contain at least one number");
-                } else{
-                    progDiag = new ProgressDialog(RegisterActivity.this);
-                    progDiag.setMessage("...Creating User...");
-                    progDiag.setIndeterminate(false);
-                    progDiag.setCancelable(true);
-                    progDiag.show();
-                }
-            }
-        }
-
-        @Override
-        protected String doInBackground(String... args) {
-            int success;
-
+        if (verifyInputs(username, password, verify)) {
+            ArrayList<NameValuePair> params = new ArrayList<>();
+            params.add(new BasicNameValuePair("username", username));
+            params.add(new BasicNameValuePair("password", password));
+            PostAsync post = new PostAsync(this, REGISTER_PHP_URL, "Registering", params);
+            post.execute();
             try {
-                List<NameValuePair> params = new ArrayList<>();
-                params.add(new BasicNameValuePair("username", username));
-                params.add(new BasicNameValuePair("password", password));
-
-                Log.d("request...", "starting");
-
-                JSONObject jsonObject = jsonParser.makeHttpRequest(REGISTER_PHP_URL, "POST", params);
-
-                Log.d("Registration attempt...", jsonObject.toString());
-
-                success = jsonObject.getInt(TAG_SUCCESS);
-                if(success == 1) {
-                    Log.d("User Created.", jsonObject.toString());
-                    finish();
-                    return jsonObject.getString(TAG_MESSAGE);
-                } else {
-                    Log.d("Registration Failure", jsonObject.getString(TAG_MESSAGE));
-                    return jsonObject.getString(TAG_MESSAGE);
+                String result = post.get();
+                if (result != null) {
+                    toastMe(result);
+                    if (result.startsWith("Username")) {
+                        SharedPreferences sp = getDefaultSharedPreferences(this);
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putString("username", username);
+                        editor.commit();
+                        setResult(RESULT_OK);
+                        finish();
+                    }
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                toastMe("Connection Error: " + e.getMessage());
             }
-
-            return null;
         }
-        // @Override
-        protected void onPostExecute(String file_url) {
-            progDiag.dismiss();
-            if(file_url != null)
-                toastMe(file_url);
-        }
-    }//end of inner Class
+    }
 
+    /**
+     * Easy-to-use method of outputting Toast.
+     * @param msg Message to be put into Toast
+     */
+    void toastMe(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Verify the inputs in the fields before sending to php service.
+     * @param user Username the user wishes to use
+     * @param password Password the user wishes to use
+     * @param verify Password re-typed for verification
+     * @return True if all basic criteria met, false otherwise
+     */
+    boolean verifyInputs(String user, String password, String verify) {
+        if (user.length() < 3) {
+            toastMe("Username should be at least 3 characters long!");
+        }
+        else if (!password.equals(verify)) {
+            toastMe("Passwords do not match!");
+            pass.setText("");
+            pass2.setText("");
+        } else if (password.length() < 6) {
+            toastMe("Password must be at least 6 characters long!");
+        } else {
+            boolean hasUpper = false;
+            boolean hasDigit = false;
+            for (char c : password.toCharArray()) {
+                if (Character.isUpperCase(c)) {
+                    hasUpper = true;
+                }
+                if (Character.isDigit(c)) {
+                    hasDigit = true;
+                }
+            }
+            if (!hasUpper) {
+                toastMe("Password must contain at least one uppercase!");
+            } else if (!hasDigit) {
+                toastMe("Password must contain at least one number!");
+            } else{
+                return true;
+            }
+        }
+        return false;
+    }
 }

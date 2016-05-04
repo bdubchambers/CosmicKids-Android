@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 /**
- * Created by Brandon on 4/28/2016.
+ * Not yet implemented.
  */
 public class ReadScoresActivity extends Activity {
 
