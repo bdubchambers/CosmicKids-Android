@@ -46,9 +46,8 @@ public class LoginActivity extends Activity implements OnClickListener {
     For remote, enter the web address.
     For the UWT INSTTECH shared server retrieve my password first (TODO)
      */
-    private static final String LOGIN_PHP_URL = "http://192.168.1.9/webservice/login.php";
-
-    //private static final String LOGIN_PHP_URL = "http://www.MYDOMAIN.com/webservice/login.php";
+    private static final String LOGIN_PHP_URL =
+            "http://cssgate.insttech.washington.edu/~_450btm1/webservices/login.php";
 
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
@@ -59,10 +58,10 @@ public class LoginActivity extends Activity implements OnClickListener {
         setContentView(R.layout.login);
         setTheme(R.style.FullscreenTheme);
 
-        user = (EditText) findViewById(R.id.username);
-        pass = (EditText) findViewById(R.id.password);
-        mSubmit = (Button) findViewById(R.id.btnLogin);
-        mRegister = (Button) findViewById(R.id.btnRegister);
+        user = (EditText) findViewById(R.id.login_user);
+        pass = (EditText) findViewById(R.id.login_pass);
+        mSubmit = (Button) findViewById(R.id.btnLoginSubmit);
+        mRegister = (Button) findViewById(R.id.btnRegisterLogin);
 
         mSubmit.setOnClickListener(this);
         mRegister.setOnClickListener(this);
@@ -70,12 +69,13 @@ public class LoginActivity extends Activity implements OnClickListener {
 
     @Override
     public void onClick(View view) {
+        Intent intent;
         switch (view.getId()) {
-            case R.id.btnLogin:
+            case R.id.btnLoginSubmit:
                 new AttemptLogin().execute();
                 break;
-            case R.id.btnRegister:
-                Intent intent = new Intent(this, RegisterActivity.class);
+            case R.id.btnRegisterLogin:
+                intent = new Intent(this, RegisterActivity.class);
                 startActivity(intent);
                 break;
             default:
@@ -85,7 +85,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 
     class AttemptLogin extends AsyncTask<String, String, String> {
 
-        //TODO: had to put this here:
         String username = user.getText().toString();
         String password = pass.getText().toString();
 
@@ -138,7 +137,7 @@ public class LoginActivity extends Activity implements OnClickListener {
                      * Now the username is stored in the SharedPrefs folder after login.
                      * Any class that needs this data can retrieve it programmatically.
                      */
-                    Intent intent = new Intent(LoginActivity.this, ReadScoresActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     finish();
                     startActivity(intent);
                     return jsonObject.getString(TAG_MESSAGE);
@@ -156,8 +155,9 @@ public class LoginActivity extends Activity implements OnClickListener {
         // @Override
         protected void onPostExecute(String file_url) {
             progDiag.dismiss();
-            if (file_url != null)
+            if (file_url != null) {
                 Toast.makeText(LoginActivity.this, file_url, Toast.LENGTH_LONG).show();
+            }
         }
     }//end of inner Class
 

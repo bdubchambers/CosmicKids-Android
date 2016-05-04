@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/space_small"
+    tools:context=".OptionsActivity"
+    android:id="@+id/options_activity">
+
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Cosmic Kids User Login"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold"
+        android:textColor="@color/user_passBGColor"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentEnd="false"
+        android:layout_gravity="top|center_horizontal" />
+
+
+    <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/options_fragment"
+        android:columnOrderPreserved="false"
+        android:useDefaultMargins="true"
+        android:alignmentMode="alignMargins"
+        android:columnCount="2"
+        android:rowCount="5">
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/difficulty_spinner"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_gravity="center_vertical"
+            android:spinnerMode="dropdown"
+            android:touchscreenBlocksFocus="false" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/difficulty"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:labelFor="@id/difficulty_spinner"
+            android:layout_gravity="center_vertical"
+            android:layout_rowWeight="1"
+            android:textColorHint="@color/hintColor"
+            android:textColor="@color/user_passBGColor"
+            android:backgroundTint="@android:color/white"/>
+
+        <GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:columnCount="2"
+            android:rowCount="3"
+            android:id="@+id/volume_options"
+            android:layout_rowWeight="1"
+            android:orientation="vertical">
+
+            <SeekBar
+                android:layout_width="72dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/main_vol"
+                android:layout_rowWeight="1"
+                android:layout_column="1"
+                android:layout_row="0" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Main"
+                android:layout_column="0"
+                android:layout_row="0"
+                android:labelFor="@id/main_vol"
+                android:layout_rowWeight="1"
+                android:layout_gravity="center_vertical"
+                android:textColorHint="@color/hintColor"
+                android:textColor="@color/user_passBGColor"
+                android:backgroundTint="@android:color/white"/>
+
+            <SeekBar
+                android:layout_width="72dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/sounds_vol"
+                android:layout_rowWeight="1"
+                android:layout_column="1"
+                android:layout_row="1" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sound Effects"
+                android:layout_row="1"
+                android:layout_column="0"
+                android:labelFor="@id/sounds_vol"
+                android:layout_rowWeight="1"
+                android:layout_gravity="center_vertical"
+                android:textColorHint="@color/hintColor"
+                android:textColor="@color/user_passBGColor"
+                android:backgroundTint="@android:color/white"/>
+
+            <SeekBar
+                android:layout_width="72dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/voice_vol"
+                android:layout_rowWeight="1"
+                android:layout_column="1"
+                android:layout_row="2" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Voice"
+                android:layout_column="0"
+                android:layout_row="2"
+                android:labelFor="@id/voice_vol"
+                android:layout_rowWeight="1"
+                android:layout_gravity="center_vertical"
+                android:textColorHint="@color/hintColor"
+                android:textColor="@color/user_passBGColor"
+                android:backgroundTint="@android:color/white"/>
+        </GridLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/volume"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:labelFor="@id/volume_options"
+            android:layout_gravity="center_vertical"
+            android:layout_rowWeight="1"
+            android:textColorHint="@color/hintColor"
+            android:textColor="@color/user_passBGColor"
+            android:backgroundTint="@android:color/white"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Registered User"
+            android:layout_row="2"
+            android:layout_column="0"
+            android:layout_gravity="center_vertical"
+            android:layout_rowWeight="1"
+            android:textColorHint="@color/hintColor"
+            android:textColor="@color/user_passBGColor"
+            android:backgroundTint="@android:color/white" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical">
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Register"
+                android:id="@+id/btnRegisterOptions"
+                android:layout_gravity="center_vertical"
+                android:backgroundTint="#EEFF22"
+                android:typeface="monospace"
+                android:textStyle="bold"/>
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Change Pass"
+                android:id="@+id/btnChangePass"
+                android:layout_gravity="center_vertical"
+                android:backgroundTint="#EEFF22"
+                android:typeface="monospace"
+                android:textStyle="bold"/>
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Change User"
+                android:id="@+id/btnChangeUser"
+                android:layout_gravity="center_vertical"
+                android:backgroundTint="#EEFF22"
+                android:typeface="monospace"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Gamma"
+            android:layout_row="3"
+            android:layout_column="0"
+            android:layout_gravity="center_vertical"
+            android:layout_rowWeight="1"
+            android:textColorHint="@color/hintColor"
+            android:textColor="@color/user_passBGColor"
+            android:backgroundTint="@android:color/white"/>
+
+        <SeekBar
+            android:layout_width="72dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/gamma"
+            android:layout_row="3"
+            android:layout_column="1"
+            android:layout_gravity="center_vertical"
+            android:textColorHint="@color/hintColor"
+            android:textColor="@color/user_passBGColor"
+            android:backgroundTint="@android:color/white"/>
+
+
+    </GridLayout>
+</FrameLayout>
