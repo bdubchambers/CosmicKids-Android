@@ -1,136 +1,73 @@
 package edu.uw.tcss450.team1.cosmic_kids_game;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.List;
 
 import cz.msebera.android.httpclient.NameValuePair;
 import cz.msebera.android.httpclient.message.BasicNameValuePair;
+import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.PostAsync;
 
 /**
- * Created by Brandon on 4/28/2016.
+ * Activity that will add a score to the database, ultimately allowing for the sharing of the score.
  */
-public class AddScoreActivity extends Activity implements OnClickListener {
+public class AddScoreActivity extends Activity implements View.OnClickListener {
+    /* Static Variables */
+    private static final String ADDSCORE_PHP_URL =
+            "http://cssgate.insttech.washington.edu/~_450btm1/webservices/addscore.php";
 
-    private EditText gamename, score;
-    private Button mSubmit; //just for testing--we'll not be manually submitting user scores
+    /* Class-Level Variables */
+    private TextView gameName, score;
+    private Button mSubmit;
 
-    private ProgressDialog progDiag;
-
-    JSONParser jsonParser = new JSONParser();
-
-    /*TODO:
-    Send the location of our php script, addscore.php, which connects us to the mysql db.
-
-    Here is where we decide which 'host' we are using by entering the url into this
-    String.  Do we need separate urls for local and remote?  Still researching....
-
-    For local use your ip address, mine is: ipv4=192.168.1.9
-    For remote, enter the web address.
-    For the UWT INSTTECH shared server retrieve my password first (TODO)
+    /**
+     * Override to allow for text reading while setting listeners for buttons.
+     * @param savedInstanceState Carried over from super method
      */
-    private static final String ADDSCORE_PHP_URL = "http://192.168.1.9/webservice/addscore.php";
-
-    //private static final String ADDSCORE_PHP_URL = "http://www.MYDOMAIN.com/webservice/addscore.php";
-
-    private static final String TAG_SUCCESS = "success";
-    private static final String TAG_MESSAGE = "message";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.addscore);
-        setTheme(R.style.FullscreenTheme);
-
-        gamename = (EditText)findViewById(R.id.gamename);
-        score = (EditText)findViewById(R.id.score);
-
-        mSubmit = (Button)findViewById(R.id.btnSubmit);
+        gameName = (TextView)findViewById(R.id.gamename);
+        score = (TextView)findViewById(R.id.score);
+        mSubmit = (Button)findViewById(R.id.btnSubmitScore);
         mSubmit.setOnClickListener(this);
     }
 
+    /**
+     * Add the score to the database.
+     * @param view Item within Activity that has triggered the event
+     */
     @Override
     public void onClick(View view) {
-        new PostScore().execute();
-    }
-
-    class PostScore extends AsyncTask<String, String, String> {
-
-        //TODO: Investigate .getText() outside of UI thread...in the meantime, declare here:
-        String post_gamename = gamename.getText().toString();
+        SharedPreferences sp =
+                PreferenceManager.getDefaultSharedPreferences(AddScoreActivity.this);
+        String username = sp.getString("username", "anon");
+        String post_gameName = gameName.getText().toString();
         String post_score = score.getText().toString();
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progDiag = new ProgressDialog(AddScoreActivity.this);
-            progDiag.setMessage("...Posting Score...");
-            progDiag.setIndeterminate(false);
-            progDiag.setCancelable(true);
-            progDiag.show();
-        }
-
-        @Override
-        protected String doInBackground(String... args) {
-
-            int success;
-            /**
-             * Retrieving the SharePref username data that was saved after
-             * successful login in LoginActivity.java under AsyncTask
-             */
-            SharedPreferences sp =
-                    PreferenceManager.getDefaultSharedPreferences(AddScoreActivity.this);
-            String post_username = sp.getString("username", "anon");
-
-            try {
-                List<NameValuePair> params = new ArrayList<>();
-                params.add(new BasicNameValuePair("username", post_username));
-                params.add(new BasicNameValuePair("gamename", post_gamename));
-                params.add(new BasicNameValuePair("score", post_score));
-
-                Log.d("request...", "starting");
-
-                JSONObject jsonObject =
-                        jsonParser.makeHttpRequest(ADDSCORE_PHP_URL, "POST", params);
-
-                Log.d("Attempting to add score", jsonObject.toString());
-
-                success = jsonObject.getInt(TAG_SUCCESS);
-
-                if(success == 1) {
-                    Log.d("Add Score Success", jsonObject.toString());
-                    finish();
-                    return jsonObject.getString(TAG_MESSAGE);
-                } else {
-                    Log.d("Failed to add score!", jsonObject.getString(TAG_MESSAGE));
-                    return jsonObject.getString(TAG_MESSAGE);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
+        ArrayList<NameValuePair> params = new ArrayList<>();
+        params.add(new BasicNameValuePair("username", username));
+        params.add(new BasicNameValuePair("gameName", post_gameName));
+        params.add(new BasicNameValuePair("score", post_score));
+        PostAsync post = new PostAsync(this, ADDSCORE_PHP_URL, "Posting Score", params);
+        post.execute();
+        try {
+            String result = post.get();
+            if (result != null) {
+                Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
             }
-            return null;
+        } catch (Exception e) {
+            Toast.makeText(this, "Connection Error: " + e.getMessage(),
+                    Toast.LENGTH_SHORT).show();
         }
-
-        protected void onPostExecute(String file_url) {
-            progDiag.dismiss();
-            if(file_url != null) {
-                Toast.makeText(AddScoreActivity.this, file_url, Toast.LENGTH_LONG).show();
-            }
-        }
-    }//end of inner Class PostScore
+    }
 }

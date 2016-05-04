@@ -78,7 +78,7 @@
 
 <!-- TODO: PLACEHOLDER UNTIL FIGURE OUT WHAT TO DO WITH SCORES/DB -->
     <Button
-        android:id="@+id/btnSubmit"
+        android:id="@+id/btnSubmitScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

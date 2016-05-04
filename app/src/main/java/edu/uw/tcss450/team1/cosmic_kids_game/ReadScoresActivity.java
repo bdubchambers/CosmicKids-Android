@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by Brandon/Justin: Team1 on 4/28/2016.
+ * Not yet implemented.
  */
 public class ReadScoresActivity extends ListActivity {
 
@@ -109,21 +109,21 @@ public class ReadScoresActivity extends ListActivity {
      */
     public void updateList() {
 
-        /* */
+/*        *//* *//*
         ListAdapter listAdapter = new SimpleAdapter(this, mScoreList, R.layout.single_score,
                 new String[] {TAG_TITLE, TAG_SCORE, TAG_USERNAME},
                 new int[] {R.id.textViewGameName, R.id.textViewScore, R.id.textViewUsername});
 
         setListAdapter(listAdapter);
 
-        /*TODO: Do something here when a score is clicked on???? (TODO)*/
+        *//*TODO: Do something here when a score is clicked on???? (TODO)*//*
         ListView listView = getListView();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //TODO: code here for on item click action (go to the user's profile, etc)
             }
-        });
+        });*/
     }
 
     public class LoadScores extends AsyncTask<Void, Void, Boolean> {

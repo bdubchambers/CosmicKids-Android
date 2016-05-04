@@ -8,6 +8,10 @@ import android.widget.Button;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
+    /**
+     * Override to set listeners for buttons.
+     * @param savedInstanceState Carried over from super method
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +26,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         btnExit.setOnClickListener(this);
     }
 
+    /**
+     * Identify the source of a click and perform appropriate actions.
+     * @param view Item within Activity that has triggered the event
+     */
     @Override
     public void onClick(View view) {
         Intent intent;
