@@ -122,11 +122,13 @@ public class RegisterActivity extends Activity implements OnClickListener {
         } else {
             boolean hasUpper = false;
             boolean hasDigit = false;
+            boolean hasLower = false;
             for (char c : password.toCharArray()) {
-                if (Character.isUpperCase(c)) {
+                if (Character.isLowerCase(c)) {
+                    hasLower = true;
+                } else if (Character.isUpperCase(c)) {
                     hasUpper = true;
-                }
-                if (Character.isDigit(c)) {
+                } else if (Character.isDigit(c)) {
                     hasDigit = true;
                 }
             }
@@ -134,7 +136,9 @@ public class RegisterActivity extends Activity implements OnClickListener {
                 toastMe("Password must contain at least one uppercase!");
             } else if (!hasDigit) {
                 toastMe("Password must contain at least one number!");
-            } else{
+            } else if (!hasLower) {
+                toastMe("Password must contain at least one lowercase!");
+            } else {
                 return true;
             }
         }

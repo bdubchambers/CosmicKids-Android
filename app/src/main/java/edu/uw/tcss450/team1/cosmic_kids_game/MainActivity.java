@@ -59,23 +59,33 @@ public class MainActivity extends Activity implements View.OnClickListener {
      */
     @Override
     public void onClick(View view) {
-        Intent intent;
+        Intent intent = null;
         switch (view.getId()) {
             case R.id.btnSingle:
                 //intent = new Intent(this, SingleActivity.class);
                 break;
             case R.id.btnMulti:
                 //intent = new Intent(this, MultiActivity.class);
+                SharedPreferences sp = getSharedPreferences(getString(R.string.LOGIN_PREFS),
+                        MODE_PRIVATE);
+                if (!sp.getBoolean("loggedIn", false)) {
+                    intent = new Intent(this, LoginActivity.class);
+                } else {
+                    Toast.makeText(MainActivity.this, "Sorry.. you have no friends.",
+                            Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.btnOptions:
                 intent = new Intent(this, OptionsActivity.class);
-                startActivity(intent);
                 break;
             case R.id.btnExit:
                 // TODO exit
                 break;
             default:
                 break;
+        }
+        if (intent != null) {
+            startActivity(intent);
         }
     }
 }

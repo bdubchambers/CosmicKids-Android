@@ -40,7 +40,8 @@
             android:layout_column="1"
             android:layout_gravity="center_vertical"
             android:spinnerMode="dropdown"
-            android:touchscreenBlocksFocus="false" />
+            android:touchscreenBlocksFocus="false"
+            android:background="@android:color/white" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
