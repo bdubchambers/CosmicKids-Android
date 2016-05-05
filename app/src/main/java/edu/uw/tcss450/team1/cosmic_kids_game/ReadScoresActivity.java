@@ -46,10 +46,12 @@ public class ReadScoresActivity extends ListActivity {
     For remote, enter the web address.
     For the UWT INSTTECH shared server retrieve my password first (TODO)
      */
-    private static final String SCORES_PHP_URL = "http://192.168.1.9/webservice/comments.php";
+    private static final String SCORES_PHP_URL =
+            "http://192.168.1.9/webservice/comments.php";
 
     /*
-    private static final String COMMENTS_PHP_URL = "http://www.MYDOMAIN.com/webservice/SCORES.php";
+    private static final String COMMENTS_PHP_URL =
+            "http://www.MYDOMAIN.com/webservice/SCORES.php";
     */
 
     /*json tags*/

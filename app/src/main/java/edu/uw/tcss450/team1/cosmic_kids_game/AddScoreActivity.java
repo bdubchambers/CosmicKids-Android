@@ -29,7 +29,8 @@ import cz.msebera.android.httpclient.message.BasicNameValuePair;
 import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.PostAsync;
 
 /**
- * Activity that will add a score to the database, ultimately allowing for the sharing of the score.
+ * Activity that will add a score to the database,
+ * ultimately allowing for the sharing of the score.
  */
 public class AddScoreActivity extends Activity implements View.OnClickListener {
     /* Static Variables */

@@ -75,7 +75,8 @@ public class RegisterActivity extends Activity implements OnClickListener {
                 if (result != null) {
                     toastMe(result);
                     if (result.startsWith("Username")) {
-                        SharedPreferences sp = getSharedPreferences(getString(R.string.LOGIN_PREFS),
+                        SharedPreferences sp =
+                                getSharedPreferences(getString(R.string.LOGIN_PREFS),
                                 MODE_PRIVATE);
                         SharedPreferences.Editor editor = sp.edit();
                         editor.putString("username", username);

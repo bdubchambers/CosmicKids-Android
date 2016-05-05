@@ -66,7 +66,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.btnMulti:
                 //intent = new Intent(this, MultiActivity.class);
-                SharedPreferences sp = getSharedPreferences(getString(R.string.LOGIN_PREFS),
+                SharedPreferences sp =
+                        getSharedPreferences(getString(R.string.LOGIN_PREFS),
                         MODE_PRIVATE);
                 if (!sp.getBoolean("loggedIn", false)) {
                     intent = new Intent(this, LoginActivity.class);
