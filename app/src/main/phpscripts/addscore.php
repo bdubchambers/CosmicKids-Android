@@ -1,5 +1,5 @@
 <?php
-  require 'config.inc.php';
+  require 'remote_config.inc.php';
 
   if(!empty($_POST)) {
     $query = "INSERT INTO scores ( username, gamename, score )

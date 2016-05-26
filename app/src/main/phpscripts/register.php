@@ -1,5 +1,5 @@
 <?php
-  require "config.inc.php";//includes our login credentials
+  require "remote_config.inc.php";//includes our login credentials
   #check if 'posted data' is NOT empty
   if(!empty($_POST)) {
     #if form is submitted w/empty fields, form dies
@@ -32,35 +32,35 @@
       $response["message"] = "I'm sorry, this username is already in use";
       die(json_encode($response));
     }
-	    /*Setup query to create the new user.
-	    Protection against SQL injections with tokens :user and :pass*/
-	    $query =
+            /*Setup query to create the new user.
+            Protection against SQL injections with tokens :user and :pass*/
+            $query =
         "INSERT INTO users ( username, password ) VALUES ( :user, :pass ) ";
-	    #Now update our tokens with the real data:
-	    $query_params = array(
-	        ':user' => $_POST['username'],
-	        ':pass' => $_POST['password']
-	    );
-	    #Run query, create the user
-	    try {
-	        $stmt   = $db->prepare($query);
-	        $result = $stmt->execute($query_params);
-	    }
-	    catch (PDOException $ex) {
-	        $response["success"] = 0;
-	        $response["message"] = "Database Error (2). Please Try Again!";
-	        die(json_encode($response));
-	    }
-	    /*We have successfully added a new user to database.
+            #Now update our tokens with the real data:
+            $query_params = array(
+                ':user' => $_POST['username'],
+                ':pass' => $_POST['password']
+            );
+            #Run query, create the user
+            try {
+                $stmt   = $db->prepare($query);
+                $result = $stmt->execute($query_params);
+            }
+            catch (PDOException $ex) {
+                $response["success"] = 0;
+                $response["message"] = "Database Error (2). Please Try Again!";
+                die(json_encode($response));
+            }
+            /*We have successfully added a new user to database.
       Now we can redirect to the login page, but here we echo out some
       json data that will be read by the Android application, which will
       login the user or redirect to a different activity.*/
-	    $response["success"] = 1;
-	    $response["message"] = "Username Successfully Added!";
-	    echo json_encode($response);
-	    //for a php webservice you could do a simple redirect and die.
-	    //header("Location: login.php");
-	    //die("Redirecting to login.php");
+            $response["success"] = 1;
+            $response["message"] = "Username Successfully Added!";
+            echo json_encode($response);
+            //for a php webservice you could do a simple redirect and die.
+            //header("Location: login.php");
+            //die("Redirecting to login.php");
 
   }else{ //close out php to use html
     ?>

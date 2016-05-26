@@ -1,5 +1,5 @@
 <?php
-  require "config.inc.php";//includes our login credentials
+  require "remote_config.inc.php";//includes our login credentials
 
   if(!empty($_POST)) {
     #retrieve user data on the provided username
