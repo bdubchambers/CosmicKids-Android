@@ -32,7 +32,7 @@
     <string name="enter_password">Enter Password</string>
     <string name="LOGIN_PREFS">edu.uw.tcss450.team1.cosmic_kids_game.PREFS</string>
     <string name="cosmic_kids_spelling_bee">Cosmic Kids: Spelling Bee</string>
-    <string name="retrieve_word">Retrieve Word</string>
+    <string name="repeat_word">Repeat Word</string>
 
     <string-array name="difficulty_options">
         <item>Easy (Ages 5-7)</item>

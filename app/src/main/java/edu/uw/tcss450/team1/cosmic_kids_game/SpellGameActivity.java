@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 public class SpellGameActivity extends Activity implements View.OnClickListener {
 
+    //Animates our GIF for background
     AnimationDrawable ad;
 
     @Override
@@ -16,12 +17,19 @@ public class SpellGameActivity extends Activity implements View.OnClickListener 
         setContentView(R.layout.activity_spell_game);
         setTheme(R.style.FullscreenTheme);
 
+        /*Grab ImageView by id and use the animation-list created inside
+        animation xml to string together frames of a GIF (Android does
+        not provide native GIF support)*/
         ImageView iv = (ImageView) findViewById(R.id.imgBGSpaceGIF02);
         iv.setBackgroundResource(R.drawable.spacegif_02_animation);
         ad = (AnimationDrawable) iv.getBackground();
 
     }
 
+    /**
+     * Starts the AnimationDrawable to string together frames of a GIF
+     * @param hasFocus
+     */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         if (hasFocus) {

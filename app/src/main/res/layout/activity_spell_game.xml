@@ -1,49 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/rr_spell"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+    <ImageView
+        android:id="@+id/imgBGSpaceGIF02"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:scaleType="fitXY"/>
 
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|center_horizontal"
-        android:gravity="center"
+        android:layout_marginTop="18dp"
+        android:layout_centerHorizontal="true"
         android:text="@string/cosmic_kids_spelling_bee"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/user_passColor"
-        android:textStyle="bold" />
-
-    <ImageView
-        android:id="@+id/imgBGSpaceGIF02"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:adjustViewBounds="true"/>
-
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="49dp"
-        android:layout_gravity="center_horizontal"
-        android:longClickable="false" />
+        android:textStyle="bold"/>
 
 
     <Button
         android:id="@+id/btnRetrieveWord"
         style="@android:style/Widget.Holo.Button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:backgroundTint="@color/nuclearYellow"
+        android:layout_height="32dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_margin="8dp"
+        android:backgroundTint="@color/nuclearYellowDark"
         android:backgroundTintMode="add"
-        android:enabled="true"
-        android:text="@string/retrieve_word"
-        android:textColor="@color/nuclearYellowDark"
-        android:textStyle="bold"
-        android:typeface="monospace" />
+        android:text="@string/repeat_word"
+        android:textSize="10sp"
+        android:textColor="@color/nuclearYellow"
+        android:typeface="monospace"/>
+
+    <EditText
+        android:id="@+id/etWordEntry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_centerVertical="true"
+        android:layout_margin="8dp"
+
+        android:layout_toLeftOf="@id/btnRetrieveWord"
+
+        android:gravity="center"
+        android:inputType="textCapCharacters"
+        android:textColor="@color/nuclearYellow"
+        android:textSize="26sp"
+        android:typeface="monospace"/>
 
 
-</LinearLayout>
+
+
+</RelativeLayout>
 
