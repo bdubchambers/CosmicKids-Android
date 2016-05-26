@@ -80,7 +80,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
                                 MODE_PRIVATE);
                         SharedPreferences.Editor editor = sp.edit();
                         editor.putString("username", username);
-                        editor.commit();
+                        editor.apply();
                         if (!sp.getBoolean("loggedIn", false)) {
                             toastMe("Logging in as " + user);
                             editor.putBoolean("loggedIn", true);

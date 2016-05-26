@@ -35,10 +35,10 @@
         android:layout_gravity="center_horizontal">
 
         <Button
+            android:id="@+id/btnSingle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/single_player"
-            android:id="@+id/btnSingle"
             android:layout_gravity="center_horizontal"
             style="@android:style/Widget.Holo.Button"
             android:textStyle="bold"
@@ -53,11 +53,12 @@
             android:layout_weight="0.01" />
 
         <Button
+
+            android:id="@+id/btnMulti"
             style="@android:style/Widget.Holo.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/multi_player"
-            android:id="@+id/btnMulti"
             android:layout_gravity="center_horizontal"
             android:textStyle="bold"
             android:textColor="@android:color/holo_blue_light"
@@ -70,11 +71,11 @@
             android:layout_weight="0.01" />
 
         <Button
+            android:id="@+id/btnOptions"
             style="@android:style/Widget.Holo.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/options"
-            android:id="@+id/btnOptions"
             android:layout_gravity="center_horizontal"
             android:textStyle="bold"
             android:textColor="@android:color/holo_blue_light"
@@ -88,17 +89,17 @@
             android:layout_gravity="center_horizontal" />
 
         <Button
+            android:id="@+id/btnExit"
             style="@android:style/Widget.Holo.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/exit"
-            android:id="@+id/btnExit"
             android:layout_gravity="center_horizontal"
             android:textStyle="bold"
             android:enabled="true"
             android:textColor="@android:color/holo_blue_light"
             android:backgroundTintMode="multiply"
-            android:backgroundTint="@android:color/holo_blue_dark" />
+            android:backgroundTint="@android:color/holo_blue_dark"/>
 
     </LinearLayout>
 </LinearLayout>

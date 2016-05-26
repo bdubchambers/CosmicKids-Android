@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:gravity="center"
+        android:text="@string/cosmic_kids_spelling_bee"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/user_passColor"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/imgBGSpaceGIF02"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"/>
+
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_gravity="center_horizontal"
+        android:longClickable="false" />
+
+
+    <Button
+        android:id="@+id/btnRetrieveWord"
+        style="@android:style/Widget.Holo.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:backgroundTint="@color/nuclearYellow"
+        android:backgroundTintMode="add"
+        android:enabled="true"
+        android:text="@string/retrieve_word"
+        android:textColor="@color/nuclearYellowDark"
+        android:textStyle="bold"
+        android:typeface="monospace" />
+
+
+</LinearLayout>
+

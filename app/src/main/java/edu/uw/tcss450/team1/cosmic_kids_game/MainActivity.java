@@ -25,6 +25,9 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
+    /*Class-Level Variables*/
+    private Button btnSingle, btnMulti, btnOptions, btnExit;
+
     /**
      * Override to set listeners for buttons.
      * @param savedInstanceState Carried over from super method
@@ -33,10 +36,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button btnSingle = (Button)this.findViewById(R.id.btnSingle);
-        Button btnMulti = (Button)this.findViewById(R.id.btnMulti);
-        Button btnOptions = (Button)this.findViewById(R.id.btnOptions);
-        Button btnExit = (Button)this.findViewById(R.id.btnExit);
+        btnSingle = (Button)this.findViewById(R.id.btnSingle);
+        btnMulti = (Button)this.findViewById(R.id.btnMulti);
+        btnOptions = (Button)this.findViewById(R.id.btnOptions);
+        btnExit = (Button)this.findViewById(R.id.btnExit);
+
         btnSingle.setOnClickListener(this);
         btnMulti.setOnClickListener(this);
         btnOptions.setOnClickListener(this);
@@ -55,17 +59,31 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     /**
      * Identify the source of a click and perform appropriate actions.
-     * @param view Item within Activity that has triggered the event
+     * @param view Item within Activity that has triggered the event...intent
      */
     @Override
     public void onClick(View view) {
         Intent intent = null;
         switch (view.getId()) {
             case R.id.btnSingle:
-                //intent = new Intent(this, SingleActivity.class);
+                /**
+                 * Ideally our app will navigate from either the 'SinglePlayer' or 'MultiPlayer'
+                 * buttons in the MainScreen into a unified (as possible) 'GameSelectionScreen'
+                 * with context sensitive data displays where necessary.  The multiplayer logic
+                 * would be handled transparently, especially since we will not have a server
+                 * selection or game lobby screen--there is no need to differentiate between a local
+                 * and multiplayer game except for a simple Toast message or progress bar,etc.
+                 *
+                 * For now we will just launch directly into the Spelling Bee game (via the
+                 * SpellGameActivity) after the user clicks 'SinglePlayer' button.
+                 */
+                intent = new Intent(this, SpellGameActivity.class);
                 break;
             case R.id.btnMulti:
                 //intent = new Intent(this, MultiActivity.class);
+                //Multiplayer not implemented now, show under construction toast:
+                Toast.makeText(MainActivity.this, "Under Construction: coming soon...",
+                        Toast.LENGTH_SHORT).show();
                 SharedPreferences sp =
                         getSharedPreferences(getString(R.string.LOGIN_PREFS),
                         MODE_PRIVATE);

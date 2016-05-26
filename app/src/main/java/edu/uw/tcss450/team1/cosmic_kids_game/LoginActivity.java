@@ -90,7 +90,7 @@ public class LoginActivity extends Activity implements OnClickListener {
                             Editor editor = sp.edit();
                             editor.putString("username", username);
                             editor.putBoolean("loggedIn", true);
-                            editor.commit();
+                            editor.apply();
                             intent = new Intent(this, MainActivity.class);
                             finish();
                         }
