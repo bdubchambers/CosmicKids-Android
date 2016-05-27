@@ -66,13 +66,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Intent intent = null;
         switch (view.getId()) {
             case R.id.btnSingle:
-                /**
+                /*
                  * Ideally our app will navigate from either the 'SinglePlayer' or 'MultiPlayer'
                  * buttons in the MainScreen into a unified (as possible) 'GameSelectionScreen'
                  * with context sensitive data displays where necessary.  The multiplayer logic
                  * would be handled transparently, especially since we will not have a server
-                 * selection or game lobby screen--there is no need to differentiate between a local
-                 * and multiplayer game except for a simple Toast message or progress bar,etc.
+                 * selection or game lobby screen--there is no need to differentiate between a
+                 * local and multiplayer game except for a simple Toast message or progress bar.
                  *
                  * For now we will just launch directly into the Spelling Bee game (via the
                  * SpellGameActivity) after the user clicks 'SinglePlayer' button.

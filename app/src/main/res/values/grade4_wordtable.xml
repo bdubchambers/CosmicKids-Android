@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="grade4_wordtable_v1">
+        <item>research</item>
+        <item>absence</item>
+        <item>uncle</item>
+        <item>different</item>
+        <item>doubtful</item>
+        <item>animal</item>
+        <item>banana</item>
+        <item>degree</item>
+        <item>evening</item>
+        <item>government</item>
+    </string-array>
+
+</resources>
