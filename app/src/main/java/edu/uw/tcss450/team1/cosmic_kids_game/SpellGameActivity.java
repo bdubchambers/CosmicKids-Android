@@ -3,11 +3,14 @@ package edu.uw.tcss450.team1.cosmic_kids_game;
 import android.app.Activity;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import java.util.ArrayList;
+
+import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.DatabaseHelper;
 
 public class SpellGameActivity extends Activity implements View.OnClickListener {
 
@@ -29,24 +32,8 @@ public class SpellGameActivity extends Activity implements View.OnClickListener 
         iv.setBackgroundResource(R.drawable.spacegif_02_animation);
         ad = (AnimationDrawable) iv.getBackground();
 
-        /* Attach TextWatcher to the word entry EditText*/
-        etWordEntry = (EditText)findViewById(R.id.etWordEntry);
-        etWordEntry.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
 
     }
 
