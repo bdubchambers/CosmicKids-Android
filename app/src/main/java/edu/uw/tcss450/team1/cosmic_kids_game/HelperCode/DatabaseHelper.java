@@ -17,6 +17,7 @@ import edu.uw.tcss450.team1.cosmic_kids_game.R;
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
+    private static final String TAG = "DatabaseHelper Class";
     private final Context context;
 
     DatabaseHelper(Context c) {
