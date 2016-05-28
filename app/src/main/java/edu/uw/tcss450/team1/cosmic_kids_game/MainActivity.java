@@ -135,12 +135,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
                  will add at the minimum 20 words per grade level
                  (grade levels: 2, 3, 4, 5, 6)
             */
-//                dbHandler.insert("koala", "3");
-//                dbHandler.insert("marsupial", "3");
-//                dbHandler.insert("kangaroo", "3");
-//                dbHandler.insert("platypus", "4");
-//                dbHandler.insert("wallaby", "3");
-//                dbHandler.insert("Australia", "4");
+                dbHandler.insert("koala", "3");
+                dbHandler.insert("marsupial", "3");
+                dbHandler.insert("kangaroo", "3");
+                dbHandler.insert("platypus", "4");
+                dbHandler.insert("wallaby", "3");
+                dbHandler.insert("Australia", "4");
 //
 //                if(cursor != null) {
 //                    HashMap<String, String> map2 = new HashMap<>();
@@ -169,7 +169,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     wordsList.add(map);
                     cursor.moveToNext();
                 }
-                Log.d(TAG, wordsList.get(1).toString());
+//                Log.d(TAG, wordsList.get(1).toString());
         /*============================================================================*/
                 //go to Spelling Bee Game Screen
                 intent = new Intent(this, SpellGameActivity.class);
