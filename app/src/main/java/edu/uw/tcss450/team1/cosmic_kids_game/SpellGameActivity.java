@@ -1,6 +1,7 @@
 package edu.uw.tcss450.team1.cosmic_kids_game;
 
 import android.app.Activity;
+import android.database.Cursor;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,15 +10,21 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.DBHandler;
 import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.DatabaseHelper;
 
 public class SpellGameActivity extends Activity implements View.OnClickListener {
+
+    //Log TAG
+    private static final String TAG = "SpellGameActivity class";
 
     //Animates our GIF for background
     AnimationDrawable ad;
     //Where the word is entered by user
     EditText etWordEntry;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,18 +39,16 @@ public class SpellGameActivity extends Activity implements View.OnClickListener 
         iv.setBackgroundResource(R.drawable.spacegif_02_animation);
         ad = (AnimationDrawable) iv.getBackground();
 
-
-
-
     }
 
     /**
      * Starts the AnimationDrawable to string together frames of a GIF
+     *
      * @param hasFocus
      */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
-        if (hasFocus) {
+        if(hasFocus) {
             ad.start();
         }
     }

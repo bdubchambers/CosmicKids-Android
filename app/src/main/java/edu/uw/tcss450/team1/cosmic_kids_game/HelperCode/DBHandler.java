@@ -15,6 +15,10 @@ public class DBHandler {
     private Context context;
     private SQLiteDatabase sqliteDB;
 
+    /**
+     * constructor
+     * @param c
+     */
     public DBHandler(Context c) {
         context = c;
     }
@@ -84,7 +88,31 @@ public class DBHandler {
         return i;
     }
 
-    public void delete(long id) {
+    /**
+     * Delete specific row via its ID primary key
+     * @param id
+     */
+    public void deleteByID(long id) {
         sqliteDB.delete(DatabaseHelper.TABLE_NAME, DatabaseHelper.KEY_ID + "=" + id, null);
     }
+
+    /**
+     * Delete entire Table and return a count of rows deleted
+     * @return
+     *          count of rows removed
+     */
+    public int deleteAllRows() {
+        sqliteDB.close();
+        return sqliteDB.delete(DatabaseHelper.TABLE_NAME, "1", null);
+
+    }
+
+
+    /**
+     * Delete the entire database
+     */
+    public void deleteDatabase(){
+        context.deleteDatabase(DatabaseHelper.DB_NAME);
+    }
+
 }

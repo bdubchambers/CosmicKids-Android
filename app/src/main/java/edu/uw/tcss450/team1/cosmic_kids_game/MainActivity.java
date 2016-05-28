@@ -38,14 +38,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
     /*Class-Level Variables*/
     private Button btnSingle, btnMulti, btnOptions, btnExit;
 
-    static ArrayList<HashMap<String, String>> wordsList = new ArrayList<>();
-
     /* TEMP DB variables May Be Moved, but keep in place for now*/
     private DBHandler dbHandler;
-//    private SimpleCursorAdapter adapter;
-    public final String[] from = new String[] {DatabaseHelper.KEY_ID, DatabaseHelper.COL_WORD,
-            DatabaseHelper.COL_GRADE};
+    //private SimpleCursorAdapter adapter;
+//    public final String[] from = new String[] {DatabaseHelper.KEY_ID, DatabaseHelper.COL_WORD,
+//            DatabaseHelper.COL_GRADE};
 //    public final int[] to = new int[] {R.id._id, R.id.word, R.id.grade};
+//
+    static ArrayList<HashMap<String, String>> wordsList = new ArrayList<>();
     /*=======================================================*/
 
     /**
@@ -101,6 +101,77 @@ public class MainActivity extends Activity implements View.OnClickListener {
                  * For now we will just launch directly into the Spelling Bee game (via the
                  * SpellGameActivity) after the user clicks 'SinglePlayer' button.
                  */
+
+
+                //*********************** TEMP db code ******************************************
+                //
+                // This will be handled in one of two scenarios when finished:
+                //         1) In the SpellGameActivity.java onCreate() method, but this is not
+                //     ideal because of the strenuous animations of the background -- need to
+                //     Async everything!!!
+                //
+                //         2) Inside this Main Screen Activity, but with an onClickListener on the
+                //     SinglePlayer button, or within the onPause() method inside MainActivity.java
+                //
+                //----CURRENTLY working inside onPause()
+                // */
+                dbHandler = new DBHandler(this);
+                dbHandler.open();
+
+                Cursor cursor = dbHandler.fetch();
+
+                /*Database delete all data, close, then reopen logic, uncomment to nuke*/
+//                int count = dbHandler.deleteAllRows();
+//                Log.d(TAG, "number of row deleted: "+count);
+//                dbHandler.open();
+
+                /*...OR just nuke the entire Database */
+//                dbHandler.deleteDatabase();
+
+//
+            /*
+                initial test data
+                 may move to a text file parsing system, or something,
+                 will add at the minimum 20 words per grade level
+                 (grade levels: 2, 3, 4, 5, 6)
+            */
+//                dbHandler.insert("koala", "3");
+//                dbHandler.insert("marsupial", "3");
+//                dbHandler.insert("kangaroo", "3");
+//                dbHandler.insert("platypus", "4");
+//                dbHandler.insert("wallaby", "3");
+//                dbHandler.insert("Australia", "4");
+//
+//                if(cursor != null) {
+//                    HashMap<String, String> map2 = new HashMap<>();
+//                    Log.d("DEBUG****", cursor.getString(1));
+//                    map2.put("Word", cursor.getString(1));
+//                    map2.put("Grade", cursor.getString(2));
+//                    wordsList.add(map2);
+//                    cursor.moveToNext();
+//                    while(cursor != null) {
+//                        HashMap<String, String> map = new HashMap<>();
+//                        Log.d("DEBUG****", cursor.getString(1));
+//                        map.put("Word", cursor.getString(1));
+//                        map.put("Grade", cursor.getString(2));
+//                        wordsList.add(map);
+//                        if(!cursor.moveToNext())
+//                            break;
+//                    }
+//                }
+
+                cursor.moveToFirst();
+                while(!cursor.isAfterLast()) {
+                    HashMap<String, String> map = new HashMap<>();
+                    Log.d("DEBUG****", cursor.getString(1));
+                    map.put("Word", cursor.getString(1));
+                    map.put("Grade", cursor.getString(2));
+                    wordsList.add(map);
+                    cursor.moveToNext();
+                }
+                Log.d(TAG, wordsList.get(1).toString());
+        /*============================================================================*/
+                //go to Spelling Bee Game Screen
                 intent = new Intent(this, SpellGameActivity.class);
                 break;
             case R.id.btnMulti:
@@ -136,55 +207,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
-        //*********************** TEMP db code ******************************************
-        //
-        // This will be handled in one of two scenarios when finished:
-        //         1) In the SpellGameActivity.java onCreate() method, but this is not
-        //     ideal because of the strenuous animations of the background -- need to
-        //     Async everything!!!
-        //
-        //         2) Inside this Main Screen Activity, but with an onClickListener on the
-        //     SinglePlayer button, or within the onPause() method inside MainActivity.java
-        //
-        //----CURRENTLY working inside onPause()
-        // */
-        dbHandler = new DBHandler(this);
-        dbHandler.open();
-        Cursor cursor = dbHandler.fetch();
 
-        /*
-        initial test data
-        may move to a text file parsing system, or something,
-        will add at the minimum 20 words per grade level
-            (grade levels: 2, 3, 4, 5, 6)
-         */
-        dbHandler.insert("koala", "3");
-        dbHandler.insert("marsupial", "3");
-        dbHandler.insert("kangaroo", "3");
-        dbHandler.insert("platypus", "4");
-        dbHandler.insert("wallaby", "3");
-        dbHandler.insert("Australia", "4");
-
-        if(cursor.moveToFirst()){
-            HashMap<String, String> map2 = new HashMap<>();
-            Log.d("DEBUG****", cursor.getString(1));
-            map2.put("Word", cursor.getString(1));
-            map2.put("Grade", cursor.getString(2));
-            wordsList.add(map2);
-            while(cursor.moveToNext()) {
-                HashMap<String, String> map = new HashMap<>();
-                Log.d("DEBUG****", cursor.getString(1));
-                map.put("Word", cursor.getString(1));
-                map.put("Grade", cursor.getString(2));
-                wordsList.add(map);
-            }
-        }
-
-
-        Log.d(TAG, wordsList.get(7).toString());
-
-        /*============================================================================*/
     }
 }

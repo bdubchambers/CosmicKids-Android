@@ -14,7 +14,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "WORDS.DB";
 
     // Words table name
-    public static final String TABLE_NAME = "WORDS_table";
+    public static final String TABLE_NAME = "tableofwords";
 
     // Words Table Column names
     public static final String KEY_ID = "_id";
