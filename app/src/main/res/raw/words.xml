@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<words>
+    <record word="usual" grade="3" />
+    <record word="often" grade="3" />
+    <record word="earth" grade="3" />
+    <record word="several" grade="3" />
+    <record word="together" grade="3" />
+    <record word="young" grade="3" />
+    <record word="mother" grade="3" />
+    <record word="important" grade="3" />
+    <record word="light" grade="3" />
+    <record word="middle" grade="3" />
+
+    <record word="research" grade="4" />
+    <record word="absence" grade="4" />
+    <record word="uncle" grade="4" />
+    <record word="different" grade="4" />
+    <record word="doubtful" grade="4" />
+    <record word="animal" grade="4" />
+    <record word="banana" grade="4" />
+    <record word="degree" grade="4" />
+    <record word="evening" grade="4" />
+    <record word="government" grade="4" />
+
+    <record word="possibility" grade="5" />
+    <record word="grasp" grade="5" />
+    <record word="betray" grade="5" />
+    <record word="immigrant" grade="5" />
+    <record word="artifact" grade="5" />
+    <record word="ignorant" grade="5" />
+    <record word="assistant" grade="5" />
+    <record word="technique" grade="5" />
+    <record word="politician" grade="5" />
+    <record word="spaghetti" grade="5" />
+
+    <record word="chloroplast" grade="6" />
+    <record word="application" grade="6" />
+    <record word="factorization" grade="6" />
+    <record word="concession" grade="6" />
+    <record word="photosynthesis" grade="6" />
+    <record word="divisible" grade="6" />
+    <record word="composite" grade="6" />
+    <record word="comprehensible" grade="6" />
+    <record word="accommodate" grade="6" />
+    <record word="monotonous" grade="6" />
+
+</words>
