@@ -102,7 +102,6 @@ public class DBHandler {
      *          count of rows removed
      */
     public int deleteAllRows() {
-        sqliteDB.close();
         return sqliteDB.delete(DatabaseHelper.TABLE_NAME, "1", null);
 
     }
