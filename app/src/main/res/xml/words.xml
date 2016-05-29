@@ -10,6 +10,16 @@
     <record word="important" grade="3" />
     <record word="light" grade="3" />
     <record word="middle" grade="3" />
+    <record word="scream" grade="3" />
+    <record word="know" grade="3" />
+    <record word="circus" grade="3" />
+    <record word="scratch" grade="3" />
+    <record word="disappear" grade="3" />
+    <record word="health" grade="3" />
+    <record word="father" grade="3" />
+    <record word="voice" grade="3" />
+    <record word="key" grade="3" />
+    <record word="said" grade="3" />
 
     <record word="research" grade="4" />
     <record word="absence" grade="4" />
@@ -20,11 +30,21 @@
     <record word="banana" grade="4" />
     <record word="degree" grade="4" />
     <record word="evening" grade="4" />
-    <record word="government" grade="4" />
+    <record word="betray" grade="4" />
+    <record word="salsa" grade="4" />
+    <record word="burden" grade="4" />
+    <record word="watermelon" grade="4" />
+    <record word="patio" grade="4" />
+    <record word="fraction" grade="4" />
+    <record word="iceberg" grade="4" />
+    <record word="grasp" grade="4" />
+    <record word="pixel" grade="4" />
+    <record word="object" grade="4" />
+    <record word="multiply" grade="4" />
 
     <record word="possibility" grade="5" />
-    <record word="grasp" grade="5" />
-    <record word="betray" grade="5" />
+    <record word="molecule" grade="5" />
+    <record word="government" grade="5" />
     <record word="immigrant" grade="5" />
     <record word="artifact" grade="5" />
     <record word="ignorant" grade="5" />
@@ -32,6 +52,16 @@
     <record word="technique" grade="5" />
     <record word="politician" grade="5" />
     <record word="spaghetti" grade="5" />
+    <record word="women" grade="5" />
+    <record word="equation" grade="5" />
+    <record word="pattern" grade="5" />
+    <record word="equator" grade="5" />
+    <record word="artificial" grade="5" />
+    <record word="chemical" grade="5" />
+    <record word="whisper" grade="5" />
+    <record word="syllable" grade="5" />
+    <record word="pyramid" grade="5" />
+    <record word="marshmallow" grade="5" />
 
     <record word="chloroplast" grade="6" />
     <record word="application" grade="6" />
@@ -43,5 +73,15 @@
     <record word="comprehensible" grade="6" />
     <record word="accommodate" grade="6" />
     <record word="monotonous" grade="6" />
+    <record word="psychiatrist" grade="6" />
+    <record word="arraignment" grade="6" />
+    <record word="perseverance" grade="6" />
+    <record word="denouement" grade="6" />
+    <record word="fallacious" grade="6" />
+    <record word="deleterious" grade="6" />
+    <record word="incorrigible" grade="6" />
+    <record word="ostentatious" grade="6" />
+    <record word="nonchalance" grade="6" />
+    <record word="acquiesce" grade="6" />
 
 </words>
