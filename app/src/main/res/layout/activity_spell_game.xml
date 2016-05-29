@@ -70,7 +70,7 @@ android:layout_marginRight="4dp"
         android:layout_toLeftOf="@id/btnSubmitWord"
 
         android:gravity="center"
-        android:inputType="textCapCharacters"
+        android:inputType="textVisiblePassword"
         android:textColor="@color/nuclearYellow"
         android:textSize="24sp"
         android:typeface="monospace"/>
