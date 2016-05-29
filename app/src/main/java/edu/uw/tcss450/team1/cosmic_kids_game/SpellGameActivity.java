@@ -18,13 +18,18 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
+import java.util.Random;
 
 import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.DBHandler;
 
@@ -33,19 +38,24 @@ public class SpellGameActivity extends Activity implements View.OnClickListener 
     //Log TAG
     private static final String TAG = "SpellGameActivity class";
     /* Mock Difficulty Setting--Change to the max desired grade-level words */
-    private static final int DIFFICULTY = 3;
+    private static final int DIFFICULTY = 6;
 
     /* TEMP DB variables May Be Moved, but keep in place for now*/
     private DBHandler dbHandler;
     private Cursor cursor;
     //used to store <Word, Grade> key/value pairs in List of Maps:
-    static ArrayList<HashMap<String, String>> wordsList = new ArrayList<>();
+    private static ArrayList<HashMap<String, String>> wordsList;
+    private static ArrayList<String> chosenWords;
     private ImageView iv;
     //Animates our GIF for background
-    AnimationDrawable ad;
+    private AnimationDrawable ad;
 
     //Where the spelling word is entered by user
     EditText etWordEntry;
+
+    //Speak spelling words to user
+    TextToSpeech toSpeech;
+    Button btnRepeatWord, btnSubmitWord;
 
 
     @Override
@@ -79,7 +89,8 @@ public class SpellGameActivity extends Activity implements View.OnClickListener 
 
         /* Based on difficulty setting, we check each word's associated grade level, and
                 * place words that have grade equal to or lower than DIFFICULTY*/
-        ArrayList<String> chosenWords = new ArrayList<>();
+        wordsList = new ArrayList<HashMap<String, String>>();
+        chosenWords = new ArrayList<String>();
 
         cursor.moveToFirst();
         while(!cursor.isAfterLast()) {
@@ -114,6 +125,30 @@ public class SpellGameActivity extends Activity implements View.OnClickListener 
 
 
         /*============================================================================*/
+        final Random random = new Random(SystemClock.currentThreadTimeMillis());
+        btnRepeatWord = (Button)findViewById(R.id.btnRepeatWord);
+        btnSubmitWord = (Button)findViewById(R.id.btnSubmitWord);
+        etWordEntry = (EditText)findViewById(R.id.etWordEntry);
+
+        toSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR){
+                    toSpeech.setLanguage(Locale.US);
+                    toSpeech.setPitch(1);
+                    toSpeech.setSpeechRate(0);
+                }
+            }
+        });
+
+        btnSubmitWord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String strToSpeak = chosenWords.get(random.nextInt(chosenWords.size()));
+                toSpeech.speak(strToSpeak, TextToSpeech.QUEUE_FLUSH, null);
+            }
+        });
+
 
     }
 
@@ -127,6 +162,17 @@ public class SpellGameActivity extends Activity implements View.OnClickListener 
         if(hasFocus) {
             ad.start();
         }
+    }
+
+    /**
+     * shutdown TextToSpeech engine when idle
+     */
+    public void onPause(){
+        if(toSpeech != null) {
+            toSpeech.stop();
+            toSpeech.shutdown();
+        }
+        super.onPause();
     }
 
     /**
