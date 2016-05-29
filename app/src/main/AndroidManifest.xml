@@ -6,6 +6,7 @@
 
     <uses-sdk
         android:maxSdkVersion="23"
+        android:targetSdkVersion="23"
         android:minSdkVersion="15" />
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
