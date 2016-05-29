@@ -169,7 +169,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     wordsList.add(map);
                     cursor.moveToNext();
                 }
-//                Log.d(TAG, wordsList.get(1).toString());
+
         /*============================================================================*/
                 //go to Spelling Bee Game Screen
                 intent = new Intent(this, SpellGameActivity.class);
