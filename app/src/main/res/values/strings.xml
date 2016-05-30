@@ -34,6 +34,7 @@
     <string name="cosmic_kids_spelling_bee">Cosmic Kids: Spelling Bee</string>
     <string name="repeat_word">Repeat Word</string>
     <string name="submit_word">Submit Word</string>
+    <string name="changedNextButton">Next Word</string>
 
     <string-array name="difficulty_options">
         <item>Easy (Ages 5-7)</item>

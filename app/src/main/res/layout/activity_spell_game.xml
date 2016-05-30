@@ -75,8 +75,32 @@ android:layout_marginRight="4dp"
         android:textSize="24sp"
         android:typeface="monospace"/>
 
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
 
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:max="20"
+        android:progress="0"
 
+        android:layout_above="@+id/btnRepeatWord"
+        android:layout_alignRight="@+id/btnSubmitWord"
+        android:layout_alignEnd="@+id/btnSubmitWord"/>
+
+    <Button
+        android:id="@+id/btnNextWord"
+        style="@android:style/Widget.Holo.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="42dp"
+        android:backgroundTint="#b71616"
+        android:backgroundTintMode="add"
+        android:text="@string/changedNextButton"
+        android:textSize="14sp"
+        android:textColor="#000000"
+        android:typeface="monospace"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="200sp"/>
 
 </RelativeLayout>
 
