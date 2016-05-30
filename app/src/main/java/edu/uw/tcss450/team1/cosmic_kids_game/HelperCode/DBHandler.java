@@ -41,7 +41,7 @@ public class DBHandler {
      * @param word
      * @param grade
      */
-    public void insert(String word, String grade) {
+    public void insert(String word, int grade) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseHelper.COL_WORD, word);
         contentValues.put(DatabaseHelper.COL_GRADE, grade);
@@ -67,6 +67,29 @@ public class DBHandler {
         return cursor;
     }
 
+    public Cursor fetch(int startGrade, int endGrade) {
+        String sb = "SELECT " +
+                DatabaseHelper.COL_WORD +
+                ", " +
+                DatabaseHelper.COL_GRADE +
+                " FROM " +
+                DatabaseHelper.TABLE_NAME +
+                " WHERE " +
+                DatabaseHelper.COL_GRADE +
+                " BETWEEN ? AND ?;";
+        Cursor cursor = sqliteDB.rawQuery(
+                sb,
+                new String[] {
+                        Integer.toString(startGrade),
+                        Integer.toString(endGrade)
+                }
+        );
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
+
     /**
      * Edit records by changing a row/tuple
      * @param id
@@ -74,7 +97,7 @@ public class DBHandler {
      * @param grade
      * @return
      */
-    public int update(long id, String word, String grade) {
+    public int update(long id, String word, int grade) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseHelper.COL_WORD, word);
         contentValues.put(DatabaseHelper.COL_GRADE, grade);

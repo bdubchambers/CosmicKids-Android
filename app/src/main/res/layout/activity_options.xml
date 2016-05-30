@@ -12,12 +12,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Cosmic Kids User Login"
+        android:text="@string/login_title"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold"
         android:textColor="@color/user_passBGColor"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentEnd="false"
         android:layout_gravity="top|center_horizontal" />
 
 
@@ -40,8 +38,7 @@
             android:layout_column="1"
             android:layout_gravity="center_vertical"
             android:spinnerMode="dropdown"
-            android:touchscreenBlocksFocus="false"
-            android:background="@android:color/white" />
+            android:background="@android:color/white"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

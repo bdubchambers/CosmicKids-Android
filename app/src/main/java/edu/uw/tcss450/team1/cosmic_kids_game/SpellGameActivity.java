@@ -15,17 +15,18 @@
 package edu.uw.tcss450.team1.cosmic_kids_game;
 
 import android.app.Activity;
-import android.content.res.ColorStateList;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.speech.tts.TextToSpeech;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -35,30 +36,21 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Random;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
 import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.DBHandler;
+import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.DatabaseHelper;
+import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.GLOBAL;
+import edu.uw.tcss450.team1.cosmic_kids_game.Models.Word;
 
-public class SpellGameActivity extends Activity implements View.OnClickListener {
-
-    //Log TAG
+public class SpellGameActivity extends Activity {
     private static final String TAG = "SpellGameActivity class";
-    /* Mock Difficulty Setting--Change to the max desired grade-level words */
-    private static final int DIFFICULTY = 6;
+    private static final String ID = "UtteranceID";
+    private static final int TIME_LIMIT = 60;
+    private static final int WORD_LIMIT = 3;
 
-    /* TEMP DB variables May Be Moved, but keep in place for now*/
-    private DBHandler dbHandler;
-    private Cursor cursor;
-    //create pool of potential words:
-    private static ArrayList<String> potentialWords;
-    //out of the above pool, get 20 words for current game
-    private static LinkedHashSet<String> gameSet;
-    private ImageView iv;
     //Animates our GIF for background
     private AnimationDrawable ad;
 
@@ -74,7 +66,12 @@ public class SpellGameActivity extends Activity implements View.OnClickListener 
     //ProgressBar to show countdownTimer
     ProgressBar progressBar;
     CountDownTimer timer;
-    int countDown = 0;
+
+
+    /* Class-level Variables */
+    ArrayList<Word> potentialWords;
+    int numberOfWords = 20;
+    Word myWord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,194 +82,153 @@ public class SpellGameActivity extends Activity implements View.OnClickListener 
         /*Grab ImageView by id and use the animation-list created inside
         animation xml to string together frames of a GIF (Android does
         not provide native GIF support)*/
-        iv = (ImageView) findViewById(R.id.imgBGSpaceGIF02);
+        ImageView iv = (ImageView) findViewById(R.id.imgBGSpaceGIF02);
         iv.setBackgroundResource(R.drawable.spacegif_02_animation);
         ad = (AnimationDrawable) iv.getBackground();
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.getProgressDrawable().setColorFilter(Color.CYAN, PorterDuff.Mode.DARKEN);
+        progressBar.setMax(100);
+
         //button that repeats the current spelling word
         btnRepeatWord = (Button) findViewById(R.id.btnRepeatWord);
         //button that sends the user's spelling for checking
         btnSubmitWord = (Button) findViewById(R.id.btnSubmitWord);
         //Next word in game
-        btnNextWord = (Button)findViewById(R.id.btnNextWord);
+        btnNextWord = (Button) findViewById(R.id.btnNextWord);
         btnNextWord.setVisibility(View.INVISIBLE);
         //user's word entry to be checked for spelling
         etWordEntry = (EditText) findViewById(R.id.etWordEntry);
-        //*********************** SQLite Words DB code ******************************************
+        numberOfWords = 0;
 
-        dbHandler = new DBHandler(this);
+        SharedPreferences sp = GLOBAL.GetPrefs(this);
+        int difficulty = sp.getInt("difficulty", 1);
+        final int timeLimit = TIME_LIMIT - (20 * difficulty);
+        int[] grades = Word.GetGrades(difficulty);
+
+        DBHandler dbHandler = new DBHandler(this);
         dbHandler.open();
 
-        /*Database delete all data, close, then reopen logic, uncomment to nuke*/
-//        int count = dbHandler.deleteAllRows();
-//        Log.d(TAG, "number of row deleted: " + count);
-//        dbHandler.open();
+        Cursor cursor = dbHandler.fetch(grades[0], grades[1]);
 
-        /*...OR just nuke the entire Database */
-//        dbHandler.deleteDatabase();
-
-        //grab all data using Cursor
-        cursor = dbHandler.fetch();
-
-        /* Based on difficulty setting, we check each word's associated grade level, and
-                * place words that have grade equal to or lower than DIFFICULTY*/
-        potentialWords = new ArrayList<String>();
-
-        cursor.moveToFirst();
-        while(!cursor.isAfterLast()) {
-            Log.d("CURSOR -> DB****", "ID:" + cursor.getInt(0) + "; WORD:" + cursor.getString(1)
-                    + "; GRADE:" + cursor.getString(2));
-
-            //store the words we want in a potentialWords List
-            //by checking the word's associated Grade value
-            if(Integer.parseInt(cursor.getString(2)) <= DIFFICULTY) {
-                potentialWords.add(cursor.getString(1));
+        potentialWords = new ArrayList<>();
+        while (!cursor.isAfterLast()) {
+            try {
+                int wcol = cursor.getColumnIndex(DatabaseHelper.COL_WORD);
+                int icol = cursor.getColumnIndex(DatabaseHelper.COL_GRADE);
+                potentialWords.add(new Word(cursor.getString(wcol),
+                        cursor.getInt(icol)));
+            } catch (Exception e) {
+                Log.d("debugSGA_AddToList", cursor.toString());
             }
-
             cursor.moveToNext();
         }
 
-        /*For testing: print out all chosen words*/
-        int y = 0;
-        for(String str : potentialWords)
-            Log.d(TAG + ", Difficulty:" + DIFFICULTY, " potentialWords(" + y++ + ")=" + str);
-
-
-        final Random random = new Random(SystemClock.currentThreadTimeMillis());
-        /* Out of our list, 'potentialWords' of potential game words, chosen based
-         * on DIFFICULTY, we only want < 20 > words per game, they need to be a random
-          * selection, and it must be contained in a Set so we have no repeats.
-          *
-          * Using 'LinkedHashSet' because: This implementation spares its clients from
-          * the unspecified, generally chaotic ordering provided by HashSet, without
-          * incurring the increased cost associated with TreeSet.*/
-        gameSet = new LinkedHashSet<>();
-
-        /*add 20 unique words to the set, chosen randomly */
-        while(!(gameSet.size() == 20)) {
-            gameSet.add(potentialWords.get(random.nextInt(potentialWords.size())));
-        }
-
-        //testing only:
-//        final Iterator<String> itr = gameSet.iterator();
-//        y = 0;
-//        while(itr.hasNext())
-//            Log.d(TAG, "gameSet(" + y++ + "):" + itr.next());
-
-        /*===========================================================================
-        *      TextToSpeech + CountDownTimer + ProgressBar
-        * */
-
-        /*===================================================================
-              *       TEXTTOSPEECH --
-              *       here we initialize the TTS engine
-              *
-              *       I cannot get TTS to work by itself, meaning I have to
-              *       attach it to a onClick for a button, etc...researching...
-              * */
-
-        toSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+        toSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
-                if(status != TextToSpeech.ERROR) {
+                if (status != TextToSpeech.ERROR) {
                     toSpeech.getDefaultEngine();
                     toSpeech.setLanguage(Locale.getDefault());
                     toSpeech.setPitch(1);
                     toSpeech.setSpeechRate(0);
+                    toSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+                        @Override
+                        public void onStart(String utteranceId) {
+                        }
+
+                        @Override
+                        public void onDone(String utteranceId) {
+                            if (progressBar.getProgress() == 0) {
+                                timer.start();
+                            }
+                        }
+
+                        @Override
+                        public void onError(String utteranceId) {
+                        }
+                    });
                 }
             }
         });
-        //===================================================================
-        final Iterator<String> iter = gameSet.iterator();
-        //Game Loop
-        while(iter.hasNext()) {
-            strToSpeak = iter.next();
 
-            btnRepeatWord.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //repeat the current word stored inside strToSpeak
-                    toSpeech.speak(strToSpeak, TextToSpeech.QUEUE_FLUSH, null);
+        btnRepeatWord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                speak();
+            }
+        });
 
-                    progressBar.setProgress(countDown);
-                    timer = new CountDownTimer(20000, 1000) {
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-//                    Log.d("CountDownTimer.OnTick", "tick:" + countDown + millisUntilFinished);
-                            countDown++;
-                            progressBar.setProgress(countDown);
-                        }
+        final int timeMs = timeLimit * 1000;
+        timer = new CountDownTimer(timeMs, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                long elapsed = timeMs - millisUntilFinished;
+                double pct = (elapsed * 1.0) / timeMs;
+                double rounder = pct * 100;
+                int rounded = (int)rounder;
+                progressBar.setProgress(rounded);
+            }
 
-                        @Override
-                        public void onFinish() {
-                            //Reset the progressBar+CountDownTimer
-                            countDown = 0;
-                            progressBar.setProgress(countDown);
-                            timer.cancel();
-                            //Time is up, so take what the user has entered thus far, and check it
-                            result = etWordEntry.getText().toString();
-                        }
-                    };//END CountDownTimer init
+            @Override
+            public void onFinish() {
+                nextWord();
+            }
+        };
 
-                    timer.start();
-
-                }//end onClick method for RepeatWord
-
-            });//END of RepeatWord button click listener
-
-            btnSubmitWord.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //user has submitted the word, so stop the timer/progressBar
-                    countDown = 0;
-                    progressBar.setProgress(countDown);
-                    timer.cancel();
-                    //send their text entry to check for spelling
-                    result = etWordEntry.getText().toString();
-                    Log.d("RESULT STRING *********",result);
-                    //now check the user's spelling to see if it is correct, then apply points scored
-                    if(result != null && result.equals(strToSpeak)) {
-                        //word spelled correctly--earn points!
-                        pointSum += (strToSpeak.length() * DIFFICULTY);
-
-                        Toast toast = new Toast(SpellGameActivity.this);
-                        toast.makeText(SpellGameActivity.this, "Your spelling: " + result
-                                + "\nActual spelling: " + strToSpeak + "\n"
-                                + "***CORRECT!***", Toast.LENGTH_SHORT).show();
-
-                    } else if(DIFFICULTY > 4 && pointSum > strToSpeak.length()
-                            && !result.equals(strToSpeak)) {
-                        //if DIFFICULTY = 5 or 6, the user loses points for incorrect spelling
-                        pointSum -= strToSpeak.length();//only lose points equal to length of word
-                        Toast toast = new Toast(SpellGameActivity.this);
-                        toast.makeText(SpellGameActivity.this, "Your spelling: " + result
-                                + "\nActual spelling: " + strToSpeak + "\n"
-                                + "***WRONG!***", Toast.LENGTH_SHORT).show();
-                    } //else: continue, doing nothing with points (DIFFICULTY is low)
-
-                    Log.d(TAG, "******pointSum=" + pointSum);
-
-                    /* Next Word Logic*/
-                    btnNextWord.setVisibility(View.VISIBLE);
-                    btnNextWord.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            etWordEntry.setText("");
-                            btnNextWord.setVisibility(View.INVISIBLE);
-                            etWordEntry.requestFocus();
-                            /**************************ITERATE HERE?******************************/
-//                            if(iter.hasNext())
-//                                strToSpeak = iter.next();
-                        }
-                    });
-                    /* End Next Word Logic*/
+        btnSubmitWord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                result = etWordEntry.getText().toString();
+                int grade = myWord.getGrade();
+                int length = strToSpeak.length();
+                if (result == null) {
+                    return;
+                } else if (result.equals(strToSpeak)) {
+                    int newPoints = length * grade;
+                    pointSum += newPoints;
+                    GLOBAL.Toast(v.getContext(), "Earned " + newPoints + " points!");
+                    nextWord();
+                } else if (grade > 4 && pointSum > length) {
+                    pointSum -= length;
+                    GLOBAL.Toast(v.getContext(), "Incorrect! You've lost " + length + " points!");
+                } else {
+                    GLOBAL.Toast(v.getContext(), "Incorrect!");
                 }
-            });
+            }
+        });
 
+        nextWord();
+    }
 
-        }//end outer while loop: iter.hasNext()
+    private void speak() {
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, ID);
+        toSpeech.speak(strToSpeak, TextToSpeech.QUEUE_FLUSH, params);
+    }
+
+    private void nextWord() {
+        final Random random = new Random(SystemClock.currentThreadTimeMillis());
+        numberOfWords++;
+        progressBar.setProgress(0);
+        timer.cancel();
+        etWordEntry.setText("");
+        if (numberOfWords > WORD_LIMIT || potentialWords.size() == 0) {
+            finishGame();
+        } else {
+            int index = random.nextInt(potentialWords.size());
+            myWord = potentialWords.get(index);
+            potentialWords.remove(index);
+            strToSpeak = myWord.getWord();
+            speak();
+        }
+    }
+
+    private void finishGame() {
+        // TODO Send to score screen
+        GLOBAL.Toast(this, "Game finished");
+        // Temp
+        startActivity(new Intent(this, MainActivity.class));
     }
 
     /**
@@ -282,8 +238,14 @@ public class SpellGameActivity extends Activity implements View.OnClickListener 
      */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
-        if(hasFocus) {
+        if (hasFocus) {
             ad.start();
+        } else {
+            ad.stop();
+            if (toSpeech != null) {
+                toSpeech.stop();
+                toSpeech.shutdown();
+            }
         }
     }
 
@@ -291,21 +253,10 @@ public class SpellGameActivity extends Activity implements View.OnClickListener 
      * shutdown TextToSpeech engine when idle
      */
     public void onPause() {
-        if(toSpeech != null) {
+        if (toSpeech != null) {
             toSpeech.stop();
             toSpeech.shutdown();
         }
         super.onPause();
     }
-
-    /**
-     * Called when a view has been clicked.
-     *
-     * @param v The view that was clicked.
-     */
-    @Override
-    public void onClick(View v) {
-
-    }
-
 }

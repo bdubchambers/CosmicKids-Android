@@ -3,11 +3,9 @@
  * @Version 1.0.0
  * @Author Justin Burch
  * @Author Brandon Chambers
- * <p/>
  * This class is intended to provide an Activity that will showcase our base menu, which will allow
  * a user to start a game (Single or Online) or to access the Options screen for additional
  * resources.
- * <p/>
  * This Activity may be the container to hold fragments related to all non-game screens in the
  * next Phase.
  */
@@ -18,10 +16,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+
+import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.GLOBAL;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
@@ -48,14 +46,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
         btnOptions.setOnClickListener(this);
         btnExit.setOnClickListener(this);
 
-        SharedPreferences sp = getSharedPreferences(getString(R.string.LOGIN_PREFS),
-                MODE_PRIVATE);
+        SharedPreferences sp = GLOBAL.GetPrefs(this);
         if(!sp.getBoolean("loggedIn", false)) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         } else {
-            Toast.makeText(MainActivity.this, "Hello, " + sp.getString("username", "you") + "!",
-                    Toast.LENGTH_SHORT).show();
+            GLOBAL.Toast(this, "Hello, " + sp.getString("username", "you") + "!");
         }
     }
 
@@ -67,6 +63,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         Intent intent = null;
+        SharedPreferences sp = GLOBAL.GetPrefs(this);
         switch(view.getId()) {
             case R.id.btnSingle:
                 /*
@@ -80,23 +77,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
                  * For now we will just launch directly into the Spelling Bee game (via the
                  * SpellGameActivity) after the user clicks 'SinglePlayer' button.
                  */
-
-                //go to Spelling Bee Game Screen
                 intent = new Intent(this, SpellGameActivity.class);
                 break;
             case R.id.btnMulti:
-                //intent = new Intent(this, MultiActivity.class);
-                //Multiplayer not implemented now, show under construction toast:
-                Toast.makeText(MainActivity.this, "Under Construction: coming soon...",
-                        Toast.LENGTH_SHORT).show();
-                SharedPreferences sp =
-                        getSharedPreferences(getString(R.string.LOGIN_PREFS),
-                                MODE_PRIVATE);
                 if(!sp.getBoolean("loggedIn", false)) {
                     intent = new Intent(this, LoginActivity.class);
                 } else {
-                    Toast.makeText(MainActivity.this, "Sorry.. you have no friends.",
-                            Toast.LENGTH_SHORT).show();
+                    GLOBAL.Toast(this, "Sorry.. you have no friends.");
                 }
                 break;
             case R.id.btnOptions:
@@ -119,6 +106,5 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     public void onPause() {
         super.onPause();
-
     }
 }

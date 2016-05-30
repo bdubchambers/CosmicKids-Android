@@ -35,10 +35,11 @@
     <string name="repeat_word">Repeat Word</string>
     <string name="submit_word">Submit Word</string>
     <string name="changedNextButton">Next Word</string>
+    <string name="login_title">Cosmic Kids User Login</string>
 
     <string-array name="difficulty_options">
-        <item>Easy (Ages 5-7)</item>
-        <item>Normal (Ages 7-10)</item>
-        <item>Advanced (Ages 10-13)</item>
+        <item>Easy (Ages 5–7)</item>
+        <item>Normal (Ages 7–10)</item>
+        <item>Advanced (Ages 10–13)</item>
     </string-array>
 </resources>

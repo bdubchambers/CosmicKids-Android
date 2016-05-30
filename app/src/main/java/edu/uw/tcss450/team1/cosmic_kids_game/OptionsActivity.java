@@ -15,9 +15,16 @@ package edu.uw.tcss450.team1.cosmic_kids_game;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.GLOBAL;
 
 /**
  * Activity to handle displaying and storing the options for the games and application.
@@ -38,6 +45,44 @@ public class OptionsActivity extends Activity implements View.OnClickListener {
         register.setOnClickListener(this);
         pass.setOnClickListener(this);
         user.setOnClickListener(this);
+        setupDifficultySpinner();
+    }
+
+    private void setupDifficultySpinner() {
+        try {
+            final String difficulty = "difficulty";
+            SharedPreferences sp = GLOBAL.GetPrefs(this);
+            final SharedPreferences.Editor editor = sp.edit();
+            int diff = sp.getInt(difficulty, -1);
+            if (diff < 0) {
+                diff = 1;
+                editor.putInt(difficulty, diff);
+                editor.apply();
+            }
+            Spinner spinner = (Spinner) this.findViewById(R.id.difficulty_spinner);
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                    R.array.difficulty_options, android.R.layout.simple_spinner_item);
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            // Apply the adapter to the spinner
+            spinner.setAdapter(adapter);
+            spinner.setSelection(diff);
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    editor.putInt(difficulty, position);
+                    editor.apply();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                    editor.putInt(difficulty, 1);
+                    editor.apply();
+                }
+            });
+        } catch (Exception e) {
+            GLOBAL.Toast(this, "ERROR: " + e.getMessage());
+        }
     }
 
     /**

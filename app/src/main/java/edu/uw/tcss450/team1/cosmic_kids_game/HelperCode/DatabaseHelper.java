@@ -23,11 +23,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TAG = "DatabaseHelper CLASS";
 
     // Database Version and Name
-    public static final int DB_VERSION = 1;
+    public static final int DB_VERSION = 2;
     public static final String DB_NAME = "WORDS.DB";
 
     // Words table name
-    public static final String TABLE_NAME = "tableofwords";
+    public static final String TABLE_NAME = "WORDS";
 
     // Words Table Column names
     public static final String KEY_ID = "_id";
@@ -39,7 +39,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "create table " + TABLE_NAME + "("
                     + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + COL_WORD + " TEXT NOT NULL UNIQUE, "
-                    + COL_GRADE + " TEXT);";
+                    + COL_GRADE + " INTEGER);";
 
     /**
      * Constructor
@@ -72,7 +72,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     String word = wordsXML.getAttributeValue(null, DatabaseHelper.COL_WORD);
                     String grade = wordsXML.getAttributeValue(null, DatabaseHelper.COL_GRADE);
                     cv.put(DatabaseHelper.COL_WORD, word);
-                    cv.put(DatabaseHelper.COL_GRADE, grade);
+                    cv.put(DatabaseHelper.COL_GRADE, Integer.parseInt(grade));
                     db.insert(DatabaseHelper.TABLE_NAME, null, cv);
                 }
                 eventType = wordsXML.next();
