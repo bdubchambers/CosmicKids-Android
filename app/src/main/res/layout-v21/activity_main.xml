@@ -8,6 +8,13 @@
     tools:context=".MainActivity"
     android:id="@+id/mainActivity">
 
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:longClickable="false"
+        android:layout_weight="1" />
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,7 +43,7 @@
             android:layout_height="wrap_content"
             android:text="@string/single_player"
             android:layout_gravity="center_horizontal"
-            style="@style/HoloButtons"/>
+            style="@style/HoloButtons21"/>
 
         <Space
             android:layout_width="match_parent"
@@ -51,7 +58,7 @@
             android:layout_height="wrap_content"
             android:text="@string/multi_player"
             android:layout_gravity="center_horizontal"
-            style="@style/HoloButtons"/>
+            style="@style/HoloButtons21"/>
 
         <Space
             android:layout_width="match_parent"
@@ -65,7 +72,7 @@
             android:layout_height="wrap_content"
             android:text="@string/options"
             android:layout_gravity="center_horizontal"
-            style="@style/HoloButtons"/>
+            style="@style/HoloButtons21"/>
 
         <Space
             android:layout_width="match_parent"
@@ -79,7 +86,7 @@
             android:layout_height="wrap_content"
             android:text="@string/exit"
             android:layout_gravity="center_horizontal"
-            style="@style/HoloButtons"/>
+            style="@style/HoloButtons21"/>
 
     </LinearLayout>
     <Space

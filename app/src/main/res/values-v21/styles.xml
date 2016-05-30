@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="HoloButtons21" parent="@style/HoloButtons">
+        <item name="android:backgroundTint">@android:color/holo_blue_dark</item>
+        <item name="android:backgroundTintMode">multiply</item>
+    </style>
+</resources>
