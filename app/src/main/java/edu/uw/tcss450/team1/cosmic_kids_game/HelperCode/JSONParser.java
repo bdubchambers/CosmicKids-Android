@@ -8,7 +8,7 @@
  * a JSONObject containing a success/fail flag and a returned message, usually indicating
  * success or what type of failure occured.
  */
-package edu.uw.tcss450.team1.cosmic_kids_game;
+package edu.uw.tcss450.team1.cosmic_kids_game.HelperCode;
 
 import java.io.BufferedReader;
 import java.io.IOException;

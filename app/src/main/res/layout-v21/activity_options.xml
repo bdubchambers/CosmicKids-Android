@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/space_small"
+    tools:context=".Activities.OptionsActivity"
+    android:id="@+id/options_activity"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/title_activity_options"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold"
+        android:textColor="@color/user_passBGColor"
+        android:layout_gravity="top|center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/difficulty"
+        android:layout_gravity="center"
+        android:textColorHint="@color/hintColor"
+        android:textColor="@color/user_passBGColor"
+        android:padding="@dimen/abc_action_bar_overflow_padding_end_material" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/difficulty_spinner"
+        android:layout_gravity="center"
+        android:spinnerMode="dropdown"
+        android:background="@android:color/holo_blue_light"
+        android:padding="@dimen/abc_action_bar_overflow_padding_end_material" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/registered_user"
+        android:layout_gravity="center"
+        android:textColorHint="@color/hintColor"
+        android:textColor="@color/user_passBGColor"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:padding="@dimen/abc_action_bar_overflow_padding_end_material">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/register"
+            android:id="@+id/btnRegisterOptions"
+            android:layout_gravity="center_vertical"
+            android:typeface="monospace"
+            android:textStyle="bold"
+            style="@style/HoloButtons21"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/change_pass"
+            android:id="@+id/btnChangePass"
+            android:layout_gravity="center_vertical"
+            android:typeface="monospace"
+            android:textStyle="bold"
+            style="@style/HoloButtons21"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/change_user"
+            android:id="@+id/btnChangeUser"
+            android:layout_gravity="center_vertical"
+            android:typeface="monospace"
+            android:textStyle="bold"
+            style="@style/HoloButtons21"/>
+    </LinearLayout>
+</LinearLayout>

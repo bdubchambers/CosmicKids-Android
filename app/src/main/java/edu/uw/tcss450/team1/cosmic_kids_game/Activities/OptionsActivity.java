@@ -11,7 +11,7 @@
  * This Activity may be changed into a Fragment in the next Phase.
  */
 
-package edu.uw.tcss450.team1.cosmic_kids_game;
+package edu.uw.tcss450.team1.cosmic_kids_game.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -22,9 +22,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.GLOBAL;
+import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.General;
+import edu.uw.tcss450.team1.cosmic_kids_game.R;
 
 /**
  * Activity to handle displaying and storing the options for the games and application.
@@ -51,7 +51,7 @@ public class OptionsActivity extends Activity implements View.OnClickListener {
     private void setupDifficultySpinner() {
         try {
             final String difficulty = "difficulty";
-            SharedPreferences sp = GLOBAL.GetPrefs(this);
+            SharedPreferences sp = General.GetPrefs(this);
             final SharedPreferences.Editor editor = sp.edit();
             int diff = sp.getInt(difficulty, -1);
             if (diff < 0) {
@@ -81,7 +81,7 @@ public class OptionsActivity extends Activity implements View.OnClickListener {
                 }
             });
         } catch (Exception e) {
-            GLOBAL.Toast(this, "ERROR: " + e.getMessage());
+            General.Toast(this, "ERROR: " + e.getMessage());
         }
     }
 

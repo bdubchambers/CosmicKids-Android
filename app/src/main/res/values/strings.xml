@@ -1,9 +1,13 @@
 <resources>
+    <!-- Titles -->
     <string name="app_name">Cosmic Kids</string>
-
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_main">Cosmic Kids</string>
     <string name="title_activity_login">Sign in</string>
+    <string name="cosmic_kids_spelling_bee">Cosmic Kids: Spelling Bee</string>
+    <string name="login_title">Cosmic Kids User Login</string>
+    <string name="title_activity_options">Cosmic Kids User Options</string>
+
+
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -18,8 +22,6 @@
         completions."
     </string>
 
-    <string name="title_activity_main">Cosmic Kids</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="single_player">Single Player</string>
     <string name="multi_player">Multi-Player</string>
     <string name="options">Options</string>
@@ -31,11 +33,12 @@
     <string name="enter_username">Enter Username</string>
     <string name="enter_password">Enter Password</string>
     <string name="LOGIN_PREFS">edu.uw.tcss450.team1.cosmic_kids_game.PREFS</string>
-    <string name="cosmic_kids_spelling_bee">Cosmic Kids: Spelling Bee</string>
     <string name="repeat_word">Repeat Word</string>
     <string name="submit_word">Submit Word</string>
     <string name="changedNextButton">Next Word</string>
-    <string name="login_title">Cosmic Kids User Login</string>
+    <string name="registered_user">Current User</string>
+    <string name="change_pass">Change Pass</string>
+    <string name="change_user">Change User</string>
 
     <string-array name="difficulty_options">
         <item>Easy (Ages 5–7)</item>

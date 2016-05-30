@@ -12,7 +12,7 @@
  * are awarded.  If it is correct, then the following formula is applied to determine the current
  * games final score: SUM(word.length * gradeLevelOfWord).
  */
-package edu.uw.tcss450.team1.cosmic_kids_game;
+package edu.uw.tcss450.team1.cosmic_kids_game.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -23,7 +23,6 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.os.SystemClock;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
@@ -33,7 +32,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,8 +40,9 @@ import java.util.Random;
 
 import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.DBHandler;
 import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.DatabaseHelper;
-import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.GLOBAL;
+import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.General;
 import edu.uw.tcss450.team1.cosmic_kids_game.Models.Word;
+import edu.uw.tcss450.team1.cosmic_kids_game.R;
 
 public class SpellGameActivity extends Activity {
     private static final String TAG = "SpellGameActivity class";
@@ -83,7 +82,7 @@ public class SpellGameActivity extends Activity {
         animation xml to string together frames of a GIF (Android does
         not provide native GIF support)*/
         ImageView iv = (ImageView) findViewById(R.id.imgBGSpaceGIF02);
-        iv.setBackgroundResource(R.drawable.spacegif_02_animation);
+        iv.setBackgroundResource(R.drawable.spacegif);
         ad = (AnimationDrawable) iv.getBackground();
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -101,7 +100,7 @@ public class SpellGameActivity extends Activity {
         etWordEntry = (EditText) findViewById(R.id.etWordEntry);
         numberOfWords = 0;
 
-        SharedPreferences sp = GLOBAL.GetPrefs(this);
+        SharedPreferences sp = General.GetPrefs(this);
         int difficulty = sp.getInt("difficulty", 1);
         final int timeLimit = TIME_LIMIT - (20 * difficulty);
         int[] grades = Word.GetGrades(difficulty);
@@ -187,13 +186,13 @@ public class SpellGameActivity extends Activity {
                 } else if (result.equals(strToSpeak)) {
                     int newPoints = length * grade;
                     pointSum += newPoints;
-                    GLOBAL.Toast(v.getContext(), "Earned " + newPoints + " points!");
+                    General.Toast(v.getContext(), "Earned " + newPoints + " points!");
                     nextWord();
                 } else if (grade > 4 && pointSum > length) {
                     pointSum -= length;
-                    GLOBAL.Toast(v.getContext(), "Incorrect! You've lost " + length + " points!");
+                    General.Toast(v.getContext(), "Incorrect! You've lost " + length + " points!");
                 } else {
-                    GLOBAL.Toast(v.getContext(), "Incorrect!");
+                    General.Toast(v.getContext(), "Incorrect!");
                 }
             }
         });
@@ -226,7 +225,7 @@ public class SpellGameActivity extends Activity {
 
     private void finishGame() {
         // TODO Send to score screen
-        GLOBAL.Toast(this, "Game finished");
+        General.Toast(this, "Game finished");
         // Temp
         startActivity(new Intent(this, MainActivity.class));
     }

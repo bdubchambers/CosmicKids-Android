@@ -9,7 +9,7 @@
  *
  * This Activity may be changed into a Fragment in the next Phase.
  */
-package edu.uw.tcss450.team1.cosmic_kids_game;
+package edu.uw.tcss450.team1.cosmic_kids_game.Activities;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.NameValuePair;
 import cz.msebera.android.httpclient.message.BasicNameValuePair;
 import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.PostAsync;
+import edu.uw.tcss450.team1.cosmic_kids_game.R;
 
 /**
  * Activity to handle the registration aspect of the application.

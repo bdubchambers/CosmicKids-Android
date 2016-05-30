@@ -9,7 +9,7 @@ import edu.uw.tcss450.team1.cosmic_kids_game.R;
 /**
  * Created by Justin on 5/29/2016.
  */
-public class GLOBAL {
+public class General {
     public static SharedPreferences GetPrefs(Context context) {
         return context.getSharedPreferences(context.getString(R.string.LOGIN_PREFS),
                 context.MODE_PRIVATE);

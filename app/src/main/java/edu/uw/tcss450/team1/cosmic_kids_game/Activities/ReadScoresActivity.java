@@ -9,7 +9,7 @@
  *
  * This Activity may be changed into a Fragment in the next Phase.
  */
-package edu.uw.tcss450.team1.cosmic_kids_game;
+package edu.uw.tcss450.team1.cosmic_kids_game.Activities;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
@@ -17,10 +17,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,6 +24,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.JSONParser;
+import edu.uw.tcss450.team1.cosmic_kids_game.R;
 
 /**
  * Not yet implemented.

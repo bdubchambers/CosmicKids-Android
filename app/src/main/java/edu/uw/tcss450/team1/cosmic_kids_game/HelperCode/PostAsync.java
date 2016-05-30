@@ -20,7 +20,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.NameValuePair;
-import edu.uw.tcss450.team1.cosmic_kids_game.JSONParser;
 
 /**
  * Asynchronous class to handle all POST calls to php server.

@@ -10,14 +10,13 @@
  *
  * This Activity will be a standard class in the next Phase.
  */
-package edu.uw.tcss450.team1.cosmic_kids_game;
+package edu.uw.tcss450.team1.cosmic_kids_game.Activities;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +26,7 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.NameValuePair;
 import cz.msebera.android.httpclient.message.BasicNameValuePair;
 import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.PostAsync;
+import edu.uw.tcss450.team1.cosmic_kids_game.R;
 
 /**
  * Activity that will add a score to the database,

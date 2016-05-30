@@ -12,8 +12,18 @@ public class Word {
     }
 
     public Word(String word, int grade) {
-        this.word = word;
-        this.grade = grade;
+        if (word == null) {
+            throw new NullPointerException("Word must not be null");
+        } else if (word.length() < 3) {
+            throw new IllegalArgumentException("Word should contain at least 3 characters");
+        } else {
+            this.word = word;
+        }
+        if (grade > 0) {
+            this.grade = grade;
+        } else {
+            throw new NumberFormatException("Grade cannot be less than 1");
+        }
     }
 
     public String getWord() {
@@ -25,22 +35,26 @@ public class Word {
     }
 
     public static int[] GetGrades(int difficulty) {
-        int[] grades = new int[2];
-        switch (difficulty) {
-            case 0:
-                grades[0] = 1;
-                grades[1] = 2;
-                break;
-            case 1:
-                grades[0] = 3;
-                grades[1] = 4;
-                break;
-            default:
-                grades[0] = 5;
-                grades[1] = 6;
-                break;
+        if (difficulty >= 0 && difficulty < Difficulty.values().length) {
+            int[] grades = new int[2];
+            switch (difficulty) {
+                case 0:
+                    grades[0] = 1;
+                    grades[1] = 2;
+                    break;
+                case 1:
+                    grades[0] = 3;
+                    grades[1] = 4;
+                    break;
+                default:
+                    grades[0] = 5;
+                    grades[1] = 6;
+                    break;
+            }
+            return grades;
+        } else {
+            throw new EnumConstantNotPresentException(Difficulty.class, "");
         }
-        return grades;
     }
 
     public static int[] GetGrades(Difficulty difficulty) {
