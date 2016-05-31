@@ -88,20 +88,5 @@ android:layout_marginRight="4dp"
         android:layout_alignRight="@+id/btnSubmitWord"
         android:layout_alignEnd="@+id/btnSubmitWord"/>
 
-    <Button
-        android:id="@+id/btnNextWord"
-        style="@android:style/Widget.Holo.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="42dp"
-        android:backgroundTint="#b71616"
-        android:backgroundTintMode="add"
-        android:text="@string/changedNextButton"
-        android:textSize="14sp"
-        android:textColor="#000000"
-        android:typeface="monospace"
-        android:layout_below="@+id/etWordEntry"
-        android:layout_alignLeft="@+id/etWordEntry"
-        android:layout_alignStart="@+id/etWordEntry" />
-
 </RelativeLayout>
 

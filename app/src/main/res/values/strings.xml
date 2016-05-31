@@ -32,12 +32,18 @@
     <string name="enter_username">Enter Username</string>
     <string name="enter_password">Enter Password</string>
     <string name="LOGIN_PREFS">edu.uw.tcss450.team1.cosmic_kids_game.PREFS</string>
+
     <string name="repeat_word">Repeat Word</string>
     <string name="submit_word">Submit Word</string>
     <string name="changedNextButton">Next Word</string>
     <string name="registered_user">Current User</string>
     <string name="change_pass">Change Pass</string>
     <string name="change_user">Change User</string>
+    <string name="returnMain">Return to Main Screen</string>
+    <string name="transitionScreenTitle">SCORE</string>
+
+    <!-- LOCAL FILE STORAGE -->
+    <string name="SCORES_FILE">edu.uw.tcss450.team1.cosmic_kids_game.SCORES_FILE</string>
 
     <string-array name="difficulty_options">
         <item>Easy (Ages 5–7)</item>
