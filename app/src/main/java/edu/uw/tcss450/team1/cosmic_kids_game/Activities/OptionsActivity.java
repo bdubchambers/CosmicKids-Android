@@ -106,6 +106,7 @@ public class OptionsActivity extends Activity implements View.OnClickListener {
         }
         if (intent != null) {
             startActivity(intent);
+            finish();
         }
     }
 }

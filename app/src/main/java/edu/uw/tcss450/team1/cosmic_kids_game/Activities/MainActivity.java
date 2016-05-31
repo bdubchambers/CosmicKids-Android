@@ -78,7 +78,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                  * For now we will just launch directly into the Spelling Bee game (via the
                  * SpellGameActivity) after the user clicks 'SinglePlayer' button.
                  */
-                intent = new Intent(this, SpellGameActivity.class);
+                intent = new Intent(MainActivity.this, SpellGameActivity.class);
                 break;
             case R.id.btnMulti:
                 if(!sp.getBoolean("loggedIn", false)) {

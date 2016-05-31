@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_gravity="top|center_horizontal"
+        android:layout_margin="12dp"
         android:text="@string/transitionScreenTitle"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/user_passBGColor"
@@ -25,45 +26,81 @@
                   android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tvUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="10dp"
+            android:text="TESTER"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/hintColor"
+            android:textStyle="bold"/>
+
+        <TextView
             android:id="@+id/tvScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             android:layout_margin="20dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="TESTER"
+            android:textColor="@color/colorAccent"
+            android:textSize="40pt"
+            android:textStyle="bold"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="6dp"
+            android:text="points"
+            android:textAppearance="?android:attr/textAppearanceMediumInverse"
             android:textColor="@color/hintColor"
             android:textStyle="bold"/>
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="10sp"
+            android:layout_height="30sp"
             android:layout_gravity="center_horizontal"/>
-
-        <!--<ListView-->
-            <!--android:id="@+id/listView01"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="400sp"-->
-            <!--android:layout_margin="15sp"-->
-            <!--android:background="@android:color/transparent"-->
-            <!--android:cacheColorHint="@android:color/transparent"-->
-            <!--android:divider="@color/colorAccent"-->
-            <!--android:dividerHeight="1dp"-->
-            <!--android:isScrollContainer="true"-->
-            <!--android:padding="2dp">-->
-
-        <!--</ListView>-->
-
 
         <Button
             android:id="@+id/btnRtrnMain"
+            style="@android:style/Widget.Holo.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:backgroundTint="@color/nuclearYellow"
+            android:backgroundTintMode="add"
+            android:shadowColor="@color/black_overlay"
+            android:shadowDx="2"
+            android:shadowDy="5"
+            android:shadowRadius="1"
             android:text="@string/returnMain"
+            android:textColor="@color/user_passBGColor"
             android:textStyle="bold"
             android:typeface="monospace"/>
 
+
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btnEmailScore"
+        style="@android:style/Widget.Holo.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="12dp"
+        android:backgroundTint="@color/user_passColor"
+        android:backgroundTintMode="add"
+        android:shadowColor="@color/black_overlay"
+        android:shadowDx="2"
+        android:shadowDy="5"
+        android:shadowRadius="1"
+        android:text="@string/emailScore"
+        android:textColor="@color/user_passBGColor"
+        android:textStyle="bold"
+        android:typeface="monospace"/>
 </FrameLayout>

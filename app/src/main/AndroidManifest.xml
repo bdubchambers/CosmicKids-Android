@@ -36,8 +36,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activities.RegisterActivity"/>
-        <activity android:name=".Activities.AddScoreActivity"/>
-        <activity android:name=".Activities.ReadScoresActivity"/>
         <activity android:name=".Activities.LoginActivity"/>
         <activity android:name=".Activities.OptionsActivity"/>
         <activity android:name=".Activities.SpellGameActivity"
