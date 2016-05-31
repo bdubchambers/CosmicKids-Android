@@ -27,6 +27,7 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.NameValuePair;
 import cz.msebera.android.httpclient.message.BasicNameValuePair;
+import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.General;
 import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.PostAsync;
 import edu.uw.tcss450.team1.cosmic_kids_game.R;
 
@@ -84,12 +85,12 @@ public class LoginActivity extends Activity implements OnClickListener {
                     if (result != null) {
                         Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
                         if (result.startsWith("Login")) {
-                            SharedPreferences sp =
-                                    getSharedPreferences(getString(R.string.LOGIN_PREFS),
-                                    MODE_PRIVATE);
+                            SharedPreferences sp = General.GetPrefs(this);
                             Editor editor = sp.edit();
-                            editor.putString("username", username);
-                            editor.putBoolean("loggedIn", true);
+                            editor.putString(view.getContext().getString(R.string.username),
+                                    username);
+                            editor.putBoolean(view.getContext().getString(R.string.loggedIn),
+                                    true);
                             editor.apply();
                             intent = new Intent(this, MainActivity.class);
                             finish();

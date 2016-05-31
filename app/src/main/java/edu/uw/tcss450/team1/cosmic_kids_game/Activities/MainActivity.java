@@ -26,7 +26,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     /*LOG TAG*/
     private static final String TAG = "MAINACTIVITY class";
-    private Button btnSingle, btnMulti, btnOptions, btnExit;
 
     /**
      * Override to set listeners for buttons.
@@ -37,22 +36,26 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        btnSingle = (Button) this.findViewById(R.id.btnSingle);
-        btnMulti = (Button) this.findViewById(R.id.btnMulti);
-        btnOptions = (Button) this.findViewById(R.id.btnOptions);
-        btnExit = (Button) this.findViewById(R.id.btnExit);
+        Button btnSingle = (Button) this.findViewById(R.id.btnSingle);
+        Button btnMulti = (Button) this.findViewById(R.id.btnMulti);
+        Button btnOptions = (Button) this.findViewById(R.id.btnOptions);
+        Button btnExit = (Button) this.findViewById(R.id.btnExit);
 
         btnSingle.setOnClickListener(this);
         btnMulti.setOnClickListener(this);
         btnOptions.setOnClickListener(this);
         btnExit.setOnClickListener(this);
+    }
 
+    private void checkLoggedIn() {
         SharedPreferences sp = General.GetPrefs(this);
-        if(!sp.getBoolean("loggedIn", false)) {
+        if(!sp.getBoolean(this.getString(R.string.loggedIn), false)) {
+            General.Toast(this, "You must be logged in to proceed!");
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         } else {
-            General.Toast(this, "Hello, " + sp.getString("username", "you") + "!");
+            General.Toast(this, "Hello, " + sp.getString(this.getString(R.string.username),
+                    "you") + "!");
         }
     }
 
@@ -105,7 +108,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onResume() {
+        super.onResume();
+        checkLoggedIn();
     }
 }

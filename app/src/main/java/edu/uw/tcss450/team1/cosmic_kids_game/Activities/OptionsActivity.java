@@ -97,8 +97,14 @@ public class OptionsActivity extends Activity implements View.OnClickListener {
                 intent = new Intent(this, RegisterActivity.class);
                 break;
             case R.id.btnChangePass:
+                General.Toast(this, "Feature coming soon!");
                 break;
             case R.id.btnChangeUser:
+                SharedPreferences sp = General.GetPrefs(this);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putBoolean(view.getContext().getString(R.string.loggedIn), false);
+                editor.putString(view.getContext().getString(R.string.username), "Guest");
+                editor.apply();
                 intent = new Intent(this, LoginActivity.class);
                 break;
             default:

@@ -73,6 +73,7 @@ public class SpellGameActivity extends Activity {
     ArrayList<Word> potentialWords;
     int numberOfWords = 20;
     Word myWord;
+    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +102,7 @@ public class SpellGameActivity extends Activity {
         SharedPreferences sp = General.GetPrefs(this);
 
 
-        final String user = sp.getString("username", "you");
+        username = sp.getString("username", "Guest");
         int difficulty = sp.getInt("difficulty", 1);
         final int timeLimit = TIME_LIMIT - (20 * difficulty);
         int[] grades = Word.GetGrades(difficulty);
@@ -119,7 +120,7 @@ public class SpellGameActivity extends Activity {
                 potentialWords.add(new Word(cursor.getString(wcol),
                         cursor.getInt(icol)));
             } catch(Exception e) {
-                Log.d("debugSGA_AddToList", cursor.toString());
+                Log.d(TAG, cursor.toString());
             }
             cursor.moveToNext();
         }
@@ -138,16 +139,16 @@ public class SpellGameActivity extends Activity {
         timer = new CountDownTimer(timeMs, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                long elapsed = timeMs - millisUntilFinished;
+/*                long elapsed = timeMs - millisUntilFinished;
                 double pct = (elapsed * 1.0) / timeMs;
-                double rounder = pct * 100;
-                int rounded = (int) rounder;
+                double rounder = pct * 100;*/
+                int rounded = (int)(100 * (((timeMs - millisUntilFinished) * 1.0) / timeMs));
                 progressBar.setProgress(rounded);
             }
 
             @Override
             public void onFinish() {
-                nextWord(pointSum, user);
+                nextWord();
             }
         };
 
@@ -163,7 +164,7 @@ public class SpellGameActivity extends Activity {
                     int newPoints = length * grade;
                     pointSum += newPoints;
                     General.Toast(v.getContext(), "Earned " + newPoints + " points!");
-                    nextWord(pointSum, user);
+                    nextWord();
                 } else if(grade > 4 && pointSum > length) {
                     pointSum -= length;
                     General.Toast(v.getContext(), "Incorrect! You've lost " + length + " points!");
@@ -172,11 +173,7 @@ public class SpellGameActivity extends Activity {
                 }
             }
         });
-
-
-
-
-        nextWord(pointSum, user);
+        nextWord();
     }
 
     /**
@@ -224,15 +221,15 @@ public class SpellGameActivity extends Activity {
     /**
      * randomly select a word from a pool of difficulty-level based words
      */
-    private void nextWord(int score, String user) {
-        final Random random = new Random(SystemClock.currentThreadTimeMillis());
+    private void nextWord() {
         numberOfWords++;
         progressBar.setProgress(0);
         timer.cancel();
         etWordEntry.setText("");
         if(numberOfWords > WORD_LIMIT || potentialWords.size() == 0) {
-            finishGame(pointSum, user);
+            finishGame();
         } else {
+            final Random random = new Random(SystemClock.currentThreadTimeMillis());
             int index = random.nextInt(potentialWords.size());
             myWord = potentialWords.get(index);
             potentialWords.remove(index);
@@ -244,24 +241,24 @@ public class SpellGameActivity extends Activity {
     /**
      * send user to the score displaying transitional screen after completion
      */
-    private void finishGame(int totalScore, String user) {
+    private void finishGame() {
 
         General.Toast(this, "Game finished");
 
         try{
             OutputStreamWriter out = new OutputStreamWriter(
                     openFileOutput(getString(R.string.SCORES_FILE), Context.MODE_PRIVATE));
-            out.write("User: " + user + "=>");
-            out.write("Score: " + totalScore);
+            out.write("User: " + username + " => ");
+            out.write("Score: " + pointSum);
             out.close();
-            General.Toast(this, "Stored User+Score successfully!");
+            Log.d(TAG, "Stored User+Score successfully!");
         } catch(Exception e) {
             e.printStackTrace();
         }
 
 
         Intent intent = new Intent(this, EndGameTransitionActivity.class);
-        intent.putExtra("USER_SCORE", totalScore);
+        intent.putExtra("USER_SCORE", pointSum);
         startActivity(intent);
     }
 
@@ -272,26 +269,41 @@ public class SpellGameActivity extends Activity {
      */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
-        if(hasFocus) {
+        if(hasFocus && ad != null) {
             ad.start();
         } else {
-            ad.stop();
+            if (ad != null && ad.isRunning()) {
+                ad.stop();
+            }
             if(toSpeech != null) {
-                toSpeech.stop();
+                if (toSpeech.isSpeaking()) {
+                    toSpeech.stop();
+                }
                 toSpeech.shutdown();
             }
         }
     }
 
     /**
-     * shutdown TextToSpeech engine when idle
+     * Shutdown TextToSpeech engine when idle
      */
+    @Override
     public void onPause() {
+        if (ad != null && ad.isRunning()) {
+            ad.stop();
+        }
         if(toSpeech != null) {
-            toSpeech.stop();
+            if (toSpeech.isSpeaking()) {
+                toSpeech.stop();
+            }
             toSpeech.shutdown();
         }
         super.onPause();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        
+    }
 }

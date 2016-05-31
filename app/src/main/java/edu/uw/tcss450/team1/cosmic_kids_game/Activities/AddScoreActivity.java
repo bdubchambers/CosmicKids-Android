@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.NameValuePair;
 import cz.msebera.android.httpclient.message.BasicNameValuePair;
+import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.General;
 import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.PostAsync;
 import edu.uw.tcss450.team1.cosmic_kids_game.R;
 
@@ -61,9 +62,8 @@ public class AddScoreActivity extends Activity implements View.OnClickListener {
      */
     @Override
     public void onClick(View view) {
-        SharedPreferences sp =
-                PreferenceManager.getDefaultSharedPreferences(AddScoreActivity.this);
-        String username = sp.getString("username", "anon");
+        SharedPreferences sp = General.GetPrefs(this);
+        String username = sp.getString(view.getContext().getString(R.string.username), "Guest");
         String post_gameName = gameName.getText().toString();
         String post_score = score.getText().toString();
 

@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.NameValuePair;
 import cz.msebera.android.httpclient.message.BasicNameValuePair;
+import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.General;
 import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.PostAsync;
 import edu.uw.tcss450.team1.cosmic_kids_game.R;
 
@@ -74,34 +75,30 @@ public class RegisterActivity extends Activity implements OnClickListener {
             try {
                 String result = post.get();
                 if (result != null) {
-                    toastMe(result);
+                    General.Toast(this,
+                            result);
                     if (result.startsWith("Username")) {
                         SharedPreferences sp =
                                 getSharedPreferences(getString(R.string.LOGIN_PREFS),
                                 MODE_PRIVATE);
                         SharedPreferences.Editor editor = sp.edit();
-                        editor.putString("username", username);
+                        editor.putString(view.getContext().getString(R.string.username), username);
                         editor.apply();
-                        if (!sp.getBoolean("loggedIn", false)) {
-                            toastMe("Logging in as " + user);
-                            editor.putBoolean("loggedIn", true);
+                        String loggedIn = view.getContext().getString(R.string.loggedIn);
+                        if (!sp.getBoolean(loggedIn, false)) {
+                            General.Toast(this,
+                                    "Logging in as " + user);
+                            editor.putBoolean(loggedIn, true);
                         }
                         setResult(RESULT_OK);
                         finish();
                     }
                 }
             } catch (Exception e) {
-                toastMe("Connection Error: " + e.getMessage());
+                General.Toast(this,
+                        "Connection Error: " + e.getMessage());
             }
         }
-    }
-
-    /**
-     * Easy-to-use method of outputting Toast.
-     * @param msg Message to be put into Toast
-     */
-    void toastMe(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -113,14 +110,19 @@ public class RegisterActivity extends Activity implements OnClickListener {
      */
     boolean verifyInputs(String user, String password, String verify) {
         if (user.length() < 3) {
-            toastMe("Username should be at least 3 characters long!");
-        }
-        else if (!password.equals(verify)) {
-            toastMe("Passwords do not match!");
+            General.Toast(this,
+                    "Username should be at least 3 characters long!");
+        } else if (user.toLowerCase().equals("guest")) {
+            General.Toast(this,
+                    "Invalid username!");
+        } else if (!password.equals(verify)) {
+            General.Toast(this,
+                    "Passwords do not match!");
             pass.setText("");
             pass2.setText("");
         } else if (password.length() < 6) {
-            toastMe("Password must be at least 6 characters long!");
+            General.Toast(this,
+                    "Password must be at least 6 characters long!");
         } else {
             boolean hasUpper = false;
             boolean hasDigit = false;
@@ -135,11 +137,14 @@ public class RegisterActivity extends Activity implements OnClickListener {
                 }
             }
             if (!hasUpper) {
-                toastMe("Password must contain at least one uppercase!");
+                General.Toast(this,
+                        "Password must contain at least one uppercase!");
             } else if (!hasDigit) {
-                toastMe("Password must contain at least one number!");
+                General.Toast(this,
+                        "Password must contain at least one number!");
             } else if (!hasLower) {
-                toastMe("Password must contain at least one lowercase!");
+                General.Toast(this,
+                        "Password must contain at least one lowercase!");
             } else {
                 return true;
             }
