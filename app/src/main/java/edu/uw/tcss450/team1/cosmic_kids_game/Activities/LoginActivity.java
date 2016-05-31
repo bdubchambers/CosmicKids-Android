@@ -7,8 +7,6 @@
  * This class provides an Activity that will showcase and handle all of the logic related to
  * logging a user in or to provide them additional options, such as to Register as a new user or
  * to continue as a Guest.
- *
- * This Activity may be changed into a Fragment in the next Phase.
  */
 package edu.uw.tcss450.team1.cosmic_kids_game.Activities;
 

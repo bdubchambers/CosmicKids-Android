@@ -28,11 +28,13 @@ import android.os.SystemClock;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
@@ -50,7 +52,7 @@ public class SpellGameActivity extends Activity {
     private static final String TAG = "SpellGameActivity class";
     private static final String ID = "UtteranceID";
     private static final int TIME_LIMIT = 60;
-    private static final int WORD_LIMIT = 3;
+    private static final int WORD_LIMIT = 5;
 
     //Animates our GIF for background
     private AnimationDrawable ad;
@@ -104,7 +106,7 @@ public class SpellGameActivity extends Activity {
 
         username = sp.getString("username", "Guest");
         int difficulty = sp.getInt("difficulty", 1);
-        final int timeLimit = TIME_LIMIT - (20 * difficulty);
+        final int timeLimit = TIME_LIMIT - (25 * difficulty);
         int[] grades = Word.GetGrades(difficulty);
 
         DBHandler dbHandler = new DBHandler(this);
@@ -163,7 +165,14 @@ public class SpellGameActivity extends Activity {
                 } else if(result.equals(strToSpeak)) {
                     int newPoints = length * grade;
                     pointSum += newPoints;
-                    General.Toast(v.getContext(), "Earned " + newPoints + " points!");
+                    //Custom placed Toast, old one was in the way of keyboard and other
+                    //UI elements
+                    String toastStr = "Earned " + newPoints + " points!";
+                    Toast toast = Toast.makeText(v.getContext(),toastStr, Toast.LENGTH_LONG);
+                    if(toast != null){
+                        toast.setGravity(Gravity.TOP|Gravity.CENTER, 0, 200);
+                        toast.show();
+                    }
                     nextWord();
                 } else if(grade > 4 && pointSum > length) {
                     pointSum -= length;
@@ -248,18 +257,14 @@ public class SpellGameActivity extends Activity {
         try{
             OutputStreamWriter out = new OutputStreamWriter(
                     openFileOutput(getString(R.string.SCORES_FILE), Context.MODE_PRIVATE));
-            out.write("User: " + username + " => ");
-            out.write("Score: " + pointSum);
+            out.write(username + " ; " + pointSum);
             out.close();
-            Log.d(TAG, "Stored User+Score successfully!");
         } catch(Exception e) {
             e.printStackTrace();
         }
-
-
-        Intent intent = new Intent(this, EndGameTransitionActivity.class);
-        intent.putExtra("USER_SCORE", pointSum);
+        Intent intent = new Intent(SpellGameActivity.this, EndGameTransitionActivity.class);
         startActivity(intent);
+        finish();
     }
 
     /**

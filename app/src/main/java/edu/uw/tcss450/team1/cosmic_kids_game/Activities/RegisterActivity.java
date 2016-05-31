@@ -6,8 +6,6 @@
  *
  * This class provides an Activity that will showcase and handle all of the logic related to
  * registering a user with the MySQL database.
- *
- * This Activity may be changed into a Fragment in the next Phase.
  */
 package edu.uw.tcss450.team1.cosmic_kids_game.Activities;
 
