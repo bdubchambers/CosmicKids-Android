@@ -239,20 +239,8 @@ public class SpellGameActivity extends Activity {
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
-        if(hasFocus) {
-            if (ad != null && !ad.isRunning()) {
-                ad.start();
-            }
-        } else {
-            if (ad != null && ad.isRunning()) {
-                ad.stop();
-            }
-            if (toSpeech != null) {
-                if (toSpeech.isSpeaking()) {
-                    toSpeech.stop();
-                }
-                toSpeech.shutdown();
-            }
+        if(hasFocus && ad != null && !ad.isRunning()) {
+            ad.start();
         }
     }
 
