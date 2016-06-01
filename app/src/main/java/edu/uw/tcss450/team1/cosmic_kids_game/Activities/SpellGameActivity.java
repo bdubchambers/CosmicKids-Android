@@ -31,11 +31,12 @@ import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
@@ -53,10 +54,13 @@ public class SpellGameActivity extends Activity {
     private static final String TAG = "debugSGA";
     private static final String ID = "UtteranceID";
     private static final int TIME_LIMIT = 60;
-    private static final int WORD_LIMIT = 5;
+    private static final int WORD_LIMIT = 10;
 
     //Animates our GIF for background
     private AnimationDrawable ad;
+    //Animate our Start Game Button with blinking
+    private Animation animBtn;
+
 
     //Where the spelling word is entered by user
     EditText etWordEntry;
@@ -91,12 +95,19 @@ public class SpellGameActivity extends Activity {
         btnSubmitWord = (Button) findViewById(R.id.btnSubmitWord);
         etWordEntry = (EditText) findViewById(R.id.etWordEntry);
         numberOfWords = 0;
+
+        //create an animation object for our alpha level on button to make
+        //a blinking effect until user presses the button--this is to draw the
+        //user's attention to method of starting the game.
+        animBtn = AnimationUtils.loadAnimation(SpellGameActivity.this, R.anim.fade);
+        btnRepeatWord.startAnimation(animBtn);
+
         SharedPreferences sp = General.GetPrefs(this);
 
 
         username = sp.getString(getResources().getString(R.string.username), "Guest");
         int difficulty = sp.getInt(getResources().getString(R.string.difficulty), 1);
-        final int timeLimit = TIME_LIMIT - (25 * difficulty);
+        final int timeLimit = TIME_LIMIT - (22 * difficulty);
         int[] grades = Word.GetGrades(difficulty);
 
         DBHandler dbHandler = new DBHandler(this);
@@ -116,14 +127,23 @@ public class SpellGameActivity extends Activity {
             cursor.moveToNext();
         }
 
+
+
         if (potentialWords.size() > 0) {
 
             //initialize TextToSpeech
             initTTS();
 
+
+
             btnRepeatWord.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //User has initiated gameplay, change button text from
+                    // "START GAME" to "Repeat Word" and stop the button
+                    //animation.
+                    btnRepeatWord.clearAnimation();
+                    btnRepeatWord.setText(R.string.repeat_word);
                     speak();
                 }
             });
@@ -151,13 +171,14 @@ public class SpellGameActivity extends Activity {
                     } else if (myWord.isCorrect(result)) {
                         int newPoints = myWord.getPoints();
                         pointSum += newPoints;
-                        General.ToastTop(v.getContext(), "Earned " + newPoints + " points!");
+                        General.ToastGravity(v.getContext(), "Earned " + newPoints + " points!",
+                                Gravity.TOP|Gravity.CENTER, 0 , 175);
                         nextWord();
                     } else {
                         int toDeduct = myWord.toDeduct(pointSum);
                         pointSum -= toDeduct;
-                        General.ToastTop(v.getContext(), "Incorrect! You've lost " + toDeduct +
-                                " points!");
+                        General.ToastGravity(v.getContext(), "Incorrect! You've lost " + toDeduct +
+                                " points!", Gravity.TOP|Gravity.CENTER, 0, 175);
                     }
                 }
             });
