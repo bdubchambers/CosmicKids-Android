@@ -75,7 +75,6 @@ public class SpellGameActivity extends Activity {
     ArrayList<Word> potentialWords;
     int numberOfWords = 20;
     Word myWord;
-    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,12 +100,11 @@ public class SpellGameActivity extends Activity {
         //user's word entry to be checked for spelling
         etWordEntry = (EditText) findViewById(R.id.etWordEntry);
         numberOfWords = 0;
+
         SharedPreferences sp = General.GetPrefs(this);
-
-
-        username = sp.getString("username", "Guest");
+        final String user = sp.getString("username", "you");
         int difficulty = sp.getInt("difficulty", 1);
-        final int timeLimit = TIME_LIMIT - (25 * difficulty);
+        final int timeLimit = TIME_LIMIT - (22 * difficulty);
         int[] grades = Word.GetGrades(difficulty);
 
         DBHandler dbHandler = new DBHandler(this);
@@ -122,7 +120,7 @@ public class SpellGameActivity extends Activity {
                 potentialWords.add(new Word(cursor.getString(wcol),
                         cursor.getInt(icol)));
             } catch(Exception e) {
-                Log.d(TAG, cursor.toString());
+                Log.d("debugSGA_AddToList", cursor.toString());
             }
             cursor.moveToNext();
         }
@@ -141,16 +139,16 @@ public class SpellGameActivity extends Activity {
         timer = new CountDownTimer(timeMs, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-/*                long elapsed = timeMs - millisUntilFinished;
+                long elapsed = timeMs - millisUntilFinished;
                 double pct = (elapsed * 1.0) / timeMs;
-                double rounder = pct * 100;*/
-                int rounded = (int)(100 * (((timeMs - millisUntilFinished) * 1.0) / timeMs));
+                double rounder = pct * 100;
+                int rounded = (int) rounder;
                 progressBar.setProgress(rounded);
             }
 
             @Override
             public void onFinish() {
-                nextWord();
+                nextWord(pointSum, user);
             }
         };
 
@@ -173,7 +171,7 @@ public class SpellGameActivity extends Activity {
                         toast.setGravity(Gravity.TOP|Gravity.CENTER, 0, 200);
                         toast.show();
                     }
-                    nextWord();
+                    nextWord(pointSum, user);
                 } else if(grade > 4 && pointSum > length) {
                     pointSum -= length;
                     General.Toast(v.getContext(), "Incorrect! You've lost " + length + " points!");
@@ -182,40 +180,45 @@ public class SpellGameActivity extends Activity {
                 }
             }
         });
-        nextWord();
+
+        nextWord(pointSum, user);
     }
 
     /**
      * sets up the TextToSpeech Engine
      */
     private void initTTS() {
-        toSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if(status != TextToSpeech.ERROR) {
-                    toSpeech.getDefaultEngine();
-                    toSpeech.setLanguage(Locale.getDefault());
-                    toSpeech.setPitch(1);
-                    toSpeech.setSpeechRate(0);
-                    toSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
-                        @Override
-                        public void onStart(String utteranceId) {
-                        }
-
-                        @Override
-                        public void onDone(String utteranceId) {
-                            if(progressBar.getProgress() == 0) {
-                                timer.start();
+        try {
+            toSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+                @Override
+                public void onInit(int status) {
+                    if(status != TextToSpeech.ERROR) {
+                        toSpeech.getDefaultEngine();
+                        toSpeech.setLanguage(Locale.getDefault());
+                        toSpeech.setPitch(1);
+                        toSpeech.setSpeechRate(0);
+                        toSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+                            @Override
+                            public void onStart(String utteranceId) {
                             }
-                        }
 
-                        @Override
-                        public void onError(String utteranceId) {
-                        }
-                    });
+                            @Override
+                            public void onDone(String utteranceId) {
+                                if(progressBar.getProgress() == 0) {
+                                    timer.start();
+                                }
+                            }
+
+                            @Override
+                            public void onError(String utteranceId) {
+                            }
+                        });
+                    }
                 }
-            }
-        });
+            });
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -230,15 +233,15 @@ public class SpellGameActivity extends Activity {
     /**
      * randomly select a word from a pool of difficulty-level based words
      */
-    private void nextWord() {
+    private void nextWord(int score, String user) {
+        final Random random = new Random(SystemClock.currentThreadTimeMillis());
         numberOfWords++;
         progressBar.setProgress(0);
         timer.cancel();
         etWordEntry.setText("");
         if(numberOfWords > WORD_LIMIT || potentialWords.size() == 0) {
-            finishGame();
+            finishGame(score, user);
         } else {
-            final Random random = new Random(SystemClock.currentThreadTimeMillis());
             int index = random.nextInt(potentialWords.size());
             myWord = potentialWords.get(index);
             potentialWords.remove(index);
@@ -250,18 +253,16 @@ public class SpellGameActivity extends Activity {
     /**
      * send user to the score displaying transitional screen after completion
      */
-    private void finishGame() {
-
-        General.Toast(this, "Game finished");
-
+    private void finishGame(int totalScore, String user) {
         try{
             OutputStreamWriter out = new OutputStreamWriter(
                     openFileOutput(getString(R.string.SCORES_FILE), Context.MODE_PRIVATE));
-            out.write(username + " ; " + pointSum);
+            out.write(user + " ; " + totalScore);
             out.close();
         } catch(Exception e) {
             e.printStackTrace();
         }
+
         Intent intent = new Intent(SpellGameActivity.this, EndGameTransitionActivity.class);
         startActivity(intent);
         finish();
@@ -274,41 +275,46 @@ public class SpellGameActivity extends Activity {
      */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
-        if(hasFocus && ad != null) {
+        if(hasFocus) {
             ad.start();
         } else {
-            if (ad != null && ad.isRunning()) {
-                ad.stop();
-            }
+            ad.stop();
             if(toSpeech != null) {
-                if (toSpeech.isSpeaking()) {
-                    toSpeech.stop();
-                }
-                toSpeech.shutdown();
+                toSpeech.stop();
             }
         }
+    }
+
+    @Override
+    public void onStop(){
+        ad.stop();
+        if(toSpeech != null){
+            toSpeech.stop();
+        }
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        ad.stop();
+        if(toSpeech != null){
+            toSpeech.shutdown();
+        }
+//            ad.stop();
+        super.onDestroy();
     }
 
     /**
-     * Shutdown TextToSpeech engine when idle
+     * shutdown TextToSpeech engine when idle
      */
     @Override
     public void onPause() {
-        if (ad != null && ad.isRunning()) {
-            ad.stop();
-        }
+        ad.stop();
         if(toSpeech != null) {
-            if (toSpeech.isSpeaking()) {
-                toSpeech.stop();
-            }
-            toSpeech.shutdown();
+            toSpeech.stop();
         }
         super.onPause();
+
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        
-    }
 }
