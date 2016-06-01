@@ -42,6 +42,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/perf"
+        android:layout_gravity="center"
+        android:textColorHint="@color/hintColor"
+        android:textColor="@color/user_passBGColor" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/enable_animations"
+        android:id="@+id/disable_anim"
+        android:layout_gravity="center_horizontal"
+        android:background="@android:color/holo_blue_light"
+        android:gravity="center_vertical|center_horizontal"
+        android:padding="@dimen/abc_action_bar_overflow_padding_end_material" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/registered_user"
         android:layout_gravity="center"
         android:textColorHint="@color/hintColor"

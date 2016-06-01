@@ -23,6 +23,7 @@ import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.General;
 import edu.uw.tcss450.team1.cosmic_kids_game.R;
 
 public class MainActivity extends Activity implements View.OnClickListener {
+    private boolean justCreated;
 
     /*LOG TAG*/
     private static final String TAG = "MAINACTIVITY class";
@@ -45,6 +46,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         btnMulti.setOnClickListener(this);
         btnOptions.setOnClickListener(this);
         btnExit.setOnClickListener(this);
+
+        justCreated = true;
     }
 
     private void checkLoggedIn() {
@@ -53,9 +56,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
             General.Toast(this, "You must be logged in to proceed!");
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
-        } else {
+        } else if (justCreated) {
             General.Toast(this, "Hello, " + sp.getString(this.getString(R.string.username),
                     "you") + "!");
+            justCreated = false;
         }
     }
 

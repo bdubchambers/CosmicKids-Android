@@ -1,16 +1,22 @@
+/**
+ * @Class General
+ * @Version 1.0.0
+ * @Author Justin Burch
+ * @Author Brandon Chambers
+ *
+ * This class provides a collection of static helper methods that can be used universally.
+ */
 package edu.uw.tcss450.team1.cosmic_kids_game.HelperCode;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.view.Gravity;
 import android.widget.Toast;
 
 import edu.uw.tcss450.team1.cosmic_kids_game.R;
 
 import static android.widget.Toast.*;
 
-/**
- * Created by Justin on 5/29/2016.
- */
 public class General {
 
     public static SharedPreferences GetPrefs(Context context) {
@@ -22,5 +28,11 @@ public class General {
         makeText(context, message, LENGTH_SHORT).show();
     }
 
-
+    public static void ToastTop(Context context, String message) {
+        Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
+        if(toast != null){
+            toast.setGravity(Gravity.TOP|Gravity.CENTER, 0, 0);
+            toast.show();
+        }
+    }
 }

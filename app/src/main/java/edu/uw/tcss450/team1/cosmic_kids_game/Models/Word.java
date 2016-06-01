@@ -1,8 +1,15 @@
+/**
+ * @Class Word
+ * @Version 1.0.0
+ * @Author Justin Burch
+ * @Author Brandon Chambers
+ *
+ * This class provides a model for our Word objects. The model hosts the string literal as well
+ * as the grade the string pertains to.
+ */
+
 package edu.uw.tcss450.team1.cosmic_kids_game.Models;
 
-/**
- * Created by Justin on 5/29/2016.
- */
 public class Word {
     private int grade;
     private String word;
@@ -17,7 +24,7 @@ public class Word {
         } else if (word.length() < 3) {
             throw new IllegalArgumentException("Word should contain at least 3 characters");
         } else {
-            this.word = word;
+            this.word = word.toLowerCase();
         }
         if (grade > 0) {
             this.grade = grade;
@@ -26,12 +33,22 @@ public class Word {
         }
     }
 
+    public int getPoints() { return this.word.length() * this.grade; }
+
     public String getWord() {
         return this.word;
     }
 
     public int getGrade() {
         return this.grade;
+    }
+
+    public boolean isCorrect(String guess) {
+        return (guess.toLowerCase().equals(this.word));
+    }
+
+    public int toDeduct(int currentPoints) {
+        return (this.grade > 4 && currentPoints >= this.word.length()) ? this.word.length() : 0;
     }
 
     public static int[] GetGrades(int difficulty) {

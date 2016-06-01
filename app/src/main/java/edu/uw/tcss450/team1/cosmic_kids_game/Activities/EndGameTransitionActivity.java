@@ -24,20 +24,23 @@ import java.io.InputStreamReader;
 
 import edu.uw.tcss450.team1.cosmic_kids_game.R;
 
-
 public class EndGameTransitionActivity extends Activity {
+    /* Static Variables */
+    private static final String TAG = "debugEGTA";
 
-    Button btnReturn, btnShare;
-    TextView tvUser, tvScore;
-
+    /**
+     * Override the onCreate method of the Activity to assign listeners to and to retrieve data
+     * from different objects within the layout.
+     * @param savedInstanceState Unused Bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_game_transition);
         setTheme(R.style.FullscreenTheme);
 
-        tvUser = (TextView) findViewById(R.id.tvUser);
-        tvScore = (TextView) findViewById(R.id.tvScore);
+        final TextView tvUser = (TextView) findViewById(R.id.tvUser);
+        final TextView tvScore = (TextView) findViewById(R.id.tvScore);
         try {
             InputStream in =
                     this.openFileInput(getString(R.string.SCORES_FILE));
@@ -56,11 +59,11 @@ public class EndGameTransitionActivity extends Activity {
 
                 final String finalStr = sb.toString();
                 final String[] splitter = finalStr.split(" ; ");
-                Log.d("EndGAME***", "User:" + splitter[0] + "Score:" + splitter[1]);
+                Log.d(TAG, "User:" + splitter[0] + "Score:" + splitter[1]);
                 tvUser.setText(splitter[0]);
                 tvScore.setText(splitter[1]);
 
-                btnShare = (Button) findViewById(R.id.btnEmailScore);
+                Button btnShare = (Button) findViewById(R.id.btnEmailScore);
                 btnShare.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -68,7 +71,7 @@ public class EndGameTransitionActivity extends Activity {
                     }
                 });
 
-                btnReturn = (Button) findViewById(R.id.btnRtrnMain);
+                Button btnReturn = (Button) findViewById(R.id.btnRtrnMain);
                 btnReturn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -90,8 +93,8 @@ public class EndGameTransitionActivity extends Activity {
      * text messaging, add to Web Browser, Android Beam, Bluetooth, and
      * many more (device specific).
      *
-     * @param player
-     * @param score
+     * @param player Name of the player sharing the score
+     * @param score Score of the player sharing the score
      */
     public void shareScore(final String player, final String score) {
         String message = "Player " + player +

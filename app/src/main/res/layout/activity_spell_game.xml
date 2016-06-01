@@ -3,7 +3,7 @@
                 android:id="@+id/rr_spell"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                >
+    android:background="@drawable/space_small">
 
     <ImageView
         android:id="@+id/imgBGSpaceGIF02"

@@ -1,3 +1,12 @@
+/**
+ * @Class DatabaseHelper
+ * @Version 1.0.0
+ * @Author Justin Burch
+ * @Author Brandon Chambers
+ *
+ * This class provides the necessary methods to create and populate a SQLiteDatabase by parsing
+ * the necessary XML file for the word lists.
+ */
 package edu.uw.tcss450.team1.cosmic_kids_game.HelperCode;
 
 import android.content.ContentValues;

@@ -1,3 +1,12 @@
+/**
+ * @Class DBHandler
+ * @Version 1.0.0
+ * @Author Justin Burch
+ * @Author Brandon Chambers
+ *
+ * This class provides a convenient way to handle calls to the SQLiteDatabase that is used to store
+ * the words used in the Spelling Bee.
+ */
 package edu.uw.tcss450.team1.cosmic_kids_game.HelperCode;
 
 import android.content.ContentValues;
@@ -6,9 +15,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
-/**
- * Created by Brandon on 5/27/2016.
- */
 public class DBHandler {
 
     private DatabaseHelper dbHelper;

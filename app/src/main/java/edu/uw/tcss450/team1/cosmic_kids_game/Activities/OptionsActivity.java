@@ -17,11 +17,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
+import android.widget.Switch;
 
 import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.General;
 import edu.uw.tcss450.team1.cosmic_kids_game.R;
@@ -30,6 +33,7 @@ import edu.uw.tcss450.team1.cosmic_kids_game.R;
  * Activity to handle displaying and storing the options for the games and application.
  */
 public class OptionsActivity extends Activity implements View.OnClickListener {
+    public static final String TAG = "debugOA";
 
     /**
      * Override to set listeners for buttons.
@@ -45,12 +49,12 @@ public class OptionsActivity extends Activity implements View.OnClickListener {
         register.setOnClickListener(this);
         pass.setOnClickListener(this);
         user.setOnClickListener(this);
-        setupDifficultySpinner();
+        setupDefaults();
     }
 
-    private void setupDifficultySpinner() {
+    private void setupDefaults() {
         try {
-            final String difficulty = "difficulty";
+            final String difficulty = getResources().getString(R.string.difficulty);
             SharedPreferences sp = General.GetPrefs(this);
             final SharedPreferences.Editor editor = sp.edit();
             int diff = sp.getInt(difficulty, -1);
@@ -77,6 +81,17 @@ public class OptionsActivity extends Activity implements View.OnClickListener {
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
                     editor.putInt(difficulty, 1);
+                    editor.apply();
+                }
+            });
+
+            Switch anims = (Switch)this.findViewById(R.id.disable_anim);
+            anims.setChecked(sp.getBoolean(getResources().getString(R.string.enableAnims), true));
+            anims.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    editor.putBoolean(getResources().getString(R.string.enableAnims),
+                            isChecked);
                     editor.apply();
                 }
             });
