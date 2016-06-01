@@ -31,8 +31,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //LOG TAG
     public static final String TAG = "DatabaseHelper CLASS";
 
-    // Database Version and Name
-    public static final int DB_VERSION = 2;
+    /**
+     * ATTENTION:
+     *      To make changes to the database in any way, just change the DB_VERSION
+     *      constant to next incremented value.  This will tell the SQLiteOpenHelper
+     *      to re-create Database by calling onCreate().  If the version number is not
+     *      changed, no changes will be made to the installed DB (unless you completely
+     *      uninstall the app from device and reinstall).
+     *      Changing the DB_NAME constant is optional.
+     */
+    public static final int DB_VERSION = 3;
     public static final String DB_NAME = "WORDS.DB";
 
     // Words table name

@@ -36,6 +36,7 @@
     <string name="enter_password">Enter Password</string>
     <string name="LOGIN_PREFS">edu.uw.tcss450.team1.cosmic_kids_game.PREFS</string>
 
+    <string name="start_game">START GAME</string>
     <string name="repeat_word">Repeat Word</string>
     <string name="submit_word">Submit Word</string>
     <string name="changedNextButton">Next Word</string>
@@ -50,6 +51,7 @@
     <string name="SCORES_FILE">edu.uw.tcss450.team1.cosmic_kids_game.SCORES_FILE</string>
     <string name="emailScore">Share Score</string>
     <string name="enable_animations">Enable Animations</string>
+
 
     <string-array name="difficulty_options">
         <item>Easy (Ages 5–7)</item>
