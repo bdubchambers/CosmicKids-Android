@@ -10,6 +10,7 @@ package edu.uw.tcss450.team1.cosmic_kids_game.HelperCode;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.view.Gravity;
 import android.widget.Toast;
 
 import edu.uw.tcss450.team1.cosmic_kids_game.R;
@@ -33,5 +34,15 @@ public class General {
             toast.setGravity(gravity, xOffset, yOffset);
             toast.show();
         }
+    }
+
+
+    public static void ToastGravityTop(Context context, String message){
+
+        Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
+        if(toast != null){
+            toast.setGravity(Gravity.TOP|Gravity.CENTER, 0, 175);
+        }
+
     }
 }
