@@ -257,20 +257,6 @@ public class SpellGameActivity extends Activity {
     }
 
     @Override
-    public void onPause() {
-        if (ad != null && ad.isRunning()) {
-            ad.stop();
-        }
-        if(toSpeech != null) {
-            if (toSpeech.isSpeaking()) {
-                toSpeech.stop();
-            }
-            toSpeech.shutdown();
-        }
-        super.onPause();
-    }
-
-    @Override
     public void onResume() {
         SharedPreferences sp = General.GetPrefs(this);
         if (sp.getBoolean(getString(R.string.enableAnims), true)) {
@@ -287,5 +273,35 @@ public class SpellGameActivity extends Activity {
         }
         super.onResume();
         nextWord();
+    }
+
+    private void closeResources() {
+        if (ad != null && ad.isRunning()) {
+            ad.stop();
+        }
+        if(toSpeech != null) {
+            if (toSpeech.isSpeaking()) {
+                toSpeech.stop();
+            }
+            toSpeech.shutdown();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        closeResources();
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        closeResources();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onStop() {
+        closeResources();
+        super.onStop();
     }
 }
