@@ -10,7 +10,6 @@ package edu.uw.tcss450.team1.cosmic_kids_game.HelperCode;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.widget.Toast;
 
