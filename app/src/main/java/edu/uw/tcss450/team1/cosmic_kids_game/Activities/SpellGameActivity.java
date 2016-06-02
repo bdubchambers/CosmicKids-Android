@@ -285,6 +285,7 @@ public class SpellGameActivity extends Activity {
             ad = null;
         }
         super.onResume();
+        nextWord();
     }
 
     private void closeResources() {
