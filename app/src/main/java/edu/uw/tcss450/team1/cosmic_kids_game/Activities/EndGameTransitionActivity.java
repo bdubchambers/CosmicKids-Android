@@ -18,11 +18,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
 import edu.uw.tcss450.team1.cosmic_kids_game.R;
 
 public class EndGameTransitionActivity extends Activity {
@@ -60,7 +58,7 @@ public class EndGameTransitionActivity extends Activity {
 
                 final String finalStr = sb.toString();
                 final String[] splitter = finalStr.split(" ; ");
-                Log.d(TAG, "User:" + splitter[0] + "Score:" + splitter[1]);
+                Log.d(TAG, "User: " + splitter[0] + " // Score: " + splitter[1]);
                 tvUser.setText(splitter[0]);
                 tvScore.setText(splitter[1]);
 

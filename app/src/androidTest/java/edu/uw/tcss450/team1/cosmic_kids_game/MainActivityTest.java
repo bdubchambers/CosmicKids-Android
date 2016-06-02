@@ -1,16 +1,20 @@
+/**
+ * @Class MainActivityTest
+ * @Version 1.0.0
+ * @Author Justin Burch
+ * @Author Brandon Chambers
+ *
+ * Robotium test to make certain the MainActivity properly sends to LoginActivity if the
+ * user is not logged in. Tests both cases of a user being logged in, as well as a user not being
+ * logged in.
+ */
 package edu.uw.tcss450.team1.cosmic_kids_game;
 
 import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
-
 import com.robotium.solo.Solo;
-
-import edu.uw.tcss450.team1.cosmic_kids_game.Activities.LoginActivity;
 import edu.uw.tcss450.team1.cosmic_kids_game.Activities.MainActivity;
 
-/**
- * Created by Justin on 5/30/2016.
- */
 public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
     private Solo solo;
 
@@ -26,11 +30,14 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
     @Override
     public void tearDown() throws Exception {
-        //tearDown() is run after a test case has finished.
-        //finishOpenedActivities() will finish all the activities that have been opened during the test execution.
         solo.finishOpenedActivities();
     }
 
+    /**
+     * Checks if the user is logged in by identifying if the app has not redirected
+     * to the LoginActivity upon start. If so, it will force a log out and verify the user is
+     * redirected to the login screen. Otherwise, it will attempt to login.
+     */
     public void testLoginOrLogout() {
         // Following method of obtaining resources by user cody @ stackoverflow.com/5216509
         Resources res = getInstrumentation().getTargetContext().getResources();
@@ -56,6 +63,9 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         }
     }
 
+    /**
+     * Will call the testLoginOrLogout method in order to test the second branch of possibilities.
+     */
     public void testOpposite() {
         testLoginOrLogout();
     }

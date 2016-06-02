@@ -16,9 +16,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-
 import java.util.ArrayList;
-
 import cz.msebera.android.httpclient.NameValuePair;
 import cz.msebera.android.httpclient.message.BasicNameValuePair;
 import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.General;

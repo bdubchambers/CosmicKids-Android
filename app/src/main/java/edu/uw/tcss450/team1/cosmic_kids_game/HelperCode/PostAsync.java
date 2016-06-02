@@ -13,12 +13,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-
 import cz.msebera.android.httpclient.NameValuePair;
 
 /**
@@ -28,6 +25,7 @@ public class PostAsync extends AsyncTask<Void, Void, String> {
     /* Static Variables */
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
+
     /* Class-Level Variables */
     private ProgressDialog progDiag;
     private JSONParser jsonParser = new JSONParser();
@@ -80,9 +78,8 @@ public class PostAsync extends AsyncTask<Void, Void, String> {
             Log.d("Attempting to post", jsonObject.toString());
             result = jsonObject.getInt(TAG_SUCCESS);
             returnValue = jsonObject.getString(TAG_MESSAGE);
-            if(result == 1) {
+            if (result == 1) {
                 Log.d("Post Success", jsonObject.toString());
-                //finish(); // ??
             } else {
                 Log.d("Post Failure", returnValue);
             }

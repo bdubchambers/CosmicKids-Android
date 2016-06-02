@@ -12,9 +12,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.Gravity;
 import android.widget.Toast;
-
 import edu.uw.tcss450.team1.cosmic_kids_game.R;
-
 import static android.widget.Toast.*;
 
 public class General {
