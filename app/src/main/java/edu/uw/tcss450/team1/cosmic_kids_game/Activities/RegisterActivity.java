@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -73,7 +72,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
             try {
                 String result = post.get();
                 if (result != null) {
-                    General.Toast(this,
+                    General.toast(this,
                             result);
                     if (result.startsWith("Username")) {
                         SharedPreferences sp =
@@ -84,7 +83,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
                         editor.apply();
                         String loggedIn = view.getContext().getString(R.string.loggedIn);
                         if (!sp.getBoolean(loggedIn, false)) {
-                            General.Toast(this,
+                            General.toast(this,
                                     "Logging in as " + user);
                             editor.putBoolean(loggedIn, true);
                         }
@@ -93,7 +92,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
                     }
                 }
             } catch (Exception e) {
-                General.Toast(this,
+                General.toast(this,
                         "Connection Error: " + e.getMessage());
             }
         }
@@ -108,18 +107,18 @@ public class RegisterActivity extends Activity implements OnClickListener {
      */
     boolean verifyInputs(String user, String password, String verify) {
         if (user.length() < 3) {
-            General.Toast(this,
+            General.toast(this,
                     "Username should be at least 3 characters long!");
         } else if (user.toLowerCase().equals("guest")) {
-            General.Toast(this,
+            General.toast(this,
                     "Invalid username!");
         } else if (!password.equals(verify)) {
-            General.Toast(this,
+            General.toast(this,
                     "Passwords do not match!");
             pass.setText("");
             pass2.setText("");
         } else if (password.length() < 6) {
-            General.Toast(this,
+            General.toast(this,
                     "Password must be at least 6 characters long!");
         } else {
             boolean hasUpper = false;
@@ -135,13 +134,13 @@ public class RegisterActivity extends Activity implements OnClickListener {
                 }
             }
             if (!hasUpper) {
-                General.Toast(this,
+                General.toast(this,
                         "Password must contain at least one uppercase!");
             } else if (!hasDigit) {
-                General.Toast(this,
+                General.toast(this,
                         "Password must contain at least one number!");
             } else if (!hasLower) {
-                General.Toast(this,
+                General.toast(this,
                         "Password must contain at least one lowercase!");
             } else {
                 return true;

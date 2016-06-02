@@ -3,6 +3,7 @@
  * @Version 1.0.0
  * @Author Justin Burch
  * @Author Brandon Chambers
+ *
  * This Activity represents the Spelling Bee game. Words and their associated grade levels
  * are stored locally in a SQLite Database.  Based on the app's
  * Difficulty setting, an ArrayList of words is chosen and held in memory to be randomly chosen
@@ -102,10 +103,10 @@ public class SpellGameActivity extends Activity {
         animBtn = AnimationUtils.loadAnimation(SpellGameActivity.this, R.anim.fade);
         btnRepeatWord.startAnimation(animBtn);
 
-        SharedPreferences sp = General.GetPrefs(this);
+        SharedPreferences sp = General.getPrefs(this);
 
 
-        username = sp.getString(getResources().getString(R.string.username), "Guest");
+        username = General.getUsername(this);
         int difficulty = sp.getInt(getResources().getString(R.string.difficulty), 1);
         final int timeLimit = TIME_LIMIT - (22 * difficulty);
         int[] grades = Word.GetGrades(difficulty);
@@ -139,9 +140,6 @@ public class SpellGameActivity extends Activity {
             btnRepeatWord.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //User has initiated gameplay, change button text from
-                    // "START GAME" to "Repeat Word" and stop the button
-                    //animation.
                     btnRepeatWord.clearAnimation();
                     btnRepeatWord.setText(R.string.repeat_word);
                     speak();
@@ -171,19 +169,18 @@ public class SpellGameActivity extends Activity {
                     } else if (myWord.isCorrect(result)) {
                         int newPoints = myWord.getPoints();
                         pointSum += newPoints;
-                        General.ToastGravity(v.getContext(), "Earned " + newPoints + " points!",
-                                Gravity.TOP|Gravity.CENTER, 0 , 175);
+                        General.toastTop(v.getContext(), "Earned " + newPoints + " points!");
                         nextWord();
                     } else {
                         int toDeduct = myWord.toDeduct(pointSum);
                         pointSum -= toDeduct;
-                        General.ToastGravity(v.getContext(), "Incorrect! You've lost " + toDeduct +
-                                " points!", Gravity.TOP|Gravity.CENTER, 0, 175);
+                        General.toastTop(v.getContext(), "Incorrect! You've lost " + toDeduct +
+                                " points!");
                     }
                 }
             });
         } else {
-            General.Toast(this, "Not enough words to play at this difficulty!");
+            General.toast(this, "Not enough words to play at this difficulty!");
             finish();
         }
     }
@@ -218,7 +215,6 @@ public class SpellGameActivity extends Activity {
     }
 
     private void speak() {
-        Log.d(TAG, "speak: " + toSpeech.getEngines().size());
         HashMap<String, String> params = new HashMap<String, String>();
         params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, ID);
         toSpeech.speak(myWord.getWord(), TextToSpeech.QUEUE_FLUSH, params);
@@ -241,9 +237,6 @@ public class SpellGameActivity extends Activity {
     }
 
     private void finishGame() {
-
-        General.Toast(this, "Game finished");
-
         try{
             OutputStreamWriter out = new OutputStreamWriter(
                     openFileOutput(getString(R.string.SCORES_FILE),
@@ -267,7 +260,7 @@ public class SpellGameActivity extends Activity {
 
     @Override
     public void onResume() {
-        SharedPreferences sp = General.GetPrefs(this);
+        SharedPreferences sp = General.getPrefs(this);
         if (sp.getBoolean(getString(R.string.enableAnims), true)) {
             if (ad == null || !ad.isRunning()) {
                 ImageView iv = (ImageView) findViewById(R.id.imgBGSpaceGIF02);

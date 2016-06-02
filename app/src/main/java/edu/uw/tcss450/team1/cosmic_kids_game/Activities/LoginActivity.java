@@ -83,7 +83,7 @@ public class LoginActivity extends Activity implements OnClickListener {
                     if (result != null) {
                         Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
                         if (result.startsWith("Login")) {
-                            SharedPreferences sp = General.GetPrefs(this);
+                            SharedPreferences sp = General.getPrefs(this);
                             Editor editor = sp.edit();
                             editor.putString(view.getContext().getString(R.string.username),
                                     username);

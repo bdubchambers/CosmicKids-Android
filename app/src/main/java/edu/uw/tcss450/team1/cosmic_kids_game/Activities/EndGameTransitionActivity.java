@@ -3,9 +3,10 @@
  * @Version 1.0.0
  * @author Brandon Chambers
  * @author Justin Burch
+ *
  * This is the general transitional results screen that appears upon
  * completion of any mini game inside the app, displaying your score
- * and giving the option to share via many outlets (text, email, etc.)
+ * and giving the option to share via many outlets (text, email, etc.).
  * A button allows the user to return to the MainScreen.
  */
 package edu.uw.tcss450.team1.cosmic_kids_game.Activities;

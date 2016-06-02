@@ -17,7 +17,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -55,7 +54,7 @@ public class OptionsActivity extends Activity implements View.OnClickListener {
     private void setupDefaults() {
         try {
             final String difficulty = getResources().getString(R.string.difficulty);
-            SharedPreferences sp = General.GetPrefs(this);
+            SharedPreferences sp = General.getPrefs(this);
             final SharedPreferences.Editor editor = sp.edit();
             int diff = sp.getInt(difficulty, -1);
             if (diff < 0) {
@@ -96,7 +95,7 @@ public class OptionsActivity extends Activity implements View.OnClickListener {
                 }
             });
         } catch (Exception e) {
-            General.Toast(this, "ERROR: " + e.getMessage());
+            General.toast(this, "ERROR: " + e.getMessage());
         }
     }
 
@@ -112,10 +111,10 @@ public class OptionsActivity extends Activity implements View.OnClickListener {
                 intent = new Intent(this, RegisterActivity.class);
                 break;
             case R.id.btnChangePass:
-                General.Toast(this, "Feature coming soon!");
+                General.toast(this, "Feature coming soon!");
                 break;
             case R.id.btnChangeUser:
-                SharedPreferences sp = General.GetPrefs(this);
+                SharedPreferences sp = General.getPrefs(this);
                 SharedPreferences.Editor editor = sp.edit();
                 editor.putBoolean(view.getContext().getString(R.string.loggedIn), false);
                 editor.putString(view.getContext().getString(R.string.username), "Guest");
