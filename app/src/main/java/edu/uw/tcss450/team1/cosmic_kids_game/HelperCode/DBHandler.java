@@ -93,4 +93,12 @@ public class DBHandler {
     public void deleteDatabase(){
         context.deleteDatabase(DatabaseHelper.DB_NAME);
     }
+
+    /**
+     * close the connection to the database if open
+     */
+    public void closeDBHandler(){
+        if(db.isOpen())
+            db.close();
+    }
 }

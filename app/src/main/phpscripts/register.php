@@ -11,8 +11,8 @@
       die(json_encode($response));
     }
     /*check entered username against our db, :user is a blank variable
-    that will be changed on line 17, prior to query exectution.
-    this adds security against SQL injections*/
+    that is converted with ':user' =>..., prior to query exectution.
+    this provides security against SQL injections*/
     $query = "SELECT 1 FROM users WHERE username = :user";
     $query_params = array(':user' => $_POST['username'] );
 

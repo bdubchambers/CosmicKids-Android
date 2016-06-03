@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.AnimationDrawable;
@@ -54,7 +55,7 @@ public class SpellGameActivity extends Activity {
     private static final String TAG = "debugSGA";
     private static final String ID = "UtteranceID";
     private static final int TIME_LIMIT = 60;
-    private static final int WORD_LIMIT = 10;
+    private static final int WORD_LIMIT = 15;
 
     /* Class-level Variables */
     private AnimationDrawable ad;
@@ -102,20 +103,26 @@ public class SpellGameActivity extends Activity {
         Word.GradeRange grades = Word.GetGrades(difficulty);
 
         DBHandler dbHandler = new DBHandler(this).open();
-
         Cursor cursor = dbHandler.fetch(grades.getMin(), grades.getMax());
-
-        potentialWords = new ArrayList<>();
-        while(!cursor.isAfterLast()) {
-            try {
-                potentialWords.add(new Word(
-                        cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_WORD)),
-                        cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_GRADE))));
-            } catch(Exception e) {
-                Log.d(TAG, cursor.toString());
+        try {
+            potentialWords = new ArrayList<>();
+            while(!cursor.isAfterLast()) {
+                try {
+                    potentialWords.add(new Word(
+                            cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_WORD)),
+                            cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_GRADE))));
+                } catch(Exception e) {
+                    Log.d(TAG, cursor.toString());
+                }
+                cursor.moveToNext();
             }
-            cursor.moveToNext();
+        } catch(SQLException se) {
+            se.getMessage();
+        } finally {
+            cursor.close();
+            dbHandler.closeDBHandler();
         }
+
 
         if (potentialWords.size() == 0) {
             General.toast(this, "Not enough words to play at this difficulty!");
