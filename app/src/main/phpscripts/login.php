@@ -44,15 +44,15 @@
 	} else {
 		?> <!-- Close out php to start html -->
 		<h1>Login</h1>
-			<form action="login.php" method="post">
-				Username:<br />
-				<input type="text" name="username" placeholder="username" />
-				<br /><br />
-				Password:<br />
-				<input type="password" name="password" placeholder="password" value="" />
-				<br /><br />
-				<input type="submit" value="Login" />
-			</form>
+		<form action="login.php" method="post">
+			Username:<br />
+			<input type="text" name="username" placeholder="username" />
+			<br /><br />
+			Password:<br />
+			<input type="password" name="password" placeholder="password" value="" />
+			<br /><br />
+			<input type="submit" value="Login" />
+		</form>
 		<a href="register.php">Register</a>
 		<?php
 	}

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/space_small"
+    tools:context=".Activities.LoginActivity">
+
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cosmic Kids User Login"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold"
+        android:textColor="@color/user_passBGColor"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="top|center_horizontal" />
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:layout_gravity="center">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="12"
+            android:id="@+id/login_user"
+            android:layout_gravity="center"
+            android:hint="@string/enter_username"
+            android:textColorHint="@color/hintColor"
+            android:textColor="@color/user_passBGColor"
+            android:backgroundTint="@android:color/white" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_gravity="center_horizontal" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="12"
+            android:id="@+id/login_pass"
+            android:layout_gravity="center"
+            android:hint="@string/enter_password"
+            android:textColorHint="@color/hintColor"
+            android:textColor="@color/user_passBGColor"
+            android:backgroundTint="@android:color/white" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/submit"
+            android:id="@+id/btnLoginSubmit"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/nuclearYellow"
+            android:typeface="monospace"
+            android:textStyle="bold"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/register"
+            android:id="@+id/btnRegisterLogin"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/nuclearYellow"
+            android:typeface="monospace"
+            android:textStyle="bold"/>
+    </LinearLayout>
+</FrameLayout>

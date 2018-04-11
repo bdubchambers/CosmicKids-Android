@@ -8,11 +8,8 @@
  */
 package edu.uw.tcss450.team1.cosmic_kids_game;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import edu.uw.tcss450.team1.cosmic_kids_game.Models.Word;
+import org.junit.Before; import org.junit.Rule; import org.junit.Test;
+import org.junit.rules.ExpectedException; import edu.uw.tcss450.team1.cosmic_kids_game.Models.Word;
 import static org.junit.Assert.*;
 
 
@@ -60,9 +57,7 @@ public class WordTest {
      * Verify that the grade is properly saved.
      */
     @Test
-    public void testGetGrade() {
-        assertEquals(word.getGrade(), Word.GRADE_MIN);
-    }
+    public void testGetGrade() { assertEquals(word.getGrade(), Word.GRADE_MIN); }
 
     /**
      * Verify that the static method to return a grade based on difficulty handles the

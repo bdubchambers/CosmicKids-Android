@@ -13,7 +13,7 @@
 			die(json_encode($response));
 		}
 		/*check entered username against our db, :user is a blank variable
-		  that is converted with ':user' =>..., prior to query exectution.
+		  that is converted with ':user' =>..., prior to query execution.
 		  this provides security against SQL injections*/
 		$query = "SELECT 1 FROM users WHERE username = :user";
 		$query_params = array(':user' => $_POST['username'] );
@@ -65,9 +65,9 @@
 		?>
 		<h1>Register</h1>
 		<form action="register.php" method="post">
-				Username: <br />
+			Username: <br />
 			<input type="text" name="username" placeholder="user name"><br />
-				Password: <br />
+			Password: <br />
 			<input type="password" name="password" placeholder="password"><br />
 			<input type="submit" value="Register user"/>
 		</form>

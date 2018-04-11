@@ -56,32 +56,33 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="30dp"
             android:layout_gravity="center_horizontal" />
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/submit"
             android:id="@+id/btnLoginSubmit"
-            android:layout_gravity="center"
-            android:backgroundTint="#EEFF22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/nuclearYellow"
             android:typeface="monospace"
             android:textStyle="bold"/>
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="10dp"
             android:layout_gravity="center_horizontal" />
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/register"
             android:id="@+id/btnRegisterLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:backgroundTint="@color/nuclearYellow"
             android:typeface="monospace"
             android:textStyle="bold"/>
+
     </LinearLayout>
 </FrameLayout>

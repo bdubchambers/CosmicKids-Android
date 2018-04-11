@@ -7,6 +7,7 @@
  * This class is intended to provide a base Helper Class to handle all asynchronous POST calls
  * to our CSSGate-hosted PHP/MySQL services.
  */
+
 package edu.uw.tcss450.team1.cosmic_kids_game.HelperCode;
 
 import android.app.ProgressDialog;

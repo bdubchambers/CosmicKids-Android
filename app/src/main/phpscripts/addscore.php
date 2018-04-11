@@ -26,18 +26,18 @@
 	} else {
 ?> <!-- Close php to use html -->
 		<h1>Add Score</h1>
-			<form action="addscore.php" method="post">
-				Username:<br />
-				<input type="text" name="username" placeholder="username" />
-				<br /><br />
-				Gamename:<br />
-				<input type="text" name="gamename" placeholder="name of game" />
-				<br /><br />
-				Score:<br />
-				<input type="text" name="score" placeholder="post score" />
-				<br /><br />
-				<input type="submit" value="Add Score" />
-			</form>
+		<form action="addscore.php" method="post">
+			Username:<br />
+			<input type="text" name="username" placeholder="username" />
+			<br /><br />
+			Gamename:<br />
+			<input type="text" name="gamename" placeholder="name of game" />
+			<br /><br />
+			Score:<br />
+			<input type="text" name="score" placeholder="post score" />
+			<br /><br />
+			<input type="submit" value="Add Score" />
+		</form>
 <?php
 	}
 ?>
