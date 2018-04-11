@@ -3,22 +3,26 @@
  * @Version 1.0.0
  * @Author Justin Burch
  * @Author Brandon Chambers
- * <p/>
- * This handles the Spelling Bee game Activity.  Words and there associated grade levels
- * (currently 3rd through 6th) are stored locally in a SQLite Database.  Based on the app's
+ *
+ * This Activity represents the Spelling Bee game. Words and their associated grade levels
+ * are stored locally in a SQLite Database.  Based on the app's
  * Difficulty setting, an ArrayList of words is chosen and held in memory to be randomly chosen
- * and the TextToSpeech engine will speak the word to the user.  The user will have 15 seconds
- * to typed in the correct spelling of the word.  If the word is spelled incorrectly, no points
- * are awarded.  If it is correct, then the following formula is applied to determine the current
- * games final score: SUM(word.length * gradeLevelOfWord).
+ * and the TextToSpeech engine will speak the word to the user.  The user will have a limited
+ * amount of time, based on the difficulty setting within the options menu,
+ * to type in the correct spelling of the word.  If the word is spelled incorrectly, no points
+ * are awarded at the easier difficulties, and points are deducted at the highest level.  If it is
+ * correct, a formula containing the length of the word and the grade level associated with the
+ * word will produce a score.
  */
 package edu.uw.tcss450.team1.cosmic_kids_game.Activities;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.AnimationDrawable;
@@ -28,20 +32,18 @@ import android.os.SystemClock;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
-
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Random;
-
 import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.DBHandler;
 import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.DatabaseHelper;
 import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.General;
@@ -49,144 +51,136 @@ import edu.uw.tcss450.team1.cosmic_kids_game.Models.Word;
 import edu.uw.tcss450.team1.cosmic_kids_game.R;
 
 public class SpellGameActivity extends Activity {
-    private static final String TAG = "SpellGameActivity class";
+    /* Static Variables */
+    private static final String TAG = "debugSGA";
     private static final String ID = "UtteranceID";
     private static final int TIME_LIMIT = 60;
-    private static final int WORD_LIMIT = 5;
-
-    //Animates our GIF for background
-    private AnimationDrawable ad;
-
-    //Where the spelling word is entered by user
-    EditText etWordEntry;
-    public String result = null;
-    public int pointSum = 0;
-    //Speak spelling words to user
-    TextToSpeech toSpeech;
-    public String strToSpeak;
-    Button btnRepeatWord, btnSubmitWord;
-
-    //ProgressBar to show countdownTimer
-    ProgressBar progressBar;
-    CountDownTimer timer;
-
+    private static final int WORD_LIMIT = 15;
 
     /* Class-level Variables */
-    ArrayList<Word> potentialWords;
-    int numberOfWords = 20;
-    Word myWord;
+    private AnimationDrawable ad;
+    private Animation animBtn;
+    private EditText etWordEntry;
+    private Button btnRepeatWord, btnSubmitWord;
+    private TextToSpeech toSpeech;
+    private ProgressBar progressBar;
+    private CountDownTimer timer;
+    private String username;
+    private ArrayList<Word> potentialWords;
+    private Word myWord;
+    private int numberOfWords;
+    private boolean started;
 
+    public String result;
+    public int pointSum;
+
+    /**
+     * Initialize components and set their listeners, as well as retrieve the word list.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spell_game);
         setTheme(R.style.FullscreenTheme);
 
-        /*Grab ImageView by id and use the animation-list created inside
-        animation xml to string together frames of a GIF (Android does
-        not provide native GIF support)*/
-        ImageView iv = (ImageView) findViewById(R.id.imgBGSpaceGIF02);
-        iv.setBackgroundResource(R.drawable.spacegif);
-        ad = (AnimationDrawable) iv.getBackground();
-
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.getProgressDrawable().setColorFilter(Color.CYAN, PorterDuff.Mode.DARKEN);
         progressBar.setMax(100);
 
-        //button that repeats the current spelling word
         btnRepeatWord = (Button) findViewById(R.id.btnRepeatWord);
-        //button that sends the user's spelling for checking
         btnSubmitWord = (Button) findViewById(R.id.btnSubmitWord);
-        //user's word entry to be checked for spelling
         etWordEntry = (EditText) findViewById(R.id.etWordEntry);
-        numberOfWords = 0;
-        SharedPreferences sp = General.GetPrefs(this);
 
+        // Animated button to attract user to start game
+        animBtn = AnimationUtils.loadAnimation(SpellGameActivity.this, R.anim.fade);
+        btnRepeatWord.startAnimation(animBtn);
 
-        final String user = sp.getString("username", "you");
-        int difficulty = sp.getInt("difficulty", 1);
-        final int timeLimit = TIME_LIMIT - (25 * difficulty);
-        int[] grades = Word.GetGrades(difficulty);
+        SharedPreferences sp = General.getPrefs(this);
+        username = General.getUsername(this);
+        int difficulty = sp.getInt(getResources().getString(R.string.difficulty), 1);
+        final int timeLimit = TIME_LIMIT - (22 * difficulty);
+        Word.GradeRange grades = Word.GetGrades(difficulty);
 
-        DBHandler dbHandler = new DBHandler(this);
-        dbHandler.open();
-
-        Cursor cursor = dbHandler.fetch(grades[0], grades[1]);
-
-        potentialWords = new ArrayList<>();
-        while(!cursor.isAfterLast()) {
-            try {
-                int wcol = cursor.getColumnIndex(DatabaseHelper.COL_WORD);
-                int icol = cursor.getColumnIndex(DatabaseHelper.COL_GRADE);
-                potentialWords.add(new Word(cursor.getString(wcol),
-                        cursor.getInt(icol)));
-            } catch(Exception e) {
-                Log.d("debugSGA_AddToList", cursor.toString());
+        DBHandler dbHandler = new DBHandler(this).open();
+        Cursor cursor = dbHandler.fetch(grades.getMin(), grades.getMax());
+        try {
+            potentialWords = new ArrayList<>();
+            while(!cursor.isAfterLast()) {
+                try {
+                    potentialWords.add(new Word(
+                            cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_WORD)),
+                            cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_GRADE))));
+                } catch(Exception e) {
+                    Log.d(TAG, cursor.toString());
+                }
+                cursor.moveToNext();
             }
-            cursor.moveToNext();
+        } catch(SQLException se) {
+            se.getMessage();
+        } finally {
+            cursor.close();
+            dbHandler.closeDBHandler();
         }
 
-        //initialize TextToSpeech
-        initTTS();
 
-        btnRepeatWord.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                speak();
-            }
-        });
+        if (potentialWords.size() == 0) {
+            General.toast(this, "Not enough words to play at this difficulty!");
+            finish();
+        } else {
+            initTTS();
 
-        final int timeMs = timeLimit * 1000;
-        timer = new CountDownTimer(timeMs, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                long elapsed = timeMs - millisUntilFinished;
-                double pct = (elapsed * 1.0) / timeMs;
-                double rounder = pct * 100;
-                int rounded = (int) rounder;
-                progressBar.setProgress(rounded);
-            }
-
-            @Override
-            public void onFinish() {
-                nextWord(pointSum, user);
-            }
-        };
-
-        btnSubmitWord.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                result = etWordEntry.getText().toString();
-                int grade = myWord.getGrade();
-                int length = strToSpeak.length();
-                if(result == null) {
-                    return;
-                } else if(result.equals(strToSpeak)) {
-                    int newPoints = length * grade;
-                    pointSum += newPoints;
-                    //Custom placed Toast, old one was in the way of keyboard and other
-                    //UI elements
-                    String toastStr = "Earned " + newPoints + " points!";
-                    Toast toast = Toast.makeText(v.getContext(),toastStr, Toast.LENGTH_LONG);
-                    if(toast != null){
-                        toast.setGravity(Gravity.TOP|Gravity.CENTER, 0, 200);
-                        toast.show();
+            btnRepeatWord.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!started) {
+                        btnRepeatWord.clearAnimation();
+                        btnRepeatWord.setText(R.string.repeat_word);
+                        started = true;
                     }
-                    nextWord(pointSum, user);
-                } else if(grade > 4 && pointSum > length) {
-                    pointSum -= length;
-                    General.Toast(v.getContext(), "Incorrect! You've lost " + length + " points!");
-                } else {
-                    General.Toast(v.getContext(), "Incorrect!");
+                    speak();
                 }
-            }
-        });
+            });
 
-        nextWord(pointSum, user);
+            final int timeMs = timeLimit * 1000;
+            timer = new CountDownTimer(timeMs, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    int rounded = (int)(100 * (((timeMs - millisUntilFinished) * 1.0) / timeMs));
+                    progressBar.setProgress(rounded);
+                }
+
+                @Override
+                public void onFinish() {
+                    nextWord();
+                }
+            };
+
+            btnSubmitWord.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    result = etWordEntry.getText().toString();
+                    if (result.length() > 0) {
+                        if (myWord.isCorrect(result)) {
+                            int newPoints = myWord.getPoints();
+                            pointSum += newPoints;
+                            General.toastTop(v.getContext(), "Earned " + newPoints + " points!");
+                            nextWord();
+                        } else {
+                            int toDeduct = myWord.toDeduct(pointSum);
+                            pointSum -= toDeduct;
+                            General.toastTop(v.getContext(), "Incorrect! You've lost " + toDeduct +
+                                    " points!");
+                        }
+                    }
+                }
+            });
+        }
     }
 
     /**
-     * sets up the TextToSpeech Engine
+     * Create the TextToSpeech object and set a listener that will activate the game timer as
+     * soon as the word has finished being spoken for the first time.
      */
     private void initTTS() {
         toSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
@@ -199,18 +193,14 @@ public class SpellGameActivity extends Activity {
                     toSpeech.setSpeechRate(0);
                     toSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
                         @Override
-                        public void onStart(String utteranceId) {
-                        }
-
+                        public void onStart(String utteranceId) {}
+                        @Override
+                        public void onError(String utteranceId) {}
                         @Override
                         public void onDone(String utteranceId) {
                             if(progressBar.getProgress() == 0) {
                                 timer.start();
                             }
-                        }
-
-                        @Override
-                        public void onError(String utteranceId) {
                         }
                     });
                 }
@@ -219,79 +209,119 @@ public class SpellGameActivity extends Activity {
     }
 
     /**
-     * use TTS engine to speak a word
+     * Speak the word that is currently set.
      */
     private void speak() {
-        HashMap<String, String> params = new HashMap<String, String>();
+        if (android.os.Build.VERSION.SDK_INT > 20) {
+            speak21();
+        } else {
+            speakOld();
+        }
+    }
+
+    @TargetApi(21)
+    private void speak21() {
+        toSpeech.speak(myWord.getWord(), TextToSpeech.QUEUE_FLUSH, null, ID);
+    }
+
+    private void speakOld() {
+        HashMap<String, String> params = new HashMap<>();
         params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, ID);
-        toSpeech.speak(strToSpeak, TextToSpeech.QUEUE_FLUSH, params);
+        //noinspection deprecation
+        toSpeech.speak(myWord.getWord(), TextToSpeech.QUEUE_FLUSH, params);
     }
 
     /**
-     * randomly select a word from a pool of difficulty-level based words
+     * Reset the components and check if the game should continue: go to next screen if not,
+     * retrieve the next word if so.
      */
-    private void nextWord(int score, String user) {
-        final Random random = new Random(SystemClock.currentThreadTimeMillis());
+    private void nextWord() {
         numberOfWords++;
         progressBar.setProgress(0);
         timer.cancel();
         etWordEntry.setText("");
         if(numberOfWords > WORD_LIMIT || potentialWords.size() == 0) {
-            finishGame(score, user);
+            finishGame();
         } else {
+            final Random random = new Random(SystemClock.currentThreadTimeMillis());
             int index = random.nextInt(potentialWords.size());
             myWord = potentialWords.get(index);
             potentialWords.remove(index);
-            strToSpeak = myWord.getWord();
             speak();
         }
     }
 
     /**
-     * send user to the score displaying transitional screen after completion
+     * Write the score to a local file and start the EndGame screen that allows for score sharing.
      */
-    private void finishGame(int totalScore, String user) {
+    private void finishGame() {
         try{
             OutputStreamWriter out = new OutputStreamWriter(
-                    openFileOutput(getString(R.string.SCORES_FILE), Context.MODE_PRIVATE));
-            out.write(user + " ; " + totalScore);
+                    openFileOutput(getString(R.string.SCORES_FILE),
+                            Context.MODE_PRIVATE));
+            out.write(username + " ; " + pointSum);
             out.close();
         } catch(Exception e) {
             e.printStackTrace();
         }
-
         Intent intent = new Intent(SpellGameActivity.this, EndGameTransitionActivity.class);
         startActivity(intent);
         finish();
     }
 
-    /**
-     * Starts the AnimationDrawable to string together frames of a GIF
-     *
-     * @param hasFocus
-     */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
-        if(hasFocus) {
+        if(hasFocus && ad != null && !ad.isRunning()) {
             ad.start();
-        } else {
-            ad.stop();
-            if(toSpeech != null) {
-                toSpeech.stop();
-                toSpeech.shutdown();
-            }
         }
     }
 
-    /**
-     * shutdown TextToSpeech engine when idle
-     */
-    public void onPause() {
-        if(toSpeech != null) {
-            toSpeech.stop();
+    @Override
+    public void onResume() {
+        SharedPreferences sp = General.getPrefs(this);
+        if (sp.getBoolean(getString(R.string.enableAnims), true)) {
+            if (ad == null || !ad.isRunning()) {
+                ImageView iv = (ImageView) findViewById(R.id.imgBGSpaceGIF02);
+                iv.setBackgroundResource(R.drawable.spacegif);
+                ad = (AnimationDrawable) iv.getBackground();
+            }
+        } else { // if user made change after this was initially created
+            if (ad != null && ad.isRunning()) {
+                ad.stop();
+            }
+            ad = null;
+        }
+        super.onResume();
+        nextWord();
+    }
+
+    private void closeResources() {
+        if (ad != null && ad.isRunning()) {
+            ad.stop();
+        }
+        if (toSpeech != null) {
+            if (toSpeech.isSpeaking()) {
+                toSpeech.stop();
+            }
             toSpeech.shutdown();
         }
+    }
+
+    @Override
+    public void onPause() {
+        closeResources();
         super.onPause();
     }
 
+    @Override
+    public void onDestroy() {
+        closeResources();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onStop() {
+        closeResources();
+        super.onStop();
+    }
 }

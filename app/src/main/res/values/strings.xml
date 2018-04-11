@@ -3,10 +3,10 @@
     <string name="app_name">Cosmic Kids</string>
     <string name="title_activity_main">Cosmic Kids</string>
     <string name="title_activity_login">Sign in</string>
-    <string name="cosmic_kids_spelling_bee">Cosmic Kids: Spelling Bee</string>
-    <string name="login_title">Cosmic Kids User Login</string>
-    <string name="title_activity_options">Cosmic Kids User Options</string>
-    <string name="transitionScreenTitle">Results...</string>
+    <string name="cosmic_kids_spelling_bee">Spelling Bee</string>
+    <string name="login_title">User Login</string>
+    <string name="title_activity_options">User Options</string>
+    <string name="transitionScreenTitle">Spelling Bee Results</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -20,6 +20,9 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="username">username</string>
+    <string name="loggedIn">loggedIn</string>
+    <string name="enableAnims">enableAnims</string>
 
     <string name="single_player">Single Player</string>
     <string name="multi_player">Multi-Player</string>
@@ -33,6 +36,7 @@
     <string name="enter_password">Enter Password</string>
     <string name="LOGIN_PREFS">edu.uw.tcss450.team1.cosmic_kids_game.PREFS</string>
 
+    <string name="start_game">START GAME</string>
     <string name="repeat_word">Repeat Word</string>
     <string name="submit_word">Submit Word</string>
     <string name="changedNextButton">Next Word</string>
@@ -40,11 +44,14 @@
     <string name="change_pass">Change Pass</string>
     <string name="change_user">Change User</string>
     <string name="returnMain">Return to Main Screen</string>
+    <string name="perf">Performance</string>
 
 
     <!-- LOCAL FILE STORAGE -->
     <string name="SCORES_FILE">edu.uw.tcss450.team1.cosmic_kids_game.SCORES_FILE</string>
     <string name="emailScore">Share Score</string>
+    <string name="enable_animations">Enable Animations</string>
+
 
     <string-array name="difficulty_options">
         <item>Easy (Ages 5–7)</item>

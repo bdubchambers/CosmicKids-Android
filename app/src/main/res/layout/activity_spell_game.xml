@@ -3,7 +3,7 @@
                 android:id="@+id/rr_spell"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                >
+    android:background="@drawable/space_small">
 
     <ImageView
         android:id="@+id/imgBGSpaceGIF02"
@@ -36,7 +36,7 @@
 android:layout_marginRight="4dp"
         android:backgroundTint="@color/nuclearYellowDark"
         android:backgroundTintMode="add"
-        android:text="@string/repeat_word"
+        android:text="@string/start_game"
         android:textSize="10sp"
         android:textColor="@color/nuclearYellow"
         android:typeface="monospace"

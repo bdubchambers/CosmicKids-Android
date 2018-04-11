@@ -6,8 +6,6 @@
  * This class is intended to provide an Activity that will showcase our base menu, which will allow
  * a user to start a game (Single or Online) or to access the Options screen for additional
  * resources.
- * This Activity may be the container to hold fragments related to all non-game screens in the
- * next Phase.
  */
 
 package edu.uw.tcss450.team1.cosmic_kids_game.Activities;
@@ -23,10 +21,10 @@ import edu.uw.tcss450.team1.cosmic_kids_game.HelperCode.General;
 import edu.uw.tcss450.team1.cosmic_kids_game.R;
 
 public class MainActivity extends Activity implements View.OnClickListener {
+    private boolean justCreated;
 
     /*LOG TAG*/
     private static final String TAG = "MAINACTIVITY class";
-    private Button btnSingle, btnMulti, btnOptions, btnExit;
 
     /**
      * Override to set listeners for buttons.
@@ -37,22 +35,28 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        btnSingle = (Button) this.findViewById(R.id.btnSingle);
-        btnMulti = (Button) this.findViewById(R.id.btnMulti);
-        btnOptions = (Button) this.findViewById(R.id.btnOptions);
-        btnExit = (Button) this.findViewById(R.id.btnExit);
+        Button btnSingle = (Button) this.findViewById(R.id.btnSingle);
+        Button btnMulti = (Button) this.findViewById(R.id.btnMulti);
+        Button btnOptions = (Button) this.findViewById(R.id.btnOptions);
+        Button btnExit = (Button) this.findViewById(R.id.btnExit);
 
         btnSingle.setOnClickListener(this);
         btnMulti.setOnClickListener(this);
         btnOptions.setOnClickListener(this);
         btnExit.setOnClickListener(this);
 
-        SharedPreferences sp = General.GetPrefs(this);
-        if(!sp.getBoolean("loggedIn", false)) {
+        justCreated = true;
+    }
+
+    private void checkLoggedIn() {
+        SharedPreferences sp = General.getPrefs(this);
+        if(!General.isLoggedIn(this, sp)) {
+            General.toast(this, "You must be logged in to proceed!");
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
-        } else {
-            General.Toast(this, "Hello, " + sp.getString("username", "you") + "!");
+        } else if (justCreated) {
+            General.toast(this, "Hello, " + General.getUsername(this, sp) + "!");
+            justCreated = false;
         }
     }
 
@@ -64,7 +68,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         Intent intent = null;
-        SharedPreferences sp = General.GetPrefs(this);
         switch(view.getId()) {
             case R.id.btnSingle:
                 /*
@@ -73,7 +76,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                  * with context sensitive data displays where necessary.  The multiplayer logic
                  * would be handled transparently, especially since we will not have a server
                  * selection or game lobby screen--there is no need to differentiate between a
-                 * local and multiplayer game except for a simple Toast message or progress bar.
+                 * local and multiplayer game except for a simple toast message or progress bar.
                  *
                  * For now we will just launch directly into the Spelling Bee game (via the
                  * SpellGameActivity) after the user clicks 'SinglePlayer' button.
@@ -81,10 +84,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 intent = new Intent(MainActivity.this, SpellGameActivity.class);
                 break;
             case R.id.btnMulti:
-                if(!sp.getBoolean("loggedIn", false)) {
+                if(!General.isLoggedIn(this)) {
                     intent = new Intent(this, LoginActivity.class);
                 } else {
-                    General.Toast(this, "Sorry.. you have no friends.");
+                    General.toast(this, "Sorry.. you have no friends.");
                 }
                 break;
             case R.id.btnOptions:
@@ -105,7 +108,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onResume() {
+        super.onResume();
+        checkLoggedIn();
     }
 }

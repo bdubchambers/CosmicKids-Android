@@ -1,12 +1,55 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <words>
+
+    <record word="three" grade="1" />
+    <record word="five" grade="1" />
+    <record word="seven" grade="1" />
+    <record word="eight" grade="1" />
+    <record word="cat" grade="1" />
+    <record word="dog" grade="1" />
+    <record word="pig" grade="1" />
+    <record word="chicken" grade="1" />
+    <record word="story" grade="1" />
+    <record word="time" grade="1" />
+    <record word="teacher" grade="1" />
+    <record word="short" grade="1" />
+    <record word="long" grade="1" />
+    <record word="walk" grade="1" />
+    <record word="run" grade="1" />
+    <record word="skip" grade="1" />
+    <record word="trip" grade="1" />
+    <record word="swing" grade="1" />
+    <record word="lunch" grade="1" />
+    <record word="person" grade="1" />
+
+    <record word="mother" grade="2" />
+    <record word="father" grade="2" />
+    <record word="second" grade="2" />
+    <record word="first" grade="2" />
+    <record word="notebook" grade="2" />
+    <record word="sound" grade="2" />
+    <record word="third" grade="2" />
+    <record word="people" grade="2" />
+    <record word="family" grade="2" />
+    <record word="toast" grade="2" />
+    <record word="breakfast" grade="2" />
+    <record word="everywhere" grade="2" />
+    <record word="something" grade="2" />
+    <record word="nothing" grade="2" />
+    <record word="across" grade="2" />
+    <record word="count" grade="2" />
+    <record word="zebra" grade="2" />
+    <record word="student" grade="2" />
+    <record word="medium" grade="2" />
+    <record word="follow" grade="2" />
+
     <record word="usual" grade="3" />
     <record word="often" grade="3" />
     <record word="earth" grade="3" />
     <record word="several" grade="3" />
     <record word="together" grade="3" />
     <record word="young" grade="3" />
-    <record word="mother" grade="3" />
+    <record word="grandmother" grade="3" />
     <record word="important" grade="3" />
     <record word="light" grade="3" />
     <record word="middle" grade="3" />
@@ -16,7 +59,7 @@
     <record word="scratch" grade="3" />
     <record word="disappear" grade="3" />
     <record word="health" grade="3" />
-    <record word="father" grade="3" />
+    <record word="grandfather" grade="3" />
     <record word="voice" grade="3" />
     <record word="ostrich" grade="3" />
     <record word="banana" grade="3" />

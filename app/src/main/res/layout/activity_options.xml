@@ -26,8 +26,7 @@
             android:text="@string/difficulty"
             android:layout_gravity="center"
             android:textColorHint="@color/hintColor"
-            android:textColor="@color/user_passBGColor"
-            android:padding="@dimen/abc_action_bar_overflow_padding_end_material" />
+            android:textColor="@color/user_passBGColor" />
 
         <Spinner
             android:layout_width="wrap_content"
@@ -42,12 +41,32 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/registered_user"
+            android:text="@string/perf"
             android:layout_gravity="center"
             android:textColorHint="@color/hintColor"
-            android:textColor="@color/user_passBGColor"/>
+            android:textColor="@color/user_passBGColor" />
 
-        <LinearLayout
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/enable_animations"
+        android:id="@+id/disable_anim"
+        android:layout_gravity="center_horizontal"
+        android:background="@android:color/white"
+        android:gravity="center_vertical|center_horizontal"
+        android:padding="@dimen/abc_action_bar_overflow_padding_end_material" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/registered_user"
+        android:layout_gravity="center"
+        android:textColorHint="@color/hintColor"
+        android:textColor="@color/user_passBGColor"
+        android:id="@+id/textView" />
+
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
