@@ -6,3 +6,7 @@
 .DS_Store
 /build
 /captures
+
+\.idea/
+
+local-DESKTOP-3T1A65Q\.properties
